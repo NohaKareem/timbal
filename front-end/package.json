@@ -1,0 +1,13 @@
+{
+  "name": "front-end",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.2.0",
+    "@vue/cli-plugin-pwa": "~4.2.0",
+    "@vue/cli-plugin-router": "~4.2.0",
+    "@vue/cli-plugin-vuex": "~4.2.0",
+    "@vue/cli-plugin-eslint": "~4.2.0",
+    "@vue/cli-service": "~4.2.0"
+  }
+}

@@ -6,16 +6,16 @@ var systemSchema = new mongoose.Schema({
     values: [
        {
         system_category_value: String, 
-        variable_values: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }
+        variable_categories: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }
        }
     ],
-    color: [
+    color: [//~~ change to string
         {
             red: Number, 
             green: Number, 
             blue: Number
         }
     ]
-}); //~, { collection: 'systems' }
+}); 
 
 module.exports = mongoose.model('System', systemSchema);

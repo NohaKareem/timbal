@@ -9,7 +9,10 @@ var daySchema = new mongoose.Schema({
                 {
                     start_time: Date, 
                     end_time: Date, 
-                    category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }
+                    full_category: [{
+                        category_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }, 
+                        notes: String
+                        }]
                 }
             ] 
         }
