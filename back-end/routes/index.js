@@ -70,10 +70,12 @@ router.get('/systems/:id', (req, res, next) => {
 });
 
 // GET all days with a specific category
-// test 5e61102fb705711710a1b286
+// test build 5e61102fb705711710a1b286
+// test eat 5e6afdf8d2ff2246345cdb13 // variable id 5e3316d51c71657e18823382
 router.get('/days/category/:id', (req, res, next) => {
   // Day.find({ 'full_category.$': {$all: [req.params.id]} }, (err, days) => {
-    Day.find({ 'variables.0.log_data.$.full_category.$.category_id': req.params.id }, (err, days) => {
+    Day.find({ 'variables.0.log_data.full_category.category_id': { $elemMatch: req.params.id } }, (err, days) => {
+      // Day.find({ 'variables.0.log_data.$.full_category.$.category_id': req.params.id }, (err, days) => {
       // Day.find({ 'variables.$.log_data.$.full_category.$': { $elemMatch: req.params.id} }, (err, days) => {
       // Day.find({ 'variables.log_data.full_category': { $elemMatch: req.params.id} }, (err, days) => {
       // Day.find({ 'variables.log_data.full_category.code': "b" }, (err, days) => {
