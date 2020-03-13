@@ -1,6 +1,10 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import Days from "../views/Days.vue";
+import Categories from "../views/Categories.vue";
+import Systems from "../views/Systems.vue";
+import Variables from "../views/Variables.vue";
 
 Vue.use(VueRouter);
 
@@ -9,6 +13,26 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home
+  },
+  {
+    path: "/days",
+    name: "Days",
+    component: Days
+  },
+  {
+    path: "/systems",
+    name: "Systems",
+    component: Systems
+  },
+  {
+    path: "/categories",
+    name: "Categories",
+    component: Categories
+  },
+  {
+    path: "/variables",
+    name: "Variables",
+    component: Variables
   },
   {
     path: "/about",

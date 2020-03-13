@@ -11,8 +11,8 @@ var daySchema = new mongoose.Schema({
                     end_time: Date, 
                     full_category: [{
                         category_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }, 
-                        notes: String
-                        }]
+                        }], 
+                    notes: String
                 }
             ] 
         }

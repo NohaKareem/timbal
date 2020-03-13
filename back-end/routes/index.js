@@ -3,6 +3,7 @@ var router = express.Router();
 var Day = require('../models/Day.js');
 var Category = require('../models/Category.js');
 var System = require('../models/System.js');
+var Variable = require('../models/Variable.js');
 
 const APP_NAME = "Timbal";
 
@@ -18,11 +19,39 @@ router.get('/days', (req, res, next) => {
     }).sort({ date: 'desc' });
 });
 
+router.get('/days/:id', (req, res, next) => {
+  Day.find({ _id: req.params.id }, (err, days) => {
+    handleErr(err);
+    res.json(days);
+  }).sort({ date: 'desc' });
+});
+
 router.get('/categories', (req, res, next) => {
     Category.find((err, categories) => {
       handleErr(err);
       res.json(categories);
     }).sort({ code: 'asc' });
+});
+
+router.get('/categories/:id', (req, res, next) => {
+  Category.find({ _id: req.params.id }, (err, categories) => {
+    handleErr(err);
+    res.json(categories);
+  }).sort({ code: 'asc' });
+});
+
+router.get('/variables', (req, res, next) => {
+  Variable.find((err, variables) => {
+    handleErr(err);
+    res.json(variables);
+  }).sort({ code: 'asc' });
+});
+
+router.get('/variables/:id', (req, res, next) => {
+  Variable.find({ _id: req.params.id }, (err, variables) => {
+    handleErr(err);
+    res.json(variables);
+  }).sort({ code: 'asc' });
 });
 
 router.get('/systems', (req, res, next) => {
@@ -32,10 +61,33 @@ router.get('/systems', (req, res, next) => {
   }).sort({ name: 'asc' });
 });
 
+//~todo: test id routes (except cateogries tested)
+router.get('/systems/:id', (req, res, next) => { 
+  System.find({ _id: req.params.id }, (err, systems) => {
+    handleErr(err);
+    res.json(systems);
+  }).sort({ name: 'asc' });
+});
+
 // GET all days with a specific category
+// test 5e61102fb705711710a1b286
 router.get('/days/category/:id', (req, res, next) => {
-  Day.find({ 'full_category.$': {$all: [req.params.id]} }, (err, days) => {
+  // Day.find({ 'full_category.$': {$all: [req.params.id]} }, (err, days) => {
+    Day.find({ 'variables.0.log_data.$.full_category.$.category_id': req.params.id }, (err, days) => {
+      // Day.find({ 'variables.$.log_data.$.full_category.$': { $elemMatch: req.params.id} }, (err, days) => {
+      // Day.find({ 'variables.log_data.full_category': { $elemMatch: req.params.id} }, (err, days) => {
+      // Day.find({ 'variables.log_data.full_category.code': "b" }, (err, days) => {
+      // Day.find({ 'variables.log_data.full_category.$': {$all: [req.params.id]} }, (err, days) => {
     // Day.find({ 'log_data.full_category': {$all: [req.params.id]} }, (err, days) => {
+    handleErr(err);
+    res.json(days);
+  });
+});
+
+// GET all logs for a specific variable
+// test 5e3316d51c71657e18823382
+router.get('/days/variables/:id', (req, res, next) => {
+    Day.find({ 'variables.0.variable': req.params.id }, (err, days) => {
     handleErr(err);
     res.json(days);
   });
