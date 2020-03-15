@@ -71,19 +71,12 @@ router.get('/systems/:id', (req, res, next) => {
 
 // GET all days with a specific category
 // test build 5e61102fb705711710a1b286
-// test eat 5e6afdf8d2ff2246345cdb13 // variable id 5e3316671c71657e18823380
+// test eat 5e6afdf8d2ff2246345cdb13 
+// variable id 5e3316671c71657e18823380
 router.get('/days/category/:id', (req, res,next) => {
-  // Day.find({ 'full_category.$': {$all: [req.params.id]} }, (err, days) => {
     Day.find({
-      // 'variables.0.log_data.full_category.category_id': { $elemMatch: req.params.id } 
-      'variables.log_data.full_category': req.params.id //working but retruns only 1 not all matches
+      'variables.log_data.full_category': req.params.id 
     }, (err, days) => {
-      // Day.find({ 'variables.0.log_data.$.full_category.$.category_id': req.params.id }, (err, days) => {
-      // Day.find({ 'variables.$.log_data.$.full_category.$': { $elemMatch: req.params.id} }, (err, days) => {
-      // Day.find({ 'variables.log_data.full_category': { $elemMatch: req.params.id} }, (err, days) => {
-      // Day.find({ 'variables.log_data.full_category.code': "b" }, (err, days) => {
-      // Day.find({ 'variables.log_data.full_category.$': {$all: [req.params.id]} }, (err, days) => {
-    // Day.find({ 'log_data.full_category': {$all: [req.params.id]} }, (err, days) => {
     handleErr(err);
     res.json(days);
   });
@@ -93,11 +86,10 @@ router.get('/days/category/:id', (req, res,next) => {
 // test build 5e61102fb705711710a1b286
 // test eat 5e6afdf8d2ff2246345cdb13
 // test work 5e6110efb705711710a1b288 
-// test variable(tasks) id 5e3316671c71657e18823380 //NOT 5e3316d51c71657e18823382
+// test variable(tasks) id 5e3316671c71657e18823380 
 router.get('/testing/:id', (req, res, next) => {
   Day.find({
-      'variables.log_data.full_category': req.params.id //working but retruns only 1 not all matches
-      // 'variables.0.variable': req.params.id
+      'variables.log_data.full_category': req.params.id
   }, (err, days) => {
     handleErr(err);
     res.json(days);
@@ -105,12 +97,10 @@ router.get('/testing/:id', (req, res, next) => {
 }); 
 
 // GET all logs for a specific variable
-// test 5e3316671c71657e18823380 ///5e3316d51c71657e18823382
-// 0~
+// test 5e3316671c71657e18823380
 router.get('/days/variables/:id', (req, res, next) => {
     Day.find({ 
       'variables.variable': req.params.id  
-      // 'variables.0.variable': { $elemMatch: req.params.id }  
     }, (err, days) => {
     handleErr(err);
     res.json(days);
