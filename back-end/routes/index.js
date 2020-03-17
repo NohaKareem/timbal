@@ -57,16 +57,33 @@ router.get('/categories/top-level/:flag', (req, res, next) => {
   }).sort({ code: 'asc' });
 });
 
+// ejs test route
+router.get('/category/new', function(req, res, next) {
+  res.render('category_new', { title: "Add category" });
+});
+
+// router.get('/', function(req, res, next) {
+//   res.render('index', { title: APP_NAME });
+// });
+
+
 // POST new category
-// router.post('/variables/:id/categories', (req, res, next) => {
-//   var newCategory = new Category(); 
-//   newCategory.lname = req.body.lname;
-//   newCategory.save(function(err, data) { //~es6
-//     handleErr(err);
-//     console.log("Category saved to data collection");
-//     console.log(data);
-//   });
-// }
+router.post('/category', (req, res, next) => {
+  var newCategory = new Category(); 
+  newCategory.variable = req.body.variable;
+  newCategory.code = req.body.code;
+  newCategory.description = req.body.description;
+  newCategory.is_top_level = req.body.is_top_level;
+  newCategory.color = req.body.color;
+
+  newCategory.save((err, data) => { 
+    handleErr(err);
+    console.log("Category saved to data collection", data);
+    console.log(data);
+  });
+
+  res.redirect('/');
+});
 
 // GET all variables
 router.get('/variables', (req, res, next) => {

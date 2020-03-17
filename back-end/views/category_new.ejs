@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <form action="/category" method="POST">
+        <label for="variable">Variable</label>
+        <input type="text" name="variable" id="variable" value="5e3316671c71657e18823380">
+        <br>
+        <label for="code">code</label>
+        <input type="text" name="code" id="code" value="s">
+        <br>
+        <label for="description">description</label>
+        <input type="text" name="description" id="description" value="sleep">
+        <br>
+        <label for="is_top_level">Is top level</label>
+        <input type="text" name="is_top_level" id="is_top_level" value="true">
+        <br>
+        <label for="color">color</label>
+        <input type="text" name="color" id="color" value="#FFFF00">
+        <br>
+        <input type="submit" value="add">
+    </form>
+  </body>
+</html>
