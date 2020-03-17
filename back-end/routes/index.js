@@ -26,6 +26,14 @@ router.get('/days/:id', (req, res, next) => {
   }).sort({ date: 'desc' });
 });
 
+// POST new day
+// router.post('/days', (req, res, next) => {
+//   Day.find({ _id: req.params.id }, (err, days) => {
+//     handleErr(err);
+//     res.json(days);
+//   }).sort({ date: 'desc' });
+// });
+
 router.get('/categories', (req, res, next) => {
     Category.find((err, categories) => {
       handleErr(err);
@@ -33,6 +41,7 @@ router.get('/categories', (req, res, next) => {
     }).sort({ code: 'asc' });
 });
 
+// GET category with specific id
 router.get('/categories/:id', (req, res, next) => {
   Category.find({ _id: req.params.id }, (err, categories) => {
     handleErr(err);
@@ -40,6 +49,26 @@ router.get('/categories/:id', (req, res, next) => {
   }).sort({ code: 'asc' });
 });
 
+// GET all top-level/non top-level categories, according to flag parameter (true/false)
+router.get('/categories/top-level/:flag', (req, res, next) => {
+  Category.find({ is_top_level: req.params.flag }, (err, categories) => {
+    handleErr(err);
+    res.json(categories);
+  }).sort({ code: 'asc' });
+});
+
+// POST new category
+// router.post('/variables/:id/categories', (req, res, next) => {
+//   var newCategory = new Category(); 
+//   newCategory.lname = req.body.lname;
+//   newCategory.save(function(err, data) { //~es6
+//     handleErr(err);
+//     console.log("Category saved to data collection");
+//     console.log(data);
+//   });
+// }
+
+// GET all variables
 router.get('/variables', (req, res, next) => {
   Variable.find((err, variables) => {
     handleErr(err);
@@ -47,6 +76,7 @@ router.get('/variables', (req, res, next) => {
   }).sort({ code: 'asc' });
 });
 
+// GET variable with specific id
 router.get('/variables/:id', (req, res, next) => {
   Variable.find({ _id: req.params.id }, (err, variables) => {
     handleErr(err);
@@ -54,6 +84,15 @@ router.get('/variables/:id', (req, res, next) => {
   }).sort({ code: 'asc' });
 });
 
+// GET all categories for variable with specific id
+router.get('/variables/:id/categories', (req, res, next) => {
+  Category.find({ variable: req.params.id }, (err, categories) => {
+    handleErr(err);
+    res.json(categories);
+  }).sort({ code: 'asc' });
+});
+
+// GET all systems
 router.get('/systems', (req, res, next) => {
   System.find((err, systems) => {
     handleErr(err);
