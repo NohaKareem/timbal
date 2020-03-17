@@ -62,11 +62,6 @@ router.get('/category/new', function(req, res, next) {
   res.render('category_new', { title: "Add category" });
 });
 
-// router.get('/', function(req, res, next) {
-//   res.render('index', { title: APP_NAME });
-// });
-
-
 // POST new category
 router.post('/category', (req, res, next) => {
   var newCategory = new Category(); 
@@ -79,7 +74,6 @@ router.post('/category', (req, res, next) => {
   newCategory.save((err, data) => { 
     handleErr(err);
     console.log("Category saved to data collection", data);
-    console.log(data);
   });
 
   res.redirect('/');
@@ -107,6 +101,25 @@ router.get('/variables/:id/categories', (req, res, next) => {
     handleErr(err);
     res.json(categories);
   }).sort({ code: 'asc' });
+});
+
+// ejs test route
+router.get('/variable/new', function(req, res, next) {
+  res.render('variable_new', { title: "Add variable" });
+});
+
+// POST new variable
+router.post('/variable', (req, res, next) => {
+  var newVariable = new Variable(); 
+  newVariable.name = req.body.name;
+  newVariable.description = req.body.description;
+
+  newVariable.save((err, data) => { 
+    handleErr(err);
+    console.log("Variable saved to data collection", data);
+  });
+
+  res.redirect('/');
 });
 
 // GET all systems

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <form action="/variable" method="POST">
+        <label for="name">name</label>
+        <input type="text" name="name" id="name">
+        <br>
+        <label for="description">description</label>
+        <input type="text" name="description" id="description">
+        <br>
+        <input type="submit" value="add">
+    </form>
+  </body>
+</html>
