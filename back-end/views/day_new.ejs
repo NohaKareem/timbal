@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <% include layout/nav %>
+
+    <h1><%= title %></h1>
+    <form action="/day" method="POST">
+        <label for="date">date</label>
+        <input type="date" name="date" id="date" value="2020-03-17">
+        <br>
+        <label for="variable">variable</label>
+        <input type="text" name="variable" id="variable" value="5e3316671c71657e18823380">
+        <br>
+        <label for="start_time">start_time</label>
+        <input type="time" name="start_time" id="start_time" value="01:00">
+        <br>
+        <label for="end_time">end_time</label>
+        <input type="time" name="end_time" id="end_time" value="02:00">
+        <br>
+        <label for="full_category">full_category</label>
+        <input type="text" name="full_category" id="full_category" value="b.a.w.6003">
+        <br>
+        <input type="submit" value="add">
+    </form>
+  </body>
+</html>

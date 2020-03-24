@@ -19,6 +19,52 @@ router.get('/days', (req, res, next) => {
     }).sort({ date: 'desc' });
 });
 
+// GET a day's log for a specific variable
+// testing: { dayId: many vars: 5e611877b705711710a1b28d, task only: 5e6aff42d2ff2246345cdb15, 
+//  tasks varId:5e3316671c71657e18823380, energy varId: 5e70f222aba2813dac23b9d8 }
+router.get('/day/:dayId/var/:varId', (req, res, next) => {
+  Day.find({ _id: req.params.dayId, 
+      'variables.variable': req.params.varId }, (err, day) => {
+    handleErr(err);
+    
+    res.json(day);
+  });
+});
+
+// ~GET a day's categories' visulization for a variable with _id of varId
+router.get('/day/:dayId/var/:varId/vis', (req, res, next) => {
+  Day.find({ _id: req.params.dayId, 
+      'variables.variable': req.params.varId }, (err, day) => {
+    handleErr(err);
+
+    let log_data = [];
+    console.log(day)
+    day = day[0];
+    // console.log(day[0]);
+    // console.log(day[0].variables);
+      
+    // return only relevant log data
+    day.variables.forEach(variable => {
+      if (variable.variable == req.params.varId) {
+        log_data = variable.log_data;
+        // variable.log_data
+        // count frequency for top level categories
+            // variable.log_data.full_category.forEach(category => {
+            //   if (isTopLevel(category)) {
+            //     logSet.push({
+            //       category
+            //     });
+            //   }
+            // });
+        
+      }
+    });
+
+    // res.render('vis/day_vis', { log_data: log_data });
+    res.json(log_data);
+  });
+});
+
 router.get('/days/:id', (req, res, next) => {
   Day.find({ _id: req.params.id }, (err, days) => {
     handleErr(err);
@@ -26,13 +72,96 @@ router.get('/days/:id', (req, res, next) => {
   }).sort({ date: 'desc' });
 });
 
+
+// GET all logs for a specific variable
+router.get('/days/variables/:id', (req, res, next) => {
+  Day.find({ 
+    'variables.variable': req.params.id  
+  }, (err, days) => {
+  handleErr(err);
+  res.json(days);
+});
+});
+
+// GET all days with a specific category
+router.get('/days/category/:id', (req, res,next) => {
+  Day.find({
+    'variables.log_data.full_category': req.params.id 
+  }, (err, days) => {
+  handleErr(err);
+  res.json(days);
+  });
+});
+
+// GET all days within a specific date frame 
+router.get('/days/start/:startdate/end/:enddate', (req, res, next) => {
+  console.log('in date');
+  d = new Date(2020, 01, 30, 18, 25, 43);//2020-01-30T18:25:43.511+00:00
+  console.log(d.toString());
+  console.log('date');
+  Day.find( 
+    {"date": {
+      "$gte": req.params.startdate 
+      // "$lt": new Date(req.params.enddate) 
+    }}, (err, days) => {
+      handleErr(err);
+      res.json(days);
+    });
+});
+
+// ejs test route
+router.get('/day/new', function(req, res, next) {
+  res.render('day_new', { title: "Add day" });
+});
+
 // POST new day
-// router.post('/days', (req, res, next) => {
-//   Day.find({ _id: req.params.id }, (err, days) => {
-//     handleErr(err);
-//     res.json(days);
-//   }).sort({ date: 'desc' });
-// });
+router.post('/day', (req, res, next) => {
+  var newDay = new Day(); 
+
+  console.log(new Date(req.body.date))
+  console.log(req.body.start_time)
+  let start_time = req.body.start_time;
+  let end_timen = req.body.end_time;
+  // let hours  = start_time.split(':')[0];
+  // let minutes  = start_time.split(':')[1];
+  // console.log('hours ' + hours + ' minutes', minutes)
+  let temp_date = new Date(req.body.date);//.setTime(hours, minutes);
+  temp_date.setHours(start_time.split(':')[0], start_time.split(':')[1]);
+  // temp_date.setHours(hours, minutes);
+  start_time = temp_date;
+
+  let temp_end_time = new Date(req.body.date);
+  temp_end_time.setHours(end_time.split(':')[0], end_time.split(':')[1]);
+  end_time = temp_end_time;
+  console.log('START date WITH TIME ' + start_time.toString())
+  console.log('END date WITH TIME ' + end_time.toString())
+
+  // console.log_data(new Date(req.body.date.setTime(req.body.start_time)).toString())
+  // console.log(req.body.full_category.split('.'))
+  newDay.date = req.body.date; //~ check if exists, format
+  newDay.variables = [{
+    variable: req.body.variable,
+    log_data: [{//[0]
+      start_time: start_time, //~ parse input, discenr am and pm
+      end_time: end_time, //~
+      // start_time: new Date(req.body.date.setTime(req.body.start_time)), //~
+      // end_time: req.body.end_time,
+  //     full_category: [req.body.full_category.split('.')] //~ handle if new category
+    }]
+  }];
+  console.log(newDay);
+  // console.log(newDay.variables[0].log_data);
+  // newDay.variables[0].log_data = ; //~ add to array
+
+  newDay.save((err, data) => { 
+    handleErr(err);
+    console.log("Day saved to data collection", data);
+  });
+
+  console.log('after saving day document')
+  
+  res.redirect('/');
+});
 
 router.get('/categories', (req, res, next) => {
     Category.find((err, categories) => {
@@ -138,19 +267,6 @@ router.get('/systems/:id', (req, res, next) => {
   }).sort({ name: 'asc' });
 });
 
-// GET all days with a specific category
-// test build 5e61102fb705711710a1b286
-// test eat 5e6afdf8d2ff2246345cdb13 
-// variable id 5e3316671c71657e18823380
-router.get('/days/category/:id', (req, res,next) => {
-    Day.find({
-      'variables.log_data.full_category': req.params.id 
-    }, (err, days) => {
-    handleErr(err);
-    res.json(days);
-  });
-});
-
 // testing routes
 // test build 5e61102fb705711710a1b286
 // test eat 5e6afdf8d2ff2246345cdb13
@@ -164,33 +280,6 @@ router.get('/testing/:id', (req, res, next) => {
     res.json(days);
   });
 }); 
-
-// GET all logs for a specific variable
-// test 5e3316671c71657e18823380
-router.get('/days/variables/:id', (req, res, next) => {
-    Day.find({ 
-      'variables.variable': req.params.id  
-    }, (err, days) => {
-    handleErr(err);
-    res.json(days);
-  });
-});
-
-// GET all days within a specific date frame 
-router.get('/days/start/:startdate/end/:enddate', (req, res, next) => {
-  console.log('in date');
-  d = new Date(2020, 01, 30, 18, 25, 43);//2020-01-30T18:25:43.511+00:00
-  console.log(d.toString());
-  console.log('date');
-  Day.find( 
-    {"date": {
-      "$gte": req.params.startdate 
-      // "$lt": new Date(req.params.enddate) 
-    }}, (err, days) => {
-      handleErr(err);
-      res.json(days);
-    });
-});
 
   // /** GET all occurences of a ~toplevel category (~assuming var 0) */
   // router.get('/days/toplevel/:id', (req, res, next) => {
