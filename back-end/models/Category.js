@@ -5,7 +5,7 @@ var categorySchema = new mongoose.Schema({
     code: String,
     description: String, 
     is_top_level: Boolean,
-    color: String //~~for top level
+    color: String // for top level
 }); 
 
 module.exports = mongoose.model('Category', categorySchema);

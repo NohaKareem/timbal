@@ -1,0 +1,112 @@
+$desktopWidth: 830px;
+
+$grayWhite: #F0F0F0;
+$timbalBlack: #707070;
+//~
+$category_1: #C6C7F6;
+$category_2: #F6AED0;
+$category_3: #9AC3E7;
+$category_4: #FFD500;
+$category_5: #C496F5;
+$category_6: #E7BE9A;
+$category_7: #9E9E9E;
+$category_8: #96F5F3;
+$category_9: #C5F566;
+$category_10: #99F596;
+
+$baseMargin: 10px;
+$logEntryWidth: 7vw; // timeLogGrid.vue
+$mobileLogEntryWidth: 5vw; // timeLogGrid.vue
+
+@mixin softUiShadow() {
+    box-shadow:
+        -5px -5px 15px 0 white,
+        5px 5px 15px 0 transparentize(black, 0.9);  
+}
+
+@mixin softUiInsetShadow() {
+    box-shadow:
+        inset -5px -5px 15px 0 white,
+        inset 5px 5px 15px 0 transparentize(black, 0.9);  
+}
+
+.hidden {
+    display: none;
+}
+
+body {
+    background-color: $grayWhite;
+    color: $timbalBlack;
+    font-family: 'Quattrocento Sans', sans-serif;
+
+    margin: 2vh 3vw;
+}
+
+.logo {
+    width: 15vw;//200px;
+}
+
+button {
+    @include softUiShadow();
+    color: $timbalBlack;
+    cursor: pointer;
+    border: none;
+}
+
+button.dropDown {
+    border-radius: $baseMargin * 5;
+    width: 12vw;
+    height: 5vw;
+}
+
+button.circle {
+    border-radius: 50%;
+    margin-left: $baseMargin * 2;
+
+    width: $logEntryWidth;
+    height: $logEntryWidth;
+    // width: 10vw;
+    // height: 10vw;
+}
+
+.circle:hover {
+    @include softUiInsetShadow();
+}
+
+$profilePicRadius: 5vw;
+.profilePic {
+    width: $profilePicRadius;
+    height: $profilePicRadius;
+
+    margin-left: auto;
+    margin-top: $profilePicRadius / -2;
+    border-radius: 50%;
+    background-color: teal;
+}
+
+@media screen and (min-width: $desktopWidth) {
+    .logo {
+        width: 10vw;//200px;
+    }
+
+    .profilePic {
+        width: 3vw;
+        height: 3vw;
+    }
+
+    button {
+        border-radius: $baseMargin * 5;
+        font-size: 15px;
+    }
+
+    button.dropDown {
+        width: 8vw;//120px
+        height: 3vw;//30px;//~
+    }
+
+    button.circle {
+        border-radius: 50%;
+        width: $mobileLogEntryWidth;
+        height: $mobileLogEntryWidth;
+    }
+}

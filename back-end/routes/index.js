@@ -1,4 +1,5 @@
 var express = require('express');
+var path = require('path');
 var router = express.Router();
 var Day = require('../models/Day.js');
 var Category = require('../models/Category.js');
@@ -12,6 +13,19 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: APP_NAME });
 });
 
+// /* GET time series Test page. */
+// router.get('/timeSeries', function(req, res, next) {
+//   res.render('timeSeries.html', { title: APP_NAME });
+// });
+
+// router.get('/timeSeries', function(req, res, next) {
+//   res.sendFile('timeSeries.html', { root: path.join(__dirname, '../public') });
+// });
+
+router.get('/timeSeries2', function(req, res, next) {
+  res.sendFile('actualTimeSeries.html', { root: path.join(__dirname, '../public') });
+});
+
 router.get('/days', (req, res, next) => {
     Day.find((err, days) => {
       handleErr(err);
@@ -23,47 +37,105 @@ router.get('/days', (req, res, next) => {
 // testing: { dayId: many vars: 5e611877b705711710a1b28d, task only: 5e6aff42d2ff2246345cdb15, 
 //  tasks varId:5e3316671c71657e18823380, energy varId: 5e70f222aba2813dac23b9d8 }
 router.get('/day/:dayId/var/:varId', (req, res, next) => {
-  Day.find({ _id: req.params.dayId, 
-      'variables.variable': req.params.varId }, (err, day) => {
+  Day.findOne({ _id: req.params.dayId, 
+      'variables.variable': req.params.varId }, { 'variables.variable.$': req.params.varId }, (err, day) => {
     handleErr(err);
-    
+    console.log(day.variables.variable)
     res.json(day);
   });
 });
 
-// ~GET a day's categories' visulization for a variable with _id of varId
-router.get('/day/:dayId/var/:varId/vis', (req, res, next) => {
-  Day.find({ _id: req.params.dayId, 
-      'variables.variable': req.params.varId }, (err, day) => {
-    handleErr(err);
+// ~TODO: promises + send json + chart 
+// GET a day's log for a specific variable with category details
+router.get('/day/:dayId/var/:varId/detail', (req, res, next) => {
+  let logDetails = {
+    log: []
+  };
+  Day.findOne({ _id: req.params.dayId, 
+      'variables.variable': req.params.varId }, { 'variables.variable.$': req.params.varId }, (err, day) => {
+        day.variables[0].log_data.forEach((dataPoint) => {
+          // console.log(dataPoint);
+          handleErr(err);
+          
+          // get cateogry data
+          let categories = [];
+          dataPoint.full_category.forEach((category) => {
+            Category.findOne({ _id: category }, (err, categoryData) => {
+              categories.push(categoryData);
+            });
+          });
 
-    let log_data = [];
-    console.log(day)
-    day = day[0];
-    // console.log(day[0]);
-    // console.log(day[0].variables);
-      
-    // return only relevant log data
-    day.variables.forEach(variable => {
-      if (variable.variable == req.params.varId) {
-        log_data = variable.log_data;
-        // variable.log_data
-        // count frequency for top level categories
-            // variable.log_data.full_category.forEach(category => {
-            //   if (isTopLevel(category)) {
-            //     logSet.push({
-            //       category
-            //     });
-            //   }
-            // });
-        
-      }
-    });
-
-    // res.render('vis/day_vis', { log_data: log_data });
-    res.json(log_data);
+          // ~wait till cateogries are populated
+          setTimeout(() => {
+            logDetails.log.push({ ///~~~~
+              cateogry: categories,
+              time: Math.abs(
+                (dataPoint.start_time.getHours() * 60 + dataPoint.start_time.getMinutes())
+                - (dataPoint.end_time.getHours() * 60 + dataPoint.end_time.getMinutes())
+              ) / 60
+            });
+            // console.log(categories)
+    res.json(logDetails);
+    // console.log(logDetails)
+          }, 700);
+        });
+    // res.json(logDetails);
+    // res.json(day);
   });
 });
+
+// GET a day's categories' visualizaation for a particular variable ~USING POPULATE
+// example http://localhost:3000/day/5e6aff42d2ff2246345cdb15/var/5e3316671c71657e18823380/vis
+// example http://localhost:3000/day/5e611877b705711710a1b28d/var/5e3316671c71657e18823380/vis
+router.get('/day/:dayId/var/:varId/vis', (req, res, next) => {
+  Day.find({ _id: req.params.dayId, 
+    'variables.variable' : req.params.varId 
+  }, (err, day) => {
+      res.json(day);
+  }).populate('variables.log_data.full_category');
+}); 
+
+// // ~GET a day's categories' visulization for a variable with _id of varId
+// router.get('/day/:dayId/var/:varId/vis', (req, res, next) => {
+//   Day.find({ _id: req.params.dayId, 
+//       'variables.variable': req.params.varId }, (err, day) => {
+//     handleErr(err);
+
+//     let log_data = [];
+//     console.log(day)
+//     day = day[0];
+//     // console.log(day[0]);
+//     // console.log(day[0].variables);
+      
+//     // return only relevant log data
+//     day.variables.forEach(variable => {
+//     if (variable.variable == req.params.varId) {
+//       log_data = variable.log_data;//~
+//         // variable.log_data
+//         // count frequency for top level categories
+//         variable.log_data.forEach(logEntry => {
+//           logEntry.full_category.forEach(category => {
+//             //   if (isTopLevel(category)) { //TODO
+//                   //     logSet.push({
+//                   //       category
+//                   //     });
+//                   //   }
+//                   // increment occurence or add ~~~TODO increment by minutes
+//                         // let log_time = 1;
+//                         // log_data[category.toString()] = log_data[category.toString()] ? log_data[category.toString()] + log_time : log_time;
+//                         // console.log(log_data)
+//                   // console.log("array AFTER " + log_data[category.toString()]);
+//                   });
+//         });
+        
+//       }
+//     });
+//     // log_data = JSON.stringify(log_data)
+//     console.log(log_data)
+//     res.render('vis/day_vis', { log_data: log_data });
+//     // res.json(log_data);
+//   });
+// });
 
 router.get('/days/:id', (req, res, next) => {
   Day.find({ _id: req.params.id }, (err, days) => {
@@ -71,7 +143,6 @@ router.get('/days/:id', (req, res, next) => {
     res.json(days);
   }).sort({ date: 'desc' });
 });
-
 
 // GET all logs for a specific variable
 router.get('/days/variables/:id', (req, res, next) => {
@@ -94,6 +165,8 @@ router.get('/days/category/:id', (req, res,next) => {
 });
 
 // GET all days within a specific date frame 
+// start time eg. 2020-01-30T18:25:43.520+00:00
+// end time eg. 2020-01-30T19:25:50.521+00:00
 router.get('/days/start/:startdate/end/:enddate', (req, res, next) => {
   console.log('in date');
   d = new Date(2020, 01, 30, 18, 25, 43);//2020-01-30T18:25:43.511+00:00
@@ -121,7 +194,7 @@ router.post('/day', (req, res, next) => {
   console.log(new Date(req.body.date))
   console.log(req.body.start_time)
   let start_time = req.body.start_time;
-  let end_timen = req.body.end_time;
+  let end_time = req.body.end_time;
   // let hours  = start_time.split(':')[0];
   // let minutes  = start_time.split(':')[1];
   // console.log('hours ' + hours + ' minutes', minutes)
@@ -133,6 +206,7 @@ router.post('/day', (req, res, next) => {
   let temp_end_time = new Date(req.body.date);
   temp_end_time.setHours(end_time.split(':')[0], end_time.split(':')[1]);
   end_time = temp_end_time;
+
   console.log('START date WITH TIME ' + start_time.toString())
   console.log('END date WITH TIME ' + end_time.toString())
 
@@ -157,9 +231,6 @@ router.post('/day', (req, res, next) => {
     handleErr(err);
     console.log("Day saved to data collection", data);
   });
-
-  console.log('after saving day document')
-  
   res.redirect('/');
 });
 

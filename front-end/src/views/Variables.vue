@@ -1,13 +1,19 @@
 <template>
   <div id="app">
     {{variables}}
+    <TimeLogGrid/> 
   </div>
 </template>
 
 <script>
   import axios from "axios";
+  import TimeLogGrid from "@/components/timeLogGrid.vue";
+
   export default {
     name: "Variables", 
+    components: {
+     TimeLogGrid
+    },
     data() {
       return {
         variables: []
@@ -30,5 +36,5 @@
 </script>
 
 <style lang="scss">
-
+  
 </style>
