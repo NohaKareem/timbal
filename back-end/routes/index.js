@@ -22,8 +22,17 @@ router.get('/', function(req, res, next) {
 //   res.sendFile('timeSeries.html', { root: path.join(__dirname, '../public') });
 // });
 
-router.get('/timeSeries2', function(req, res, next) {
-  res.sendFile('actualTimeSeries.html', { root: path.join(__dirname, '../public') });
+// testing
+      // router.get('/timeSeries2', function(req, res, next) {
+      //   // res.render('vis/actualTimeSeries4');
+      //   // res.sendFile('timeseries.js', { root: path.join(__dirname, '../views/vis') });
+      //   res.sendFile('actualTimeSeries4.html', { root: path.join(__dirname, '../views/vis') });
+      //   // res.sendFile('actualTimeSeries.html', { root: path.join(__dirname, '../public') });
+      // });
+
+router.get('/timeline', function(req, res, next) {
+  res.sendFile('timeline.html', { root: path.join(__dirname, '../views/vis') });
+  // res.sendFile('actualTimeSeries.html', { root: path.join(__dirname, '../public') });
 });
 
 router.get('/days', (req, res, next) => {
@@ -87,13 +96,24 @@ router.get('/day/:dayId/var/:varId/detail', (req, res, next) => {
 // GET a day's categories' visualizaation for a particular variable ~USING POPULATE
 // example http://localhost:3000/day/5e6aff42d2ff2246345cdb15/var/5e3316671c71657e18823380/vis
 // example http://localhost:3000/day/5e611877b705711710a1b28d/var/5e3316671c71657e18823380/vis
-router.get('/day/:dayId/var/:varId/vis', (req, res, next) => {
+router.get('/day/:dayId/var/:varId/details', (req, res, next) => {
   Day.find({ _id: req.params.dayId, 
     'variables.variable' : req.params.varId 
   }, (err, day) => {
       res.json(day);
+      // res.render('vis/actualTimeSeries', { day: day });
   }).populate('variables.log_data.full_category');
 }); 
+
+router.get('/day/:dayId/var/:varId/vis', (req, res, next) => {
+  Day.find({ _id: req.params.dayId, 
+    'variables.variable' : req.params.varId 
+  }, (err, day) => {
+      // res.json(day);
+      res.render('vis/actualTimeSeries', { day: day });
+  }).populate('variables.log_data.full_category');
+}); 
+
 
 // // ~GET a day's categories' visulization for a variable with _id of varId
 // router.get('/day/:dayId/var/:varId/vis', (req, res, next) => {
