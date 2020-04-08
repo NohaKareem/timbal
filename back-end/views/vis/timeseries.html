@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<!-- *   [timeseries edited, original source: https://github.com/mlvl/timeseries] -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Timeseries</title>
+    <link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
+
+    <!-- <link rel="stylesheet" href="resources/default.css" /> -->
+    <!-- <link rel="stylesheet" href="style.css" /> -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.1.0/lodash.min.js"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+
+    <script src="javascripts/timeseries.js"></script>
+
+    <style>
+        /** Styles for Demo Application */
+
+        body {
+            font: 16px 'Open Sans';
+            color: #2C3E50;
+        }
+        a {
+            text-decoration: none;
+            color: #3498DB;
+        }
+        .container {
+            margin: 1%;
+            margin-top: 15%;
+        }
+        .text {
+            width: 100%;
+        }
+        .text p {
+            width: 75%;
+            margin: auto;
+            padding: 10px 0px;
+            text-align: center;
+        }
+        code {
+            width: 95%;
+            margin: auto;
+            text-align: center;
+        }
+        @media screen and (min-width: 800px) {
+            code {
+                width: 70%;
+            }
+        }
+        .header {
+            width: 100%;
+            text-align: center;
+            margin: 1% 0;
+        }
+        .header img {
+            padding-top: 10px;
+        }
+        .header div {
+            font-weight: 700;
+            font-size: 1.6em;
+            padding-top: 10px;
+        }
+        .dac-logo {
+            display: none;
+        }
+        @media screen and (min-width: 800px) {
+            .dac-logo {
+                display: block;
+                position: absolute;
+                left: 5px;
+                top: 5px;
+            }
+            .dac-logo img {
+                width: 120px;
+            }
+        }
+        .contact {
+            width: 50%;
+            margin: auto;
+            text-align: center;
+        }
+        .footer {
+            font-size: 0.9em;
+            text-align: center;
+            padding: 5px;
+        }
+        /** Styles for TIMESERIES */
+
+        .timeseries {
+            width: 100%;
+            padding: 2% 0;
+        }
+        .circ {
+            fill: #D35400;
+            opacity: 0.6;
+            stroke: rgba(211, 84, 0, 0.7);
+            /* stroke-width: 5px; */
+            border-radius: 100%;
+        }
+        .domain {
+            display: none;
+        }
+        .axis path, .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+        .axis text {
+            font-size: 12px;
+        }
+        .tick line {
+            stroke: #d5d5d5;
+            opacity: 0.7;
+        }
+        .brush .extent {
+            stroke: #fff;
+            fill-opacity: .125;
+            shape-rendering: crispEdges;
+        }
+        .clear-brush {
+            display: none;
+        }
+        .brush-control {
+            padding: .5%;
+            width: 100%;
+            text-align: center;
+        }
+        .brush-info {
+            display: inline-block;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <script>
+    hljs.initHighlightingOnLoad();
+    </script>
+
+    <a href="https://github.com/mlvl/timeseries"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
+
+    <div class="container">
+        <!-- <div class="dac-logo">
+            <a href="http://www.dac.us" target="_blank"><img src="images/DAC_Logo.png" /></a>
+        </div>
+        <div class="header">
+            <a href="http://mlvl.github.io" target="_blank"><img src="images/mlvl-logo-color-500.png" />
+            </a>
+            <div>D3 Timeseries with Brush</div>
+        </div>
+        <div class="text">
+            <p>Have some temporal data to display in your project? Use this D3.js timeseries!</p>
+        </div>
+        <div class="timeseries one"></div>
+        <div class="text">
+            <p>Timeseries is offered in an easy to use format - just give it the class name of the container in which you would like it to render, some data, and whether or not to use the brush. Each datapoint is an object so you can easily add your own fields and extend functionality.
+                <pre><code class="html">&lt;div class="timeseries"&gt;&lt;/div&gt;</code></pre>
+                <pre><code class="javascript">var data = [{'value': 1380854103662},{'value': 1363641921283}];</code></pre>
+                <pre><code class="javascript">timeseries('timeseries', data, true);</code></pre>
+            </p>
+            <p>Optional brush functionality allows for filtering. Want the range of your brush? Just call
+                <pre><code class="javascript">timeseries.getBrushExtent();</code></pre>
+            </p>
+            <p>Timeseries determines the range of your dates and times and adjusts its layout accordingly. Does your data all fall within one day? Timeseries will adjust to show time on its x-axis.</p>
+        </div> -->
+        <div class="timeseries two"></div>
+        <div class="text contact">
+            <p><a href="https://github.com/mlvl/timeseries">Get the source code on Github</a> and find us online</p>
+            <div>
+                <a class="contact-icon" href="https://twitter.com/decisiveUI" target="_blank"><img src="images/Twitter_logo_blue.png">
+                </a>
+                <a class="contact-icon" href="https://github.com/mlvl" target="_blank"><img src="images/GitHub-Mark/GitHub-Mark-120px-plus.png">
+                </a>
+                <a class="contact-icon" href="http://www.visualizing.org/users/mlvl" target="_blank"><img src="images/visualizing.png">
+                </a>
+            </div>
+        </div>
+        <div class="footer">The <a href="http://mlvl.github.io" target="_blank">MLVL</a> is a division of <a href="http://www.dac.us" target="_blank">Decisive Analytics Corporation</a>.</div>
+    </div>
+
+    <script>
+    window.onload = function() {
+        /* Generate random times between two dates */
+        function getData(start, end, amount) {
+            var data = [];
+            for (i = 0; i < amount; i++) {
+                data.push({
+                    'value': (randomDate(start, end))
+                })
+            }
+            console.log(data)
+            return data;
+        }
+
+        function randomDate(start, end) {
+            return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())).valueOf();
+        }
+        var amount = 100;
+        if (window.innerWidth < 800)
+          amount = 10;//30
+
+        /* Create timeseries */
+        // timeseries('timeseries one', getData(new Date(2012, 1, 1), new Date(2015, 1, 2), amount), true);
+        timeseries('timeseries two', getData(new Date(2015, 1, 1), new Date(2015, 1, 2), amount), false);
+    }
+    </script>
+
+    <!-- <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-52300404-2', 'auto');
+      ga('send', 'pageview');
+    </script> -->
+
+</body>
+
+</html>

@@ -13,10 +13,11 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: APP_NAME });
 });
 
-// /* GET time series Test page. */
-// router.get('/timeSeries', function(req, res, next) {
-//   res.render('timeSeries.html', { title: APP_NAME });
-// });
+/* GET time series Test page. */
+router.get('/timeSeries', function(req, res, next) {
+  res.sendFile('timeseries.html', { root: path.join(__dirname, '../views/vis') });
+  // res.render('vis/timeseries');
+});
 
 // router.get('/timeSeries', function(req, res, next) {
 //   res.sendFile('timeSeries.html', { root: path.join(__dirname, '../public') });
