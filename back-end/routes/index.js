@@ -95,8 +95,8 @@ router.get('/day/:dayId/var/:varId/detail', (req, res, next) => {
 });
 
 // GET a day's categories' visualizaation for a particular variable ~USING POPULATE
-// example http://localhost:3000/day/5e6aff42d2ff2246345cdb15/var/5e3316671c71657e18823380/vis
-// example http://localhost:3000/day/5e611877b705711710a1b28d/var/5e3316671c71657e18823380/vis
+// example (eat) http://localhost:3000/day/5e6aff42d2ff2246345cdb15/var/5e3316671c71657e18823380/vis
+// example (many categories) http://localhost:3000/day/5e611877b705711710a1b28d/var/5e3316671c71657e18823380/vis
 router.get('/day/:dayId/var/:varId/details', (req, res, next) => {
   Day.find({ _id: req.params.dayId, 
     'variables.variable' : req.params.varId 

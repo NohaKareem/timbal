@@ -143,9 +143,9 @@
 
 <body>
 
-    <script>
-    hljs.initHighlightingOnLoad();
-    </script>
+    <!-- <script>
+    // hljs.initHighlightingOnLoad();
+    </script> -->
 
     <!-- <a href="https://github.com/mlvl/timeseries"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a> -->
 
@@ -195,33 +195,50 @@
             var data = [];
             for (i = 0; i < amount; i++) {
                 data.push({
-                    'value': (randomDate(start, end))
+                    'value': (randomDate(start, end)), 
+                    'duration': 60,//~
+                    'logCode': "e"//~
                 })
             }
+            console.log('data')
+            console.log(data)
             return data;
         }
 
         function getSampleData() {
-            
-      // //reading in CSV which contains data
-      // d3.json("http://localhost:3000/day/5e6aff42d2ff2246345cdb15/var/5e3316671c71657e18823380/details", 
-      // function(error, data) {
-      //   data[0].variables[0].log_data.forEach((logEntry) => {
-      //     console.log(
-      //         Math.abs(new Date(logEntry.start_time).getHours() * 60 + new Date(logEntry.start_time).getMinutes()
-      //         - new Date(logEntry.end_time).getHours() * 60 + new Date(logEntry.end_time).getMinutes())
-      //     , ' minutes');
+            //reading in CSV which contains data
+            let logs = [];
+            d3.json("http://localhost:3000/day/5e611877b705711710a1b28d/var/5e3316671c71657e18823380/details", 
+            function(error, data) {
+                console.log(data[0].variables[0].log_data)
+                data[0].variables[0].log_data.forEach((logEntry) => {
+                // console.log(logEntry);
+                let durationInMinutes = Math.abs(new Date(logEntry.start_time).getHours() * 60 + new Date(logEntry.start_time).getMinutes()
+                    - new Date(logEntry.end_time).getHours() * 60 + new Date(logEntry.end_time).getMinutes());
+                console.log(
+                    durationInMinutes
+                , ' minutes');
+                    
+                let fullCategoryStr = "";
+                logEntry.full_category.forEach((category, i) => {
+                    // delinate nested categories by .
+                    fullCategoryStr += category.code + ((i === logEntry.full_category.length - 1) ? "" : ".");
+                    console.log(category.code, category.description, 
+                        category.is_top_level ? "top level" : "! top level", 
+                        category.color);
+                });
+                console.log('fullCategoryStr ' + fullCategoryStr)
+                logs.push({
+                    'value': new Date(logEntry.start_time).valueOf(), //~startTime
+                    'duration': durationInMinutes,
+                    'logCode': fullCategoryStr 
+                });
 
-      //     // console.log(logEntry.start_time)
-      //     // console.log(logEntry.end_time)
-
-      //     logEntry.full_category.forEach(category => {
-      //       console.log(category.code, category.description, 
-      //             category.is_top_level ? "top level" : "! top level", 
-      //             category.color);
-      //     });
-      //   });
-      // });
+                });
+                console.log('logs')
+                console.log(logs)
+            });
+            return logs;
         }
 
         function randomDate(start, end) {
@@ -234,6 +251,7 @@
         /* Create timeseries */
         // timeseries('timeseries one', getData(new Date(2012, 1, 1), new Date(2015, 1, 2), amount), true);
         timeseries('timeseries two', getData(new Date(2015, 1, 1), new Date(2015, 1, 2), amount), false);
+        timeseries('timeseries two', getSampleData(), false);
     }
     </script>
 

@@ -18,6 +18,8 @@
 (function() {
 
     var timeseries = function(spaced, data, enableBrush) {
+        console.log('data received')
+        console.log(data)
         classd = spaced.replace(new RegExp(" "), ".");
         render(classd, spaced, data, enableBrush);
     }
@@ -158,8 +160,8 @@
             .call(yAxis);
 
         var circles = context.append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            
         circles.selectAll(".circ")
             .data(data)
             // .enter().append("circle")
@@ -176,15 +178,28 @@
                 return (lessThanDay(padding.pad)) ? y(getDate(d.value)) : y(getTime(d.value)); //~~ replace .value with date from start time 
             })
             // .attr("r", 9)
-            .attr("width", 70)//~rect imp ~data //~30
+            .attr("width", function(d) { return d.duration})// 70)//~rect imp ~data //~30
             .attr("height", 40)//~rect imp ~fixed
             .attr("rx", 15)//~imp // set to val of width/2 if width === height
             .attr("ry", 15)//~imp 
             // .attr("ry", 9)
+            
             .on("click", function(d) {
                 //~~ display tool tip
                 console.log(new Date(d.value));
             })
+
+            // add text https://stackoverflow.com/a/20644664/1446598
+            .append("text")
+            // .attr("x", function(d) {
+            //     // .attr("cx", function(d) {
+            //     return (lessThanDay(padding.pad)) ? x(d.value) : x(getDate(d.value))
+            // })
+            // .attr("y", 20)
+            // .attr("dy", ".5em")
+            .text(function(d) { return d.logCode })
+            .attr("color", "red")
+            
         // ----------------------------------------- Brush ---------------------------------------------
 
         // if (enableBrush) {
