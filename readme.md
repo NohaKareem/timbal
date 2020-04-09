@@ -16,3 +16,5 @@ A time logging platform to facilitate personal research, to help cultivate effic
 
 ## Useful references
 * using positional operator to filter for relevant array element within a document https://stackoverflow.com/a/36230475/1446598
+* [vue] using this.$refs only after mount https://stackoverflow.com/a/57680320/1446598
+ 

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title>Timeseries</title>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+        <style>
+            body {
+                font-family: 'Open Sans', sans-serif;
+            }
+            .dateDisplay {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        </style>
+    </head>
+
+    <body>
+        <input type="date" name="outputDateDate" id="outputDateDate" value="2020-04-10">
+        <input type="time" name="outputDateTime" id="outputDateTime" value="15:00">
+        <p id="outputDateString">output date</p>
+        <hr>
+        <!-- 2020-02-01T15:47:10.000+00:00 -->
+        2020-02-01T15:47:10.000+00:00
+        <input type="text" name="inputDateString" id="inputDateString" placeholder="add date string here">
+        <div class="dateDisplay">
+            <p>month</p><p id="inputDateString_month">month</p>
+            <p>day</p><p id="inputDateString_day">day</p>
+            <p>year</p><p id="inputDateString_year">year</p>
+            <p>hour</p><p id="inputDateString_hour">year</p>
+            <p>mins</p><p id="inputDateString_mins">year</p>
+        </div>
+
+        <script>
+            let outputDateDate = document.querySelector('#outputDateDate');
+            let outputDateTime = document.querySelector('#outputDateTime');
+            let outputDateString = document.querySelector('#outputDateString');
+            
+            let inputDateString = document.querySelector('#inputDateString');
+            let inputDateString_month = document.querySelector('#inputDateString_month');
+            let inputDateString_day = document.querySelector('#inputDateString_day');
+            let inputDateString_year = document.querySelector('#inputDateString_year');
+            let inputDateString_hour = document.querySelector('#inputDateString_hour');
+            let inputDateString_mins = document.querySelector('#inputDateString_mins');
+            
+            function updateOutputString(e) {
+                let date = new Date(outputDateDate.value);
+                date.setHours(outputDateTime.value.split(':')[0], outputDateTime.value.split(':')[1]);
+                outputDateString.innerHTML = date;
+            }
+
+            // test valueOf in both directions
+            // 
+
+            function updateOutputDateValues(e) {
+                let date = new Date(inputDateString.value);
+                date.setHours(outputDateTime.value.split(':')[0], outputDateTime.value.split(':')[1]);
+
+                console.log(date.toISOString())
+                console.log(date.toLocaleDateString())
+                console.log(date.toLocaleTimeString())
+                console.log(date.toTimeString())
+                console.log(date.toLocaleString())
+                console.log(date.toLocaleString())
+                // date = date.toLocaleTimeString()
+                inputDateString_month.innerHTML = date.getMonth(); 
+                inputDateString_year.innerHTML = date.getFullYear(); 
+                // inputDateString_day.innerHTML = date.getDay(); 
+                inputDateString_day.innerHTML = date.getDate(); 
+                inputDateString_hour.innerHTML = date.getHours(); 
+                inputDateString_mins.innerHTML = date.getMinutes(); 
+            }
+
+            outputDateDate.addEventListener("change", updateOutputString, false);
+            outputDateTime.addEventListener("change", updateOutputString, false);
+            inputDateString.addEventListener("change", updateOutputDateValues, false);
+        </script>
+    </body>
+
+</html>

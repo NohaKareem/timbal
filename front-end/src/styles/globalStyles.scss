@@ -42,18 +42,26 @@ body {
     margin: 2vh 3vw;
 }
 
+hr {
+    @include softUiShadow();
+    border-color: $grayWhite;
+    color: $grayWhite;
+    border: 0;
+    height: $baseMargin;
+}
+
 .logo {
     width: 15vw;//200px;
 }
 
-button {
+button, input[type=submit] {
     @include softUiShadow();
     color: $timbalBlack;
     cursor: pointer;
     border: none;
 }
 
-button.dropDown {
+button.dropDown, input[type=submit]{
     border-radius: $baseMargin * 5;
     width: 12vw;
     height: 5vw;
@@ -69,8 +77,12 @@ button.circle {
     // height: 10vw;
 }
 
-.circle:hover {
+.circle:hover, input[type=submit]:hover {
     @include softUiInsetShadow();
+}
+
+input[type=submit] {
+    margin-top: $baseMargin * 2;
 }
 
 $profilePicRadius: 5vw;

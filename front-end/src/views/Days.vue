@@ -1,7 +1,19 @@
 <template>
-  <div id="app">
-    {{days}}
-  </div>
+  <div id="dayCon">
+    <!-- {{days}} -->
+    <form action="http://localhost:3000/day" method="POST">
+      <input type="date" name="dateInput" id="dateInput" ref="dateInput">
+      <label for="timeInput_from">Start time</label>
+      <input type="time" name="timeInput_from" id="timeInput_from" ref="timeInput_from">
+      <label for="timeInput_to">End time</label>
+      <input type="time" name="timeInput_to" id="timeInput_to" ref="timeInput_to">
+      <input type="text" name="instantLog" id="instantLog" placeholder="add log here (or use the form!)">
+      <br>
+      <input type="submit" value="add log">
+    </form>
+    <hr>
+    
+    </div>
 </template>
 
 <script>
@@ -14,7 +26,7 @@
       }
     },
     created() {
-      var self = this;
+     var self = this;
 
       // get all days
       axios.get('http://localhost:3000/days')
@@ -25,10 +37,23 @@
         .catch(function(error) {
           console.error(error);
         });
+    }, 
+    mounted() {
+      // setting date to today https://stackoverflow.com/a/51466175/1446598
+      this.$refs.dateInput.value = (new Date()).toISOString().substr(0,10);
+      
+      console.log(new Date().toISOString())
+      // this.$refs.timeInput_to.value = ;
+      this.$refs.timeInput_from.value = (new Date()).toISOString().substr(0,10);
     }
   }
 </script>
 
 <style lang="scss">
-
+  @import '@/styles/globalStyles.scss';
+  
+  input {
+    background-color: $grayWhite;
+    font-family: 'Quattrocento Sans', sans-serif;
+  }
 </style>

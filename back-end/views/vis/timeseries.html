@@ -227,9 +227,14 @@
                         category.is_top_level ? "top level" : "! top level", 
                         category.color);
                 });
+                // parse date https://stackoverflow.com/a/53269761/1446598
+                let formattedDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse(logEntry.start_time);
+                // let parse = d3.utcParse("%Y-%m-%dT%H:%M:%S%Z");
+                // let formattedDate = parse(logEntry.start_time);
+                console.log('formattedDate', formattedDate)
                 console.log('fullCategoryStr ' + fullCategoryStr)
                 logs.push({
-                    'value': new Date(logEntry.start_time).valueOf(), //~startTime
+                    'value': new Date(formattedDate).valueOf(), //~startTime
                     'duration': durationInMinutes,
                     'logCode': fullCategoryStr 
                 });
@@ -242,6 +247,7 @@
         }
 
         function randomDate(start, end) {
+            console.log(new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())));//~
             return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())).valueOf();
         }
         var amount = 3;//100;
