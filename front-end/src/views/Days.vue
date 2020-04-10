@@ -40,7 +40,7 @@
       axios.get('http://localhost:3000/days')
         .then(function(response) { 
           // console.log(response)
-          self.$store.commit('variable', respzonse.data);//~
+          self.$store.commit('variable', response.data);//~
           self.days = response.data;
         })
         .catch(function(error) {
