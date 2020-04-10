@@ -8,11 +8,11 @@ import router from "./router";
 
 Vue.config.productionTip = false;
 
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount("#app");
+// new Vue({
+//   router,
+//   store,
+//   render: h => h(App)
+// }).$mount("#app");
 
 // vuex 
 Vue.use(Vuex);
@@ -20,15 +20,15 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
     state: {
         // todos: null
-        text: "hello"
+        variable: "hello"
     }, 
     mutations: {
         // user(state, payload) {
         //     state.user = payload;
         // }, 
-        // todos(state, payload) {
-        //     state.todos = payload;
-        // }
+        variable(state, payload) {
+            state.variable = payload;
+        }
     }
 });
  
@@ -38,3 +38,10 @@ const store = new Vuex.Store({
 //     store, 
 //     components: { App }
 // });
+
+
+new Vue({
+  router,
+  store,
+  render: h => h(App)
+}).$mount("#app");
