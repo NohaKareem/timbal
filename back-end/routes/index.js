@@ -19,6 +19,12 @@ router.get('/timeSeries', function(req, res, next) {
   // res.render('vis/timeseries');
 });
 
+/* GET bubble chart */
+router.get('/bubble', function(req, res, next) {
+  res.sendFile('bubbleChart.html', { root: path.join(__dirname, '../views/vis') });
+  // res.render('vis/timeseries');
+});
+
 // router.get('/timeSeries', function(req, res, next) {
 //   res.sendFile('timeSeries.html', { root: path.join(__dirname, '../public') });
 // });
@@ -208,7 +214,10 @@ router.get('/day/new', function(req, res, next) {
   res.render('day_new', { title: "Add day" });
 });
 
+
+
 // POST new day
+var category_ids;
 router.post('/day', (req, res, next) => {
   var newDay = new Day(); 
 
@@ -247,33 +256,123 @@ router.post('/day', (req, res, next) => {
       category_ids.push(category._id);
     console.log('category_ids', category_ids);
   }).sort({ code: 'asc' });
-    // console.log('category_ids', category_ids);
-  });
-
-  // console.log_data(new Date(req.body.date.setTime(req.body.start_time)).toString())
-  // console.log(req.body.full_category.split('.'))
-  newDay.date = req.body.date; //~ check if exists, format
-  newDay.variables = [{
-    variable: req.body.variable,
-    log_data: [{//[0]
-      start_time: start_time, //~ parse input, discenr am and pm
-      end_time: end_time, //~
-      // start_time: new Date(req.body.date.setTime(req.body.start_time)), //~
-      // end_time: req.body.end_time,
-      full_category: category_ids //req.body.full_category.split('.') //~ handle if new category
-    }]
-  }];
-  console.log(newDay);
-  console.log(newDay.full_category);
-  // console.log(newDay.variables[0].log_data);
-  // newDay.variables[0].log_data = ; //~ add to array
-
-  newDay.save((err, data) => { 
+    // console.log('category_ids here', category_ids);
+});
+///~~~~~~~~~~~~ save was here
+       /// adding save
+       newDay.date = req.body.date; //~ check if exists, format
+       console.log('_________________________________________')
+       console.log('category_ids TESTING', category_ids)
+       newDay.variables = [{
+         variable: req.body.variable,
+         log_data: [{//[0]
+           start_time: start_time, //~ parse input, discenr am and pm
+           end_time: end_time, //~
+           // start_time: new Date(req.body.date.setTime(req.body.start_time)), //~
+           // end_time: req.body.end_time,
+           full_category: category_ids //req.body.full_category.split('.') //~ handle if new category
+         }]
+       }];
+       console.log(newDay);
+       console.log('is this undefined? ', newDay.full_category);
+       // console.log(newDay.variables[0].log_data);
+       // newDay.variables[0].log_data = ; //~ add to array
+       /// adding save
+            
+       newDay.save((err, data) => { 
+         data.populate('variables.log_data.full_category')
     handleErr(err);
     console.log("Day saved to data collection", data);
+    console.log(data.variables.log_data.full_category)
+    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
   });
+
   res.redirect('/');
 });
+// // POST new day
+// var category_ids;
+// router.post('/day', (req, res, next) => {
+//   var newDay = new Day(); 
+
+//   console.log('_____________________________')
+//   console.log('date', req.body.date)
+//   console.log('Date(date)', new Date(req.body.date))
+//   console.log('start_time', req.body.start_time)
+//   console.log('end_time', req.body.end_time)
+//   let start_time = req.body.start_time;
+//   let end_time = req.body.end_time;
+//   let temp_date = new Date(req.body.date);//.setTime(hours, minutes);
+//   console.log('temp)date before time',temp_date)
+//   console.log('split',start_time.split(':'))
+//   temp_date.setHours(start_time.split(':')[0], start_time.split(':')[1]);
+//   console.log('temp)date after time',temp_date) ///~~~~~changed~
+//   start_time = temp_date;
+
+//   let temp_end_time = new Date(req.body.date);
+//   console.log('temp_end_time after time',temp_end_time) ///~~~~~changed~
+//   temp_end_time.setHours(end_time.split(':')[0], end_time.split(':')[1]);
+//   console.log('temp_end_time after time',temp_end_time) ///~~~~~changed~
+//   end_time = temp_end_time;
+
+//   console.log('START date WITH TIME ' + start_time.toString())
+//   console.log('END date WITH TIME ' + end_time.toString())
+
+//   console.log('req.body.full_category.split')
+//   console.log(req.body.full_category.split('.'))
+
+//   // get the ids for the categories 
+//   category_ids = [];
+//   req.body.full_category.split('.').forEach(categoryCode => {
+//     console.log(categoryCode)
+//     Category.findOne({ code: categoryCode }, (err, category) => {
+//       handleErr(err);
+//       category_ids.push(category._id);
+//     console.log('category_ids', category_ids);
+
+
+
+
+//   }).sort({ code: 'asc' });
+//     // console.log('category_ids here', category_ids);
+
+
+
+              
+
+//         /// adding save
+//         // console.log_data(new Date(req.body.date.setTime(req.body.start_time)).toString())
+//                     // console.log(req.body.full_category.split('.'))
+//                     newDay.date = req.body.date; //~ check if exists, format
+//                     console.log('_________________________________________')
+//                     console.log('category_ids TESTING', category_ids)
+//                     newDay.variables = [{
+//                       variable: req.body.variable,
+//                       log_data: [{//[0]
+//                         start_time: start_time, //~ parse input, discenr am and pm
+//                         end_time: end_time, //~
+//                         // start_time: new Date(req.body.date.setTime(req.body.start_time)), //~
+//                         // end_time: req.body.end_time,
+//                         full_category: category_ids //req.body.full_category.split('.') //~ handle if new category
+//                       }]
+//                     }];
+//                     console.log(newDay);
+//                     console.log('is this undefined? ', newDay.full_category);
+//                     // console.log(newDay.variables[0].log_data);
+//                     // newDay.variables[0].log_data = ; //~ add to array
+//         /// adding save
+            
+
+
+//   });
+// ///~~~~~~~~~~~~ save was here
+//   newDay.save((err, data) => { 
+//     handleErr(err);
+//     console.log("Day saved to data collection", data);
+//     console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+//   });
+
+//   res.redirect('/');
+// });
 
 router.get('/categories', (req, res, next) => {
     Category.find((err, categories) => {

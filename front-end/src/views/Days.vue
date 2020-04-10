@@ -12,7 +12,7 @@
       <input type="submit" value="add log">
     </form>
     <hr>
-    
+    <div class="bubbleChart"></div>
     </div>
 </template>
 
@@ -43,8 +43,22 @@
       this.$refs.date.value = (new Date()).toISOString().substr(0,10);
 
       // setting sample time
-      this.$refs.timeInput_from.value = (new Date().getHours() - 1 + ":" + new Date().getMinutes());
+      this.$refs.timeInput_from.value =  ((new Date().getHours() - 1) + ":" + new Date().getMinutes());
       this.$refs.timeInput_to.value = (new Date().getHours() + ":" + new Date().getMinutes());
+
+        console.log('before bubble')
+      // load bubble chart
+      axios.get('http://localhost:3000/bubble')
+      .then(function(response) {
+        console.log('in bubble')
+        let bubbleChart = document.querySelector('.bubbleChart');
+        console.log(repsonse)
+        console.log(repsonse.data)
+        bubbleChart.innerHTML = response.data;
+      })
+      .catch(function(error) {
+        console.error(error);
+      })
     }
   }
 </script>
