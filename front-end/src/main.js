@@ -20,7 +20,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
     state: {
         // todos: null
-        variable: "hello"
+        variable: ""
     }, 
     mutations: {
         // user(state, payload) {

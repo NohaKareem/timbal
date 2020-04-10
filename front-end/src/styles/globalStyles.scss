@@ -91,19 +91,21 @@ $profilePicRadius: 5vw;
     height: $profilePicRadius;
 
     margin-left: auto;
-    margin-top: $profilePicRadius / -2;
+    margin-top: -$profilePicRadius;
     border-radius: 50%;
     background-color: teal;
+
+    @include softUiShadow();
 }
 
 @media screen and (min-width: $desktopWidth) {
     .logo {
-        width: 10vw;//200px;
+        width: 15vh;//200px;
     }
 
     .profilePic {
-        width: 3vw;
-        height: 3vw;
+        width: 5vh;//3vw;
+        height: 5vh;//3vw;
     }
 
     button {

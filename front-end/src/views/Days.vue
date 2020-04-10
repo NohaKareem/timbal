@@ -12,8 +12,7 @@
       <input type="submit" value="add log">
     </form>
     <hr>
-    {{variableId}}
-    <!-- <div class="bubbleChart" ref="bubbleChart">hi</div> -->
+    <!-- {{variableId}} -->
     <bubbleChart />
     </div>
 </template>
@@ -40,7 +39,7 @@
       axios.get('http://localhost:3000/days')
         .then(function(response) { 
           // console.log(response)
-          self.$store.commit('variable', response.data);//~
+          // self.$store.commit('variable', response.data);//~
           self.days = response.data;
         })
         .catch(function(error) {
@@ -51,16 +50,11 @@
     }, 
     mounted() {
       // setting date to today https://stackoverflow.com/a/51466175/1446598
-      // this.$refs.date.value = (new Date()).toISOString().substr(0,10);
-      let date = document.querySelector('#date');
-      date.value =  (new Date()).toISOString().substr(0,10);
+      this.$refs.date.value = (new Date()).toISOString().substr(0,10);
+      // date.value =  (new Date()).toISOString().substr(0,10);
       // setting sample time
-      let timeInput_from = document.querySelector('#timeInput_from');
-      let timeInput_to = document.querySelector('#timeInput_to');
-      timeInput_from.value = ((new Date().getHours() - 1) + ":" + new Date().getMinutes());
-      timeInput_to.value = ((new Date().getHours()) + ":" + new Date().getMinutes());
-      // this.$refs.timeInput_from.value =  ((new Date().getHours() - 1) + ":" + new Date().getMinutes());
-      // this.$refs.timeInput_to.value = (new Date().getHours() + ":" + new Date().getMinutes());
+      this.$refs.timeInput_from.value =  ((new Date().getHours() - 1) + ":" + new Date().getMinutes());
+      this.$refs.timeInput_to.value = (new Date().getHours() + ":" + new Date().getMinutes());
 
           // // load bubble chart
           // let self = this;

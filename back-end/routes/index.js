@@ -19,12 +19,6 @@ router.get('/timeSeries', function(req, res, next) {
   // res.render('vis/timeseries');
 });
 
-/* GET bubble chart */
-router.get('/bubble', function(req, res, next) {
-  res.sendFile('bubbleChart.html', { root: path.join(__dirname, '../views/vis') });
-  // res.render('vis/timeseries');
-});
-
 // router.get('/timeSeries', function(req, res, next) {
 //   res.sendFile('timeSeries.html', { root: path.join(__dirname, '../public') });
 // });

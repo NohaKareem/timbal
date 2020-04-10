@@ -30,7 +30,7 @@
         }
 
         //create the SVG container
-        var svg = d3.select("body")
+        var svg = d3.select(".bubbleChart")
             .append("svg")
             .attr("width", 400)
             .attr("height", 400);
@@ -40,8 +40,12 @@
             var data = makeData(10);
 
             var point = svg.selectAll('circle')
-                .attr('class', 'bubbleCircle')
-            .data(data);
+                // .attr('class', 'bubbleCircle')//~
+                // .style('box-shadow', `
+                                // -5px -5px 15px 0 white, 
+                                // 5px 5px 15px 0 transparentize(black, 0.9);`)
+                // .attr('fill', 'red')
+                .data(data);
 
         // Enter loop, creates any new circles/things needed
         point.enter()
@@ -67,9 +71,9 @@
 
 <style lang="scss" scoped>
   @import '@/styles/globalStyles.scss';
+  // deep selectors for styling dynamically-generated html  https://vue-loader.vuejs.org/guide/scoped-css.html#deep-selectors
   ::v-deep circle {
     fill: red;
-    stroke: red;
     stroke-width: 5px;
   }
 </style>
