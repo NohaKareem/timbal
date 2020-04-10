@@ -12,7 +12,7 @@
       <input type="submit" value="add log">
     </form>
     <hr>
-    <div class="bubbleChart" ref="bubbleChart">hi</div>
+    <!-- <div class="bubbleChart" ref="bubbleChart">hi</div> -->
     <bubbleChart />
     </div>
 </template>

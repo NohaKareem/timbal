@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import axios from "axios";
+//   import axios from "axios";
   import * as d3 from 'd3';
   export default {
     name: "BubbleChart", 
@@ -40,6 +40,7 @@
             var data = makeData(10);
 
             var point = svg.selectAll('circle')
+                .attr('class', 'bubbleCircle')
             .data(data);
 
         // Enter loop, creates any new circles/things needed
@@ -55,17 +56,20 @@
             .attr('cy', function(d){ return d.cy })
             .attr('r', function(d){ return d.r });
         }
+        circles(svg);
 
-        setInterval(function() {
-            circles(svg);
-            }, 1000);
+        // setInterval(function() {
+        //     circles(svg);
+        //     }, 1000);
       }
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   @import '@/styles/globalStyles.scss';
-  circle {
-        background-color: red;
+  ::v-deep circle {
+    fill: red;
+    stroke: red;
+    stroke-width: 5px;
   }
 </style>
