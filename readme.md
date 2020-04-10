@@ -18,3 +18,4 @@ A time logging platform to facilitate personal research, to help cultivate effic
 * using positional operator to filter for relevant array element within a document https://stackoverflow.com/a/36230475/1446598
 * [vue] using this.$refs only after mount https://stackoverflow.com/a/57680320/1446598
 
+* D3 + Vue https://levelup.gitconnected.com/d3-js-and-vue-js-7a6a721eb79f https://www.youtube.com/watch?v=Cu9UQf4Nj5s

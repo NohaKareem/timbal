@@ -12,14 +12,17 @@
       <input type="submit" value="add log">
     </form>
     <hr>
-    <div class="bubbleChart"></div>
+    <div class="bubbleChart" ref="bubbleChart">hi</div>
+    <bubbleChart />
     </div>
 </template>
 
 <script>
   import axios from "axios";
+  import BubbleChart from "./BubbleChart.vue";
   export default {
     name: "Days", 
+    components: { 'bubbleChart': BubbleChart },
     data() {
       return {
         days: []
@@ -37,6 +40,8 @@
         .catch(function(error) {
           console.error(error);
         });
+
+
     }, 
     mounted() {
       // setting date to today https://stackoverflow.com/a/51466175/1446598
@@ -46,19 +51,19 @@
       this.$refs.timeInput_from.value =  ((new Date().getHours() - 1) + ":" + new Date().getMinutes());
       this.$refs.timeInput_to.value = (new Date().getHours() + ":" + new Date().getMinutes());
 
-        console.log('before bubble')
-      // load bubble chart
-      axios.get('http://localhost:3000/bubble')
-      .then(function(response) {
-        console.log('in bubble')
-        let bubbleChart = document.querySelector('.bubbleChart');
-        console.log(repsonse)
-        console.log(repsonse.data)
-        bubbleChart.innerHTML = response.data;
-      })
-      .catch(function(error) {
-        console.error(error);
-      })
+          // // load bubble chart
+          // let self = this;
+          // axios.get('http://localhost:3000/bubble')
+          // .then(function(response) {
+          //   // let bubbleChart = document.querySelector('.bubbleChart');
+          //   // console.log(response.data)
+          //   // self.$refs.bubbleChart.innerHTML = response.data;
+          //   self.$refs.bubbleChart.innerHTML = response.data;
+          //   console.log(self.$refs.bubbleChart.innerHTML)
+          // })
+          // .catch(function(error) {
+          //   console.error(error);
+          // });
     }
   }
 </script>
