@@ -14,11 +14,11 @@
           <input type="date" name="date" id="date" ref="date">
         </div>
         <div class="logTaskInput">
-          <label for="timeInput_from">Start time</label>
+          <label for="timeInput_from">from</label>
           <input type="time" name="timeInput_from" id="timeInput_from" ref="timeInput_from">
         </div>
         <div class="logTaskInput">
-          <label for="timeInput_to">End time</label>
+          <label for="timeInput_to">to</label>
           <input type="time" name="timeInput_to" id="timeInput_to" ref="timeInput_to">
         </div>
         <input type="text" name="full_category" id="full_category" placeholder="task log" value="b.a.w.6003">

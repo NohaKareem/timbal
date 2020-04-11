@@ -5,6 +5,8 @@ import Days from "../views/Days.vue";
 import Categories from "../views/Categories.vue";
 import Systems from "../views/Systems.vue";
 import Variables from "../views/Variables.vue";
+import SignUp from "../views/SignUp.vue";
+import SignIn from "../views/SignIn.vue";
 
 Vue.use(VueRouter);
 
@@ -33,6 +35,16 @@ const routes = [
     path: "/variables",
     name: "Variables",
     component: Variables
+  },
+  {
+    path: "/signUp",
+    name: "SignUp", 
+    component: SignUp 
+  },
+  {
+    path: "/signIn",
+    name: "SignIn", 
+    component: SignIn 
   },
   {
     path: "/about",

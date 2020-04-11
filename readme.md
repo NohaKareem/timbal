@@ -21,3 +21,5 @@ A time logging platform to facilitate personal research, to help cultivate effic
 * D3 + Vue https://levelup.gitconnected.com/d3-js-and-vue-js-7a6a721eb79f https://www.youtube.com/watch?v=Cu9UQf4Nj5s
 
 * deep selectors for svg styling https://stackoverflow.com/a/56882465/1446598 https://stackoverflow.com/a/55368933/1446598 https://vue-loader.vuejs.org/guide/scoped-css.html#deep-selectors
+
+* find an element by property value, in an array of objects https://stackoverflow.com/a/35398031
