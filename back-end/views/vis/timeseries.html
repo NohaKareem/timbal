@@ -228,7 +228,7 @@
                         category.color);
                 });
                 // parse date https://stackoverflow.com/a/53269761/1446598
-                let formattedDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse(logEntry.start_time);
+                let formattedDate =d3.time.format("%Y-%m-%dT%H:%M:%S").parse(logEntry.start_time);// logEntry.start_time.toTimeString();
                 // let parse = d3.utcParse("%Y-%m-%dT%H:%M:%S%Z");
                 // let formattedDate = parse(logEntry.start_time);
                 console.log('formattedDate', formattedDate)

@@ -2,6 +2,11 @@
   <div class="dayCon">
     <!-- {{days}} -->
     <h2>Log a <span ref="variableTitle">task</span></h2>
+    <select name="variableSelect" id="variableSelect">
+      <option value="tasks" v-for="variable in variables" :key="variable._id">
+        {{ variable.name }}
+      </option>
+    </select>
     <form action="http://localhost:3000/day" method="POST">
       <div class="logTaskInputHeader">
         <div class="logTaskInput">
@@ -25,7 +30,7 @@
         </div>
     </form>
     <hr>
-    <!-- {{variableId}} -->
+    {{variableId}}
     <bubbleChart />
     </div>
 </template>
@@ -38,7 +43,9 @@
     components: { 'bubbleChart': BubbleChart },
     data() {
       return {
-        days: []
+        days: [], 
+        currentVariable: "tasks", 
+        variables: []
       }
     },
     computed: {
@@ -46,20 +53,30 @@
         return this.$store.state.variable;
       }
     },
+    methods: {
+      updateVariable() {
+        let self = this;
+        axios.get(`http://localhost:3000/variable/name/${self.currentVariable}`)
+        .then(function(response) { 
+          self.$store.commit('variable', response.data);
+        }).catch(function(error) { console.error(error);});
+      }
+    }, 
     created() {
      var self = this;
+
       // get all days
       axios.get('http://localhost:3000/days')
         .then(function(response) { 
           // console.log(response)
-          // self.$store.commit('variable', response.data);//~
           self.days = response.data;
-        })
-        .catch(function(error) {
-          console.error(error);
-        });
+        }).catch(function(error) { console.error(error); });
 
-
+      // get all variable names
+      axios.get('http://localhost:3000/variables')
+      .then(function(response) { 
+        self.variables = response.data;
+      }).catch(function(error) { console.error(error); });
     }, 
     mounted() {
       // setting date to today https://stackoverflow.com/a/51466175/1446598
