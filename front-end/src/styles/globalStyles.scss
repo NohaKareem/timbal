@@ -14,7 +14,10 @@ $category_8: #96F5F3;
 $category_9: #C5F566;
 $category_10: #99F596;
 
+$desktopH2FontSize: 30px;
 $desktopPFontSize: 20px;
+
+$mblH2FontSize: 25px;
 $mblPFontSize: 19px;
 
 $baseMargin: 10px;
@@ -147,6 +150,7 @@ input[type=submit] {
     h2 {
         text-align: center;
         font-weight: normal;
+        font-size: $mblH2FontSize;
     }
 }
 
@@ -211,6 +215,16 @@ input[type=text] {
     }
 
     //  log input
+    .dayCon {
+        h2 {
+          font-size: $desktopH2FontSize;
+        }
+    }
+
+    input[type=text] {
+        width: 10vw;
+    } 
+
     .addLogButton {
     input[type=submit] {
             width: 10vw;
