@@ -2,9 +2,9 @@
   <div class="dayCon">
     <!-- {{days}} -->
     <h2>Log a <span ref="variableTitle">task</span></h2>
-    <select name="variableSelect" id="variableSelect">
-      <option value="tasks" v-for="variable in variables" :key="variable._id">
-        {{ variable.name }}
+    <select name="variableSelect" id="variableSelect" @change="updateVariable()" v-model="currentVariable">
+      <option v-for="variable in variables" :key="variable._id" :value="unselected ? 'tasks' : variable._id" ref="currentVariableSelection">
+        {{ variable.name }} 
       </option>
     </select>
     <form action="http://localhost:3000/day" method="POST">
@@ -45,7 +45,8 @@
       return {
         days: [], 
         currentVariable: "tasks", 
-        variables: []
+        variables: [], 
+        unselected: true
       }
     },
     computed: {
@@ -55,11 +56,14 @@
     },
     methods: {
       updateVariable() {
-        let self = this;
-        axios.get(`http://localhost:3000/variable/name/${self.currentVariable}`)
-        .then(function(response) { 
-          self.$store.commit('variable', response.data);
-        }).catch(function(error) { console.error(error);});
+        this.unselected = false;
+        // let self = this;
+        console.log(this.currentVariable)
+        this.$store.commit('variable', this.currentVariable);
+        // axios.get(`http://localhost:3000/variable/name/${self.currentVariable}`)
+        // .then(function(response) { 
+        //   self.$store.commit('variable', response.data);
+        // }).catch(function(error) { console.error(error);});
       }
     }, 
     created() {
@@ -105,5 +109,37 @@
 
 <style lang="scss">
   @import '@/styles/globalStyles.scss';
+  select {
+    @include softUiShadow();
+    background-color: $grayWhite;
+    border: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 
+    // select menu styling https://stackoverflow.com/a/24671889
+    --baseFg: #F0F0F0;//c70062;
+    --baseBg: #ffe3f1;
+    --accentFg: #707070;//green;// #c70062;
+    --accentBg: #F0F0F0;//#ffaad4;
+
+     font: 400 12px/1.3 sans-serif;
+      -webkit-appearance: none;
+      appearance: none;
+      color: $timbalBlack;
+      // border: 1px solid var(--baseFg);
+      line-height: 1;
+      outline: 0;
+      padding: 0.65em 2.5em 0.55em 0.75em;
+      border-radius: $baseMargin * 5;// var(--radius);
+      // background-color: var(--baseBg);
+      background-image: 
+      linear-gradient(var(--baseFg), var(--baseFg)),
+        linear-gradient(-135deg, transparent 50%, var(--accentBg) 50%),
+        linear-gradient(-225deg, transparent 50%, var(--accentBg) 50%),
+        linear-gradient(var(--accentBg) 42%, var(--accentFg) 42%);
+      background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+      background-size: 1px 100%, 20px 22px, 20px 22px, 20px 100%;
+      background-position: right 20px center, right bottom, right bottom, right bottom;  
+  }
 </style>
