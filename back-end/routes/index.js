@@ -5,6 +5,7 @@ var Day = require('../models/Day.js');
 var Category = require('../models/Category.js');
 var System = require('../models/System.js');
 var Variable = require('../models/Variable.js');
+// mongoose.Promise = global.Promise;
 
 const APP_NAME = "Timbal";
 
@@ -259,7 +260,10 @@ router.post('/day', (req, res, next) => {
   console.log(req.body.full_category.split('.'))
 
   // get the ids for the categories 
+  // using promise.all to ensure categories are populated before saving in day object 
+  // https://stackoverflow.com/a/39474742/1446598 
   category_ids = [];
+ Promise.all(() => {
   req.body.full_category.split('.').forEach(categoryCode => {
     console.log(categoryCode)
     Category.findOne({ code: categoryCode }, (err, category) => {
@@ -269,34 +273,39 @@ router.post('/day', (req, res, next) => {
   }).sort({ code: 'asc' });
     // console.log('category_ids here', category_ids);
 });
+ }).then(() => {
+        /// adding save
+        newDay.date = req.body.date; //~ check if exists, format
+        console.log('_________________________________________')
+        console.log('category_ids TESTING', category_ids)
+        newDay.variables = [{
+          variable: req.body.variable,
+          log_data: [{//[0]
+            start_time: start_time, //~ parse input, discenr am and pm
+            end_time: end_time, //~
+            // start_time: new Date(req.body.date.setTime(req.body.start_time)), //~
+            // end_time: req.body.end_time,
+            full_category: category_ids //req.body.full_category.split('.') //~ handle if new category
+          }]
+        }];
+        console.log(newDay);
+        console.log('is this undefined? ', newDay.full_category);
+        // console.log(newDay.variables[0].log_data);
+        // newDay.variables[0].log_data = ; //~ add to array
+        /// adding save
+              
+        newDay.save((err, data) => { 
+          data.populate('variables.log_data.full_category')
+      handleErr(err);
+      console.log("Day saved to data collection", data);
+      console.log(data.variables.log_data.full_category)
+      console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+      });
+ }).catch((error) => {
+   
+ })
 ///~~~~~~~~~~~~ save was here
-       /// adding save
-       newDay.date = req.body.date; //~ check if exists, format
-       console.log('_________________________________________')
-       console.log('category_ids TESTING', category_ids)
-       newDay.variables = [{
-         variable: req.body.variable,
-         log_data: [{//[0]
-           start_time: start_time, //~ parse input, discenr am and pm
-           end_time: end_time, //~
-           // start_time: new Date(req.body.date.setTime(req.body.start_time)), //~
-           // end_time: req.body.end_time,
-           full_category: category_ids //req.body.full_category.split('.') //~ handle if new category
-         }]
-       }];
-       console.log(newDay);
-       console.log('is this undefined? ', newDay.full_category);
-       // console.log(newDay.variables[0].log_data);
-       // newDay.variables[0].log_data = ; //~ add to array
-       /// adding save
-            
-       newDay.save((err, data) => { 
-         data.populate('variables.log_data.full_category')
-    handleErr(err);
-    console.log("Day saved to data collection", data);
-    console.log(data.variables.log_data.full_category)
-    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-  });
+    
 
   res.redirect('/');
 });

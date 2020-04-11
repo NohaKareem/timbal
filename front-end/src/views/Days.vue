@@ -2,14 +2,23 @@
   <div id="dayCon">
     <!-- {{days}} -->
     <form action="http://localhost:3000/day" method="POST">
-      <input type="date" name="date" id="date" ref="date">
-      <label for="timeInput_from">Start time</label>
-      <input type="time" name="timeInput_from" id="timeInput_from" ref="timeInput_from">
-      <label for="timeInput_to">End time</label>
-      <input type="time" name="timeInput_to" id="timeInput_to" ref="timeInput_to">
-      <input type="text" name="full_category" id="full_category" placeholder="add log here (or use the form!)" value="b.a.w.6003">
-      <br>
-      <input type="submit" value="add log">
+      <div class="logTaskInputHeader">
+        <div class="logTaskInput">
+          <label for="date">date</label>
+          <input type="date" name="date" id="date" ref="date">
+        </div>
+        <div class="logTaskInput">
+          <label for="timeInput_from">Start time</label>
+          <input type="time" name="timeInput_from" id="timeInput_from" ref="timeInput_from">
+        </div>
+        <div class="logTaskInput">
+          <label for="timeInput_to">End time</label>
+          <input type="time" name="timeInput_to" id="timeInput_to" ref="timeInput_to">
+        </div>
+          <input type="text" name="full_category" id="full_category" placeholder="task log" value="b.a.w.6003">
+        <br>
+        <input type="submit" value="add log">
+      </div>
     </form>
     <hr>
     <!-- {{variableId}} -->
@@ -53,8 +62,8 @@
       this.$refs.date.value = (new Date()).toISOString().substr(0,10);
       // date.value =  (new Date()).toISOString().substr(0,10);
       // setting sample time
-      this.$refs.timeInput_from.value =  ((new Date().getHours() - 1) + ":" + new Date().getMinutes());
-      this.$refs.timeInput_to.value = (new Date().getHours() + ":" + new Date().getMinutes());
+      this.$refs.timeInput_from.value = (new Date().getHours() + ":" + new Date().getMinutes());
+      this.$refs.timeInput_to.value = ((new Date().getHours() + 1) + ":" + new Date().getMinutes());
 
           // // load bubble chart
           // let self = this;
@@ -75,9 +84,5 @@
 
 <style lang="scss">
   @import '@/styles/globalStyles.scss';
-  
-  input {
-    background-color: $grayWhite;
-    font-family: 'Quattrocento Sans', sans-serif;
-  }
+
 </style>

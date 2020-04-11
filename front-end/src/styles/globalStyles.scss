@@ -14,9 +14,21 @@ $category_8: #96F5F3;
 $category_9: #C5F566;
 $category_10: #99F596;
 
+$desktopPFontSize: 20px;
+$mblPFontSize: 19px;
+
 $baseMargin: 10px;
 $logEntryWidth: 7vw; // timeLogGrid.vue
 $mobileLogEntryWidth: 5vw; // timeLogGrid.vue
+
+// /*placeholder styling mixin 
+//   https://stackoverflow.com/a/17181946 */
+// @mixin placeholderStyle {
+// ::-webkit-input-placeholder { @content }
+// :-moz-placeholder           { @content }
+// ::-moz-placeholder          { @content }
+// :-ms-input-placeholder      { @content }  
+// }
 
 @mixin softUiShadow() {
     box-shadow:
@@ -78,6 +90,7 @@ button, input[type=submit] {
     border: none;
 }
 
+
 button.dropDown, input[type=submit]{
     border-radius: $baseMargin * 5;
     width: 12vw;
@@ -98,10 +111,40 @@ button.circle {
     @include softUiInsetShadow();
 }
 
-input[type=submit] {
-    margin-top: $baseMargin * 2;
+input {
+    font-size: $mblPFontSize;
+    border: none;
+    background-color: $grayWhite;
+    font-family: 'Quattrocento Sans', sans-serif;
+    
 }
 
+input[type=submit] {
+    margin-top: $baseMargin * 2;
+    align-items: center;
+}
+
+// log input
+input[type=text] {
+    @include softUiInsetShadow();
+    border-radius: $baseMargin * 5;
+    text-align: center;
+}
+
+.logTaskInputHeader {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.logTaskInput {
+    display: grid;
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+// profile pic
 $profilePicRadius: 5vw;
 .profilePic {
     width: $profilePicRadius;
@@ -127,7 +170,7 @@ $profilePicRadius: 5vw;
 
     button {
         border-radius: $baseMargin * 5;
-        font-size: 15px;
+        font-size: $desktopPFontSize;
     }
 
     button.dropDown {

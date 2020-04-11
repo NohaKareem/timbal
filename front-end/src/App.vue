@@ -8,7 +8,7 @@
         <div class="profilePic"></div>
       </nav>
     </header>
-    <div id="nav">
+    <div class="testingNav">
       <!-- <router-link to="/">Home</router-link> | -->
       <!-- <router-link to="/about">About</router-link> -->
       <router-link to="/days">Days</router-link> | 
