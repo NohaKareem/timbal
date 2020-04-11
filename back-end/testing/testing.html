@@ -78,12 +78,32 @@
 
 
             let arr= {};//[];//['a', 'b', 'c'];
+            console.log(arr['a'] == undefined);
+
             arr['a'] = 5;
             arr['a']++;
             arr['A'] = '5'
             arr['b'] = 'hi';
             console.log(arr)
             console.table(arr)
+
+            let obj = {
+                'a': 1,
+                'b': 2
+            }
+            obj['c'] = 1;
+            console.log(obj['c'])
+
+            let obj2 = [
+                {
+                    code: 'a', 
+                    val: 1
+                }, 
+                {
+                    code: 'b', 
+                    val: 2
+                }
+            ]
         </script>
     </body>
 

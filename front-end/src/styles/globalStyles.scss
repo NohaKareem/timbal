@@ -24,6 +24,23 @@ $mobileLogEntryWidth: 5vw; // timeLogGrid.vue
         5px 5px 15px 0 transparentize(black, 0.9);  
 }
 
+@mixin softUiShadow_SVG() {
+    -webkit-filter: drop-shadow(
+        -5px -5px 15px 0 white);
+    -webkit-filter: drop-shadow(
+        5px 5px 15px 0 transparentize(black, 0.9));  
+
+    -moz-filter: drop-shadow(
+        -5px -5px 15px 0 white);
+    -moz-filter: drop-shadow(
+        5px 5px 15px 0 transparentize(black, 0.9));  
+        
+    filter: drop-shadow(
+        -5px -5px 15px 0 white);
+    filter: drop-shadow(
+        5px 5px 15px 0 transparentize(black, 0.9));  
+}
+
 @mixin softUiInsetShadow() {
     box-shadow:
         inset -5px -5px 15px 0 white,

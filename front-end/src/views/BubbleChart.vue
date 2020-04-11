@@ -5,18 +5,52 @@
 </template>
 
 <script>
-//   import axios from "axios";
+  import axios from "axios";
   import * as d3 from 'd3';
   export default {
     name: "BubbleChart", 
     data() {
       return {
-        // days: []
+        day_data: {}
       }
+    },
+    created() {
+        let self = this;
+        let dataToDisplay = [{}];
+        //~~variables
+        axios.get('http://localhost:3000/day/5e611877b705711710a1b28d/var/5e3316671c71657e18823380/details')
+        .then(function(response) {
+            self.day_data = response.data;
+            let logEntries = response.data.variables[0].log_data;
+            logEntries.forEach(logEntry => {
+                // ~todo: add to readme
+                // map time spent to each top-level category (at the top of the log hierarchy. hierarchy nesting is delimited by '.')
+                // top level element is always the first element
+                let topLevelCategory = logEntry.full_category[0].code;
+
+                // compute duration, in minutes, as difference between start and end time
+                let duration = Math.abs(
+                            ((new Date(logEntry.start_time)).getHours() * 60 + (new Date(logEntry.start_time)).getMinutes())
+                            - (new Date(logEntry.end_time).getHours() * 60 + new Date(logEntry.end_time).getMinutes())
+                            );
+                // dataToDisplay.push({
+
+                // });
+                dataToDisplay[topLevelCategory] = (dataToDisplay[topLevelCategory] == undefined) ? duration : dataToDisplay[topLevelCategory] + duration;
+            });
+            console.log(dataToDisplay)
+            // convert data to a js object
+            // dataToDisplay.forEach(data => {
+            //     console.log(data)
+            // })
+
+        }).catch(function(error) {
+            console.error(error);
+        });
     },
     mounted() {
         // bubble chart
-        var makeData = function(n){
+        var makeData = function(n) {
             var arr = [];
 
             for (var i=0; i<n; i++){
@@ -52,13 +86,14 @@
                 .append('circle') 
                 .attr('cx', function(d){ return d.cx })
                 .attr('cy', function(d){ return d.cy })
-                .attr('r', function(d){ return d.r });
+                .attr('r', function(d){ return d.r })
+                .attr('fill', 'pink');
 
-            // Update loop will loop through any existing shapes, and change their values any time the data changes
-            point.transition().duration(500)
-            .attr('cx', function(d){ return d.cx })
-            .attr('cy', function(d){ return d.cy })
-            .attr('r', function(d){ return d.r });
+            // // Update loop will loop through any existing shapes, and change their values any time the data changes
+            // point.transition().duration(500)
+            // .attr('cx', function(d){ return d.cx })
+            // .attr('cy', function(d){ return d.cy })
+            // .attr('r', function(d){ return d.r });
         }
         circles(svg);
 
@@ -73,7 +108,9 @@
   @import '@/styles/globalStyles.scss';
   // deep selectors for styling dynamically-generated html  https://vue-loader.vuejs.org/guide/scoped-css.html#deep-selectors
   ::v-deep circle {
-    fill: red;
-    stroke-width: 5px;
+    // fill: red;
+    // stroke: red;
+    // stroke-width: 5px;
+    @include softUiShadow_SVG();
   }
 </style>

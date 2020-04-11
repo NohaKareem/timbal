@@ -43,6 +43,7 @@ router.get('/days', (req, res, next) => {
     }).sort({ date: 'desc' });
 });
 
+// ~repeated in populate?
 // GET a day's log for a specific variable
 // testing: { dayId: many vars: 5e611877b705711710a1b28d, task only: 5e6aff42d2ff2246345cdb15, 
 //  tasks varId:5e3316671c71657e18823380, energy varId: 5e70f222aba2813dac23b9d8 }
@@ -55,52 +56,51 @@ router.get('/day/:dayId/var/:varId', (req, res, next) => {
   });
 });
 
-// ~TODO: promises + send json + chart 
-// GET a day's log for a specific variable with category details
-router.get('/day/:dayId/var/:varId/detail', (req, res, next) => {
-  let logDetails = {
-    log: []
-  };
-  Day.findOne({ _id: req.params.dayId, 
-      'variables.variable': req.params.varId }, { 'variables.variable.$': req.params.varId }, (err, day) => {
-        day.variables[0].log_data.forEach((dataPoint) => {
-          // console.log(dataPoint);
-          handleErr(err);
-          
-          // get cateogry data
-          let categories = [];
-          dataPoint.full_category.forEach((category) => {
-            Category.findOne({ _id: category }, (err, categoryData) => {
-              categories.push(categoryData);
-            });
-          });
+    // // GET a day's log for a specific variable with category details
+    // router.get('/day/:dayId/var/:varId/detail', (req, res, next) => {
+    //   let logDetails = {
+    //     log: []
+    //   };
+    //   Day.findOne({ _id: req.params.dayId, 
+    //       'variables.variable': req.params.varId }, { 'variables.variable.$': req.params.varId }, (err, day) => {
+    //         day.variables[0].log_data.forEach((dataPoint) => {
+    //           // console.log(dataPoint);
+    //           handleErr(err);
+              
+    //           // get cateogry data
+    //           let categories = [];
+    //           dataPoint.full_category.forEach((category) => {
+    //             Category.findOne({ _id: category }, (err, categoryData) => {
+    //               categories.push(categoryData);
+    //             });
+    //           });
 
-          // ~wait till cateogries are populated
-          setTimeout(() => {
-            logDetails.log.push({ ///~~~~
-              cateogry: categories,
-              time: Math.abs(
-                (dataPoint.start_time.getHours() * 60 + dataPoint.start_time.getMinutes())
-                - (dataPoint.end_time.getHours() * 60 + dataPoint.end_time.getMinutes())
-              ) / 60
-            });
-            // console.log(categories)
-    res.json(logDetails);
-    // console.log(logDetails)
-          }, 700);
-        });
-    // res.json(logDetails);
-    // res.json(day);
-  });
-});
+    //           // ~wait till cateogries are populated
+    //           setTimeout(() => {
+    //             logDetails.log.push({ ///~~~~
+    //               cateogry: categories,
+    //               time: Math.abs(
+    //                 (dataPoint.start_time.getHours() * 60 + dataPoint.start_time.getMinutes())
+    //                 - (dataPoint.end_time.getHours() * 60 + dataPoint.end_time.getMinutes())
+    //               ) / 60
+    //             });
+    //             // console.log(categories)
+    //     res.json(logDetails);
+    //     // console.log(logDetails)
+    //           }, 700);
+    //         });
+    //     // res.json(logDetails);
+    //     // res.json(day);
+    //   });
+    // });
 
-// GET a day's categories' visualizaation for a particular variable ~USING POPULATE
-// example (eat) http://localhost:3000/day/5e6aff42d2ff2246345cdb15/var/5e3316671c71657e18823380/vis
-// example (many categories) http://localhost:3000/day/5e611877b705711710a1b28d/var/5e3316671c71657e18823380/vis
+// GET a day's categories' visualization for a particular variable ~USING POPULATE
+// example (eat) http://localhost:3000/day/5e6aff42d2ff2246345cdb15/var/5e3316671c71657e18823380/details
+// example (many categories) http://localhost:3000/day/5e611877b705711710a1b28d/var/5e3316671c71657e18823380/details
 router.get('/day/:dayId/var/:varId/details', (req, res, next) => {
-  Day.find({ _id: req.params.dayId, 
+  Day.findOne({ _id: req.params.dayId, 
     'variables.variable' : req.params.varId 
-  }, (err, day) => {
+  }, { 'variables.variable.$': req.params.varId }, (err, day) => {
       res.json(day);
       // res.render('vis/actualTimeSeries', { day: day });
   }).populate('variables.log_data.full_category');
@@ -115,6 +115,23 @@ router.get('/day/:dayId/var/:varId/vis', (req, res, next) => {
   }).populate('variables.log_data.full_category');
 }); 
 
+// testing aggregate https://stackoverflow.com/a/42395156 https://docs.mongodb.com/manual/reference/operator/aggregation/add/
+// https://docs.mongodb.com/manual/reference/operator/aggregation/arrayElemAt/
+router.get('/day/:dayId/var/:varId/testing', (req, res, next) => {
+  Day.aggregate([
+    { $match: { _id: req.params.dayId, 'variables.variable' : req.params.varId } },
+    { $project: { '$variables.variable': 1, 
+            '$variables.log_data.full_category[0].code' : 1,
+      duration: Math.abs((variables.log_data.start_time.getHours() * 60 + variables.log_data.start_time.getMinutes())
+              - (variables.log_data.end_time.getHours() * 60 + variables.log_data.end_time.getMinutes()))
+  } }
+  ],
+     (err, day) => {
+      res.json(day);
+      // res.render('vis/actualTimeSeries', { day: day });
+  }).populate('variables.log_data.full_category');
+}); 
+// testing
 
 // // ~GET a day's categories' visulization for a variable with _id of varId
 // router.get('/day/:dayId/var/:varId/vis', (req, res, next) => {
