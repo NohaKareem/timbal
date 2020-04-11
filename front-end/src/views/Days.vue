@@ -1,6 +1,7 @@
 <template>
-  <div id="dayCon">
+  <div class="dayCon">
     <!-- {{days}} -->
+    <h2>Log a <span ref="variableTitle">task</span></h2>
     <form action="http://localhost:3000/day" method="POST">
       <div class="logTaskInputHeader">
         <div class="logTaskInput">
@@ -15,10 +16,13 @@
           <label for="timeInput_to">End time</label>
           <input type="time" name="timeInput_to" id="timeInput_to" ref="timeInput_to">
         </div>
-          <input type="text" name="full_category" id="full_category" placeholder="task log" value="b.a.w.6003">
-        <br>
-        <input type="submit" value="add log">
+        <input type="text" name="full_category" id="full_category" placeholder="task log" value="b.a.w.6003">
+          <br>
       </div>
+        <hr>
+        <div class="addLogButton">
+          <input type="submit" value="add log">
+        </div>
     </form>
     <hr>
     <!-- {{variableId}} -->

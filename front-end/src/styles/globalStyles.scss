@@ -79,8 +79,27 @@ hr {
     height: $baseMargin;
 }
 
+// header
+.timbalHeader {
+    margin-top: $baseMargin * 1.5;
+}
+
 .logo {
-    width: 15vw;//200px;
+    width: 19vw;
+}
+
+// profile pic
+$mblProfilePicRadius: 5vw;
+.profilePic {
+    width: $mblProfilePicRadius;
+    height: $mblProfilePicRadius;
+
+    margin-left: auto;
+    margin-top: -$mblProfilePicRadius;
+    border-radius: 50%;
+    background-color: teal;
+
+    @include softUiShadow();
 }
 
 button, input[type=submit] {
@@ -90,8 +109,7 @@ button, input[type=submit] {
     border: none;
 }
 
-
-button.dropDown, input[type=submit]{
+button.dropDown, input[type=submit] {
     border-radius: $baseMargin * 5;
     width: 12vw;
     height: 5vw;
@@ -125,6 +143,13 @@ input[type=submit] {
 }
 
 // log input
+.dayCon {
+    h2 {
+        text-align: center;
+        font-weight: normal;
+    }
+}
+
 input[type=text] {
     @include softUiInsetShadow();
     border-radius: $baseMargin * 5;
@@ -144,26 +169,27 @@ input[type=text] {
     text-align: center;
 }
 
-// profile pic
-$profilePicRadius: 5vw;
-.profilePic {
-    width: $profilePicRadius;
-    height: $profilePicRadius;
-
-    margin-left: auto;
-    margin-top: -$profilePicRadius;
-    border-radius: 50%;
-    background-color: teal;
-
-    @include softUiShadow();
+.addLogButton {
+    text-align: center;
+    input[type=submit] {
+        width: 20vw;
+        height: 8vw;
+        font-size: $mblPFontSize;
+    }
 }
 
 @media screen and (min-width: $desktopWidth) {
+    // // testing
+    // body {
+    //     background-color: pink;
+    // }
+
     .logo {
         width: 15vh;//200px;
     }
 
     .profilePic {
+        
         width: 5vh;//3vw;
         height: 5vh;//3vw;
     }
@@ -182,5 +208,27 @@ $profilePicRadius: 5vw;
         border-radius: 50%;
         width: $mobileLogEntryWidth;
         height: $mobileLogEntryWidth;
+    }
+
+    //  log input
+    .addLogButton {
+    input[type=submit] {
+            width: 10vw;
+            height: 3vw;
+            font-size: $desktopPFontSize;
+        }
+    }
+
+    // header
+    $desktopProfilePicRadius: 3vw;
+
+    .logo {
+        width: $desktopProfilePicRadius * 3;
+    }
+
+    .profilePic {
+        width: $desktopProfilePicRadius;
+        height: $desktopProfilePicRadius;
+        margin-top: -$desktopProfilePicRadius;
     }
 }

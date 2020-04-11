@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <h1 class="hidden">Timbal App</h1>
-    <header>
+    <header class="timbalHeader">
       <nav>
         <h1 class="hidden">Header</h1>
         <img src="logo_gray.svg" alt="timbal logo" class="logo">
