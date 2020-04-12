@@ -11,12 +11,13 @@
     name: "BubbleChart", 
     data() {
       return {
-        day_data: {}
+        day_data: {}, 
+        dataToDisplay: []
       }
     },
     created() {
         let self = this;
-        let dataToDisplay = [];
+        // let dataToDisplay = [];
         //~~variables
         axios.get('http://localhost:3000/day/5e611877b705711710a1b28d/var/5e3316671c71657e18823380/details')
         .then(function(response) {
@@ -27,7 +28,7 @@
                 // map time spent to each top-level category (at the top of the log hierarchy. hierarchy nesting is delimited by '.')
                 // top level element is always the first element
                 let topLevelCategory = logEntry.full_category[0].code;
-                let existingCategory = dataToDisplay.find(category => category.code === topLevelCategory);
+                let existingCategory = self.dataToDisplay.find(category => category.code === topLevelCategory);
                 console.log(!existingCategory)
 
                 // compute duration, in minutes, as difference between start and end time
@@ -35,23 +36,23 @@
                             ((new Date(logEntry.start_time)).getHours() * 60 + (new Date(logEntry.start_time)).getMinutes())
                             - (new Date(logEntry.end_time).getHours() * 60 + new Date(logEntry.end_time).getMinutes())
                             );
-                // dataToDisplay.push({
+                // self.dataToDisplay.push({
                 // });
 
                 // add new duration if category doesn't exist
                 if (!existingCategory) {
-                    dataToDisplay.push({
+                    self.dataToDisplay.push({
                       code: topLevelCategory, 
                       duration: duration
                     });
                 } else {
                   // increment duration
-                  dataToDisplay.find(category => category.code === topLevelCategory).duration += duration;
+                  self.dataToDisplay.find(category => category.code === topLevelCategory).duration += duration;
                 }
             
                 // dataToDisplay[topLevelCategory] = (dataToDisplay[topLevelCategory] == undefined) ? duration : dataToDisplay[topLevelCategory] + duration;
             });
-            console.log(dataToDisplay)
+            console.log(self.dataToDisplay)
             // convert data to a js object
             // dataToDisplay.forEach(data => {
             //     console.log(data)
@@ -65,13 +66,14 @@
         var makeData = function(n) {
             var arr = [];
 
-            for (var i=0; i<n; i++){
-            arr.push({
-                cx:Math.floor((Math.random() * 300) + 1),
-                cy:Math.floor((Math.random() * 300) + 1),
-                r:Math.floor((Math.random() * 30) + 1)
-            })
-            };
+            // for (var i=0; i<n; i++){
+            this.dataToDisplay.forEach(dataPoint => {
+              arr.push({
+                  cx: Math.floor((Math.random() * 300) + 1),
+                  cy: Math.floor((Math.random() * 300) + 1),
+                  r: Math.floor((Math.random() * 30) + 1)
+              });
+            });
             return arr;
         }
 
