@@ -224,7 +224,11 @@ router.get('/days/start/:startdate/end/:enddate', (req, res, next) => {
 
 // ejs test route
 router.get('/day/new', function(req, res, next) {
-  res.render('day_new', { title: "Add day" });
+  Day.find((err, days) => {
+    handleErr(err);
+    // res.json(days);
+    res.render('day_new', { title: "Add day", days: days });
+  }).sort({ date: 'desc' });
 });
 
 // GET variable id by name
@@ -253,7 +257,7 @@ async function findCategoryIds(categories) {
 });
 }
 
-// POST new day
+// POST new day document
 var category_ids;
 router.post('/day', (req, res, next) => {
   var newDay = new Day(); 
@@ -296,6 +300,14 @@ router.post('/day', (req, res, next) => {
       // category_ids = findCategoryIds(req.body.full_category)
       findCategoryIds(req.body.full_category).then((category_ids) => {
 
+        // let category_ids = [];
+        // req.body.full_category.split('.').forEach(categoryCode => {
+        //   console.log(categoryCode)
+        //   Category.findOne({ code: categoryCode }, (err, category) => {
+        //     handleErr(err);
+        //     category_ids.push(category._id);
+        //   console.log('category_ids', category_ids);
+        // }).sort({ code: 'asc' });
       // )
 //  })
 // .then(() => {
@@ -335,6 +347,16 @@ router.post('/day', (req, res, next) => {
   console.error(error);
 })
 
+  res.redirect('/');
+});
+
+// delete a day document
+router.post('/day/:id/delete', (req, res, next) => {
+  console.log('in delete')
+  var q = Day.findOneAndDelete({  _id: req.params.id });
+  q.exec(function(err, mydata) {
+      console.log('deleted day document');
+    });
   res.redirect('/');
 });
 

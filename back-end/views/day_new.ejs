@@ -3,10 +3,41 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style>
+      ul {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+
+      li {
+        margin-right: 20px;
+        font-size: small;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      h3 {
+        font-weight: normal;
+        text-align: center;
+      }
+      .delete, input[type=submit].delete {
+        padding: 3px;
+        background-color: white;
+        border: none;
+        display: inline-block;
+        color: red;
+        text-decoration-color: none;
+      }
+      .delete:hover, input[type=submit].delete:hover {
+        cursor: pointer;
+        background-color: red;
+        color: white;
+      }
+    </style>
   </head>
   <body>
     <% include layout/nav %>
-
+ 
     <h1><%= title %></h1>
     <form action="/day" method="POST">
         <label for="date">date</label>
@@ -26,5 +57,18 @@
         <br>
         <input type="submit" value="add">
     </form>
+
+    <h3><%= days.length %> documents </h3>
+    <ul>
+    <% days.forEach ((day, i) => { %>
+      <li>
+        <a href="/day/<%= day.date %> ">[<%=i%>]..<%= day._id.toString().slice(-5) %> </a>
+        <!-- <a href="/day/<%= day.date %> "><%= day.date.toDateString() %> </a> -->
+        <form action="/day/<%= day._id %>/delete" method="POST">
+          <input type="submit" class="delete" value="x">
+        </form>
+      </li>
+    <% }); %>
+    </ul>
   </body>
 </html>
