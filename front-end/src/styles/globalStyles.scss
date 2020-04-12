@@ -192,6 +192,7 @@ input[type=text], input[type=password], input[type=email] {
     text-align: center;
 }
 
+// category input 
 .addLogButton, .addCategoryButton {
     text-align: center;
     input[type=submit] {
@@ -201,10 +202,53 @@ input[type=text], input[type=password], input[type=email] {
     }
 }
 
-// category
 .smallInfoButton {
     font-style: italic;
     // font-size: smaller;
+}
+
+.colorGridCon {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    // margin-right: $baseMargin * 10;
+
+    .colorGrid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        row-gap: $baseMargin * 2;
+        column-gap: $baseMargin * 4;
+        // align-content: center;
+        // justify-content: center;
+        // text-align: center;
+        // align-items: center;
+        // margin: 0 auto;
+    }
+}
+
+.colorSwatch {
+    width: 5vw;
+    height: 5vw;
+    border-radius: 50%;
+    @include softUiShadow();
+}
+
+.colorSwatch:hover {
+    @include softUiInsetShadow();
+}
+
+.newCategoryTextInput {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.codeInput {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: $baseMargin * 3;
 }
 
 // authentication forms 
@@ -285,6 +329,7 @@ a:hover {
         width: 15vw;
     } 
 
+    // add category forms
     .addLogButton, .addCategoryButton {
     input[type=submit] {
             width: 11.5vw;
@@ -311,20 +356,6 @@ a:hover {
 
     input[type=text], input[type=password], input[type=email] {
         height: 3vw;
-    }
-
-    .newCategoryTextInput {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .codeInput {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        margin-right: $baseMargin * 3;
     }
 
     // header

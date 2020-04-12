@@ -44,6 +44,12 @@
               </div>
               <input type="text" name="name" id="categoryCode" placeholder="descriptive name" value="sleep">
           </div>
+          <div class="colorGridCon">
+            <div class="colorGrid">
+              <!-- ~add existing category colors -->
+              <div class="colorSwatch" v-for="color in colors" :key="color._id" :style="`background-color: ${color.color}`"></div>
+            </div>
+          </div>
           <h3>category color</h3>
           <div class="addCategoryButton">
             <input type="submit" value="add category">
@@ -68,6 +74,7 @@
         days: [], 
         currentVariable: "tasks", 
         variables: [], 
+        colors: [],
         unselected: true
       }
     },
@@ -115,7 +122,15 @@ created() {
       .then(function(response) { 
         self.variables = response.data;
       }).catch(function(error) { console.error(error); });
+
+      // get all colors
+      axios.get('http://localhost:3000/colors')
+      .then(function(response) { 
+        // console.log(response)
+        self.colors = response.data;
+      }).catch(function(error) { console.error(error); });
     }, 
+
     mounted() {
       // setting date to today https://stackoverflow.com/a/51466175/1446598
       this.$refs.date.value = (new Date()).toISOString().substr(0,10);

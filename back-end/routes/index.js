@@ -5,6 +5,7 @@ var Day = require('../models/Day.js');
 var Category = require('../models/Category.js');
 var System = require('../models/System.js');
 var Variable = require('../models/Variable.js');
+var Color = require('../models/Color.js');
 // var mongoose = require('mongoose');
 // mongoose.Promise = Promise; //global.
 
@@ -478,6 +479,15 @@ router.get('/testing/:id', (req, res, next) => {
   });
 }); 
 
+// GET all colors
+router.get('/colors', (req, res, next) => {
+  Color.find((err, colors) => {
+    handleErr(err);
+    res.json(colors);
+  }).sort({ date: 'desc' });
+});
+
+
   // /** GET all occurences of a ~toplevel category (~assuming var 0) */
   // router.get('/days/toplevel/:id', (req, res, next) => {
   //   Day.find(
@@ -493,6 +503,7 @@ router.get('/testing/:id', (req, res, next) => {
 // router.post('/', function(req, res, next) {
 //     // return ;
 // });
+
 
 // helper method
 function handleErr(err) {
