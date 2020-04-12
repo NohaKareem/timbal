@@ -14,10 +14,10 @@ $category_8: #96F5F3;
 $category_9: #C5F566;
 $category_10: #99F596;
 
-$desktopH2FontSize: 28px;//30px;
+$desktopH2FontSize: 3vw;//28px;//30px;
 $desktopPFontSize: 15px;//20px;
 
-$mblH2FontSize: 25px;
+$mblH2FontSize: 3vw;// 25px;
 $mblPFontSize: 15px;//19px;
 
 $baseMargin: 10px;
@@ -82,6 +82,16 @@ hr {
     height: $baseMargin;
 }
 
+h2 {
+    font-size: 3vw;
+}
+
+h3 {
+    font-weight: normal;
+    text-align: center;
+    font-size: 2.5vw;
+}
+
 // header
 .timbalHeader {
     margin-top: $baseMargin * 1.5;
@@ -128,7 +138,7 @@ button.circle {
     // height: 10vw;
 }
 
-.circle:hover, input[type=submit]:hover {
+.circle:hover, input[type=submit]:hover, button:hover {
     @include softUiInsetShadow();
 }
 
@@ -157,8 +167,16 @@ input[type=text], input[type=password], input[type=email] {
     @include softUiInsetShadow();
     border-radius: $baseMargin * 5;
     width: 30vw;
-    height: 6vw;
+    height: 4vw;//6vw;
     text-align: center;
+}
+
+.newCategoryTextInput input[type=text] {
+    width: 20vw;
+
+    // #categoryCode {
+    //     width: 10vw;
+    // }
 }
 
 .logTaskInputHeader {
@@ -174,13 +192,19 @@ input[type=text], input[type=password], input[type=email] {
     text-align: center;
 }
 
-.addLogButton {
+.addLogButton, .addCategoryButton {
     text-align: center;
     input[type=submit] {
         width: 20vw;
         height: 8vw;
         font-size: $mblPFontSize;
     }
+}
+
+// category
+.smallInfoButton {
+    font-style: italic;
+    // font-size: smaller;
 }
 
 // authentication forms 
@@ -230,7 +254,6 @@ a:hover {
     }
 
     .profilePic {
-        
         width: 5vh;//3vw;
         height: 5vh;//3vw;
     }
@@ -262,10 +285,10 @@ a:hover {
         width: 15vw;
     } 
 
-    .addLogButton {
+    .addLogButton, .addCategoryButton {
     input[type=submit] {
-            width: 10vw;
-            height: 3vw;
+            width: 11.5vw;
+            height: 4vw;
             font-size: $desktopPFontSize;
         }
     }
@@ -278,6 +301,7 @@ a:hover {
             height: 3vw;
         }
     }
+    
     .auth {
         input[type=submit] {
             width: 10vw;
@@ -285,6 +309,23 @@ a:hover {
         }
     }
 
+    input[type=text], input[type=password], input[type=email] {
+        height: 3vw;
+    }
+
+    .newCategoryTextInput {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .codeInput {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-right: $baseMargin * 3;
+    }
 
     // header
     $desktopProfilePicRadius: 3vw;

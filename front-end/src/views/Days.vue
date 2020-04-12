@@ -25,12 +25,34 @@
           <br>
       </div>
         <hr>
-        <div class="addLogButton">
+        <div class="addLogButton" @mouseover="showAddCategoryWindow()">
           <input type="submit" value="add log">
         </div>
     </form>
+    <!-- <div class="addCategory hidden" ref="addCategoryWindow"> -->
+    
+    <form action="http://localhost:3000/day" method="POST">
+      <div class="addCategory" ref="addCategoryWindow">
+        <h2>Add new category</h2>
+        <hr>
+        <div class="newCategoryForm">
+          <div class="newCategoryTextInput">
+              <div class="codeInput">
+                <input type="text" name="code" id="categoryCode" placeholder="code">
+                <button class="smallInfoButton" value="s" @click="showToolTip()">i</button>
+                <p class="codeInfo hidden" ref="codeInfo">initial(s) to represent the category</p>
+              </div>
+              <input type="text" name="name" id="categoryCode" placeholder="descriptive name" value="sleep">
+          </div>
+          <h3>category color</h3>
+          <div class="addCategoryButton">
+            <input type="submit" value="add category">
+          </div>
+        </div>
+      </div>
+    </form>
     <hr>
-    {{variableId}}
+    {{ variableId }}
     <bubbleChart />
     </div>
 </template>
@@ -64,9 +86,21 @@
         // .then(function(response) { 
         //   self.$store.commit('variable', response.data);
         // }).catch(function(error) { console.error(error);});
+      }, 
+
+      // display window 
+      showAddCategoryWindow() {
+        this.$refs.addCategoryWindow.classList.remove('hidden');
+      },
+      
+      // display 
+      showToolTip() {
+        console.log('in tool tip')
+          this.$refs.codeInfo.classList.toggle('hidden');
       }
-    }, 
-    created() {
+    },
+
+created() {
      var self = this;
 
       // get all days
@@ -105,6 +139,7 @@
           // });
     }
   }
+
 </script>
 
 <style lang="scss">
