@@ -115,14 +115,14 @@ $mblProfilePicRadius: 5vw;
     @include softUiShadow();
 }
 
-button, input[type=submit] {
+button, input[type=submit], input[type=button] {
     @include softUiShadow();
     color: $timbalBlack;
     cursor: pointer;
     border: none;
 }
 
-button.dropDown, input[type=submit] {
+button.dropDown, input[type=submit], input[type=button] {
     border-radius: $baseMargin * 5;
     width: 12vw;
     height: 5vw;
@@ -138,7 +138,7 @@ button.circle {
     // height: 10vw;
 }
 
-.circle:hover, input[type=submit]:hover, button:hover {
+.circle:hover, input[type=submit]:hover, button:hover, , input[type=button]:hover {
     @include softUiInsetShadow();
 }
 
@@ -149,7 +149,7 @@ input {
     font-family: 'Quattrocento Sans', sans-serif;
 }
 
-input[type=submit] {
+input[type=submit], input[type=button] {
     margin-top: $baseMargin * 2;
     align-items: center;
 }
@@ -302,7 +302,7 @@ a:hover {
     text-align: center;
     margin-top: 15%;
 
-    input[type=submit] {
+    input[type=submit], input[type=button] {
         width: 20vw;
         height: 8vw;
     }
@@ -357,7 +357,7 @@ a:hover {
 
     // add category forms
     .addLogButton, .addCategoryButton {
-    input[type=submit] {
+    input[type=submit], input[type=button] {
             width: 11.5vw;
             height: 4vw;
             font-size: $desktopPFontSize;

@@ -26,9 +26,11 @@
       </div>
         <hr>
         <div class="addLogButton">
-          <input type="submit" value="add log">
+          <!-- <input type="submit" value="add log"> -->
+          <input type="button" value="add log" @click="addDayDocument()">
         </div>
     </form>
+
     <p class="cancelButton" @click="toggleAddCategoryWindow()">X</p>
     
     <!-- <div class="addCategory hidden" ref="addCategoryWindow"> -->
@@ -50,6 +52,8 @@
             <div class="colorGridCon">
               <div class="colorGrid">
                 <!-- ~add existing category colors -->
+                <!-- ~TODO change post to axios post, add color to post -->
+                <!-- ~TODO add selected colors to v-for -->
                 <div class="colorSwatch" v-for="color in colors" :key="color._id" :style="`background-color: ${color.color}`"></div>
               </div>
             </div>
@@ -106,6 +110,41 @@
       showToolTip() {
         console.log('in tool tip')
           this.$refs.codeInfo.classList.toggle('hidden');
+      }, 
+
+      addDayDocument() {
+        // ~check if day exists
+        // if it exists, update day document 
+        // else, post new day document 
+
+        console.log('date')
+        // console.log(new Date().setHours(this.$refs.timeInput_from.value.split(":")[0],this.$refs.timeInput_from.value.split(":")[1])).toISOString();
+        let dayDocument = {
+          date: new Date(), 
+           start_time: (this.$refs.timeInput_from.value),
+                end_time: (this.$refs.timeInput_to.value),
+                full_category: [
+                  "5e61102fb705711710a1b286"
+                ]
+          // variables: [
+          //   {
+          //     variable: this.variableId, 
+          //     log_data: [{
+          //       start_time: (this.$refs.timeInput_from.value),
+          //       end_time: (this.$refs.timeInput_to.value),
+          //       full_category: [
+          //         "5e61102fb705711710a1b286"
+          //       ]
+          //     }]
+          //   }
+          // ]   
+        };
+
+        // post 
+        axios.post('http://localhost:3000/day', dayDocument)
+        .then(function(response) {
+          console.log('added day document', response.data);
+        }).catch(function(error) { console.error(error); });
       }
     },
 

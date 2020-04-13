@@ -1,7 +1,10 @@
 var mongoose = require('mongoose');
 
 var daySchema = new mongoose.Schema({
-    date: Date, 
+    date: {
+        type: Date, 
+        required:[true, 'A day document must at least have a date'],
+    }, 
     variables: [
         {
             variable: { type: mongoose.Schema.Types.ObjectId, ref: 'Variable' },

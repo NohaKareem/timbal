@@ -244,112 +244,157 @@ router.get('/variable/name/:name', function(req, res, next) {
   });
 });
 
-async function findCategoryIds(categories) {
-  let category_ids = [];
-  categories.split('.').forEach(categoryCode => {
-    console.log(categoryCode)
-    Category.findOne({ code: categoryCode }, (err, category) => {
-      handleErr(err);
-      category_ids.push(category._id);
-    console.log('category_ids', category_ids);
-  }).sort({ code: 'asc' });
-    // console.log('category_ids here', category_ids);
-    return category_ids;
-});
-}
+// async function findCategoryIds(categories) {
+//   let category_ids = [];
+//   categories.split('.').forEach(categoryCode => {
+//     console.log(categoryCode)
+//     Category.findOne({ code: categoryCode }, (err, category) => {
+//       handleErr(err);
+//       category_ids.push(category._id);
+//     console.log('category_ids', category_ids);
+//   }).sort({ code: 'asc' });
+//     // console.log('category_ids here', category_ids);
+//     return category_ids;
+// });
+// }
 
 // POST new day document
-var category_ids;
 router.post('/day', (req, res, next) => {
-  var newDay = new Day(); 
-
-  console.log('_____________________________')
-  console.log('date', req.body.date)
-  console.log('Date(date)', new Date(req.body.date))
-  console.log('start_time', req.body.start_time)
-  console.log('end_time', req.body.end_time)
+  // formatting time input
   let start_time = req.body.start_time;
   let end_time = req.body.end_time;
   let temp_date = new Date(req.body.date);//.setTime(hours, minutes);
-  console.log('temp)date before time',temp_date)
-  console.log('split',start_time.split(':'))
   temp_date.setHours(start_time.split(':')[0], start_time.split(':')[1]);
-  console.log('temp)date after time',temp_date) ///~~~~~changed~
   start_time = temp_date;
-
   let temp_end_time = new Date(req.body.date);
-  console.log('temp_end_time after time',temp_end_time) ///~~~~~changed~
   temp_end_time.setHours(end_time.split(':')[0], end_time.split(':')[1]);
-  console.log('temp_end_time after time',temp_end_time) ///~~~~~changed~
   end_time = temp_end_time;
 
-  console.log('START date WITH TIME ' + start_time.toString())
-  console.log('END date WITH TIME ' + end_time.toString())
-
-  console.log('req.body.full_category.split')
-  console.log(req.body.full_category.split('.'))
-
-  console.log(start_time, '<= start time')
-  console.log((start_time).toTimeString(), '<= ISODate start time')
-// start_time = start_time.toTimeString();
-  // get the ids for the categories 
-  // using promise.all to ensure categories are populated before saving in day object 
-  // https://stackoverflow.com/a/39474742/1446598 
-  // category_ids = [];
-//  Promise.all(() => {
-    // Promise.all(
-      // category_ids = findCategoryIds(req.body.full_category)
-      findCategoryIds(req.body.full_category).then((category_ids) => {
-
-        // let category_ids = [];
-        // req.body.full_category.split('.').forEach(categoryCode => {
-        //   console.log(categoryCode)
-        //   Category.findOne({ code: categoryCode }, (err, category) => {
-        //     handleErr(err);
-        //     category_ids.push(category._id);
-        //   console.log('category_ids', category_ids);
-        // }).sort({ code: 'asc' });
-      // )
-//  })
-// .then(() => {
-        /// adding save
-        newDay.date = req.body.date; //~ check if exists, format
-        console.log('_________________________________________')
-        console.log('category_ids TESTING', category_ids)
-        newDay.variables = [{
-          variable: req.body.variable,
-          log_data: [{//[0]
-            start_time: start_time, //~ parse input, discenr am and pm
-            end_time: end_time, //~
-            // start_time: new Date(req.body.date.setTime(req.body.start_time)), //~
-            // end_time: req.body.end_time,
-            full_category: category_ids //req.body.full_category.split('.') //~ handle if new category
-          }]
-        }];
-        // console.log(newDay);
-        console.log('is this undefined? ', newDay.full_category);
-        // console.log(newDay.variables[0].log_data);
-        // newDay.variables[0].log_data = ; //~ add to array
-        /// adding save
-              
-        newDay.save((err, data) => { 
-          // data.populate('variables.log_data.full_category')
-          handleErr(err);
-          console.log("Day saved to data collection", data);
-          // console.log(data.variables.log_data.full_category)
-          console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-      });
-//  }).catch((error) => {
-   
-//  })
-///~~~~~~~~~~~~ save was here
-    
-}).catch(error => {
-  console.error(error);
-})
-
-  res.redirect('/');
+  // saving data
+  var newDay = new Day(); 
+  newDay.date = req.body.date; //~ check if exists, format
+  newDay.variables = [{
+    variable: req.body.variable,
+    log_data: [{//[0]
+      start_time: start_time, //~ parse input, discenr am and pm
+      end_time: end_time, //~
+      full_category: req.body.full_category //req.body.full_category.split('.') //~ handle if new category
+    }]
+  }];
+  newDay.save((err, data) => { 
+      // data.populate('variables.log_data.full_category')
+      handleErr(err);
+      console.log("Day saved to data collection", data);
+      res.json(data);
+  });
 });
+
+// POST new day document
+// var category_ids;
+          // router.post('/day', (req, res, next) => {
+          //   var newDay = new Day(); 
+
+          //   console.log('_____________________________')
+          //   console.log('date', req.body.date)
+          //   console.log('Date(date)', new Date(req.body.date))
+          //   console.log('start_time', req.body.start_time)
+          //   console.log('end_time', req.body.end_time)
+          //   let start_time = req.body.start_time;
+          //   let end_time = req.body.end_time;
+          //   let temp_date = new Date(req.body.date);//.setTime(hours, minutes);
+          //   console.log('temp)date before time',temp_date)
+          //   console.log('split',start_time.split(':'))
+          //   temp_date.setHours(start_time.split(':')[0], start_time.split(':')[1]);
+          //   console.log('temp)date after time',temp_date) ///~~~~~changed~
+          //   start_time = temp_date;
+
+          //   let temp_end_time = new Date(req.body.date);
+          //   console.log('temp_end_time after time',temp_end_time) ///~~~~~changed~
+          //   temp_end_time.setHours(end_time.split(':')[0], end_time.split(':')[1]);
+          //   console.log('temp_end_time after time',temp_end_time) ///~~~~~changed~
+          //   end_time = temp_end_time;
+
+          //   console.log('START date WITH TIME ' + start_time.toString())
+          //   console.log('END date WITH TIME ' + end_time.toString())
+
+          //   console.log('req.body.full_category.split')
+          //   console.log(req.body.full_category.split('.'))
+
+          //   console.log(start_time, '<= start time')
+          //   console.log((start_time).toTimeString(), '<= ISODate start time')
+          // // start_time = start_time.toTimeString();
+          //   // get the ids for the categories 
+          //   // using promise.all to ensure categories are populated before saving in day object 
+          //   // https://stackoverflow.com/a/39474742/1446598 
+          //   // category_ids = [];
+          // //  Promise.all(() => {
+          //     // Promise.all(
+          //       // category_ids = findCategoryIds(req.body.full_category)
+          //       // findCategoryIds(req.body.full_category).then((category_ids) => {
+
+          //         // let category_ids = [];
+          //         // req.body.full_category.split('.').forEach(categoryCode => {
+          //         //   console.log(categoryCode)
+          //         //   Category.findOne({ code: categoryCode }, (err, category) => {
+          //         //     handleErr(err);
+          //         //     category_ids.push(category._id);
+          //         //   console.log('category_ids', category_ids);
+          //         // }).sort({ code: 'asc' });
+          //       // )
+
+          //       // let category_ids = ["5e61102fb705711710a1b286", "5e611098b705711710a1b287"];
+          //     //   let category_ids = [];
+          //     //   categories.split('.').forEach(categoryCode => {
+          //     //     console.log(categoryCode)
+          //     //     Category.findOne({ code: categoryCode }, (err, category) => {
+          //     //       handleErr(err);
+          //     //       category_ids.push(category._id);
+          //     //     console.log('category_ids', category_ids);
+          //     //   }).sort({ code: 'asc' });
+          //     //     // console.log('category_ids here', category_ids);
+          //     //     return category_ids;
+          //     // });
+          // //  })
+          // // .then(() => {
+          //         /// adding save
+          //         newDay.date = req.body.date; //~ check if exists, format
+          //         console.log('_________________________________________')
+          //         console.log('category_ids TESTING', category_ids)
+          //         newDay.variables = [{
+          //           variable: req.body.variable,
+          //           log_data: [{//[0]
+          //             start_time: start_time, //~ parse input, discenr am and pm
+          //             end_time: end_time, //~
+          //             // start_time: new Date(req.body.date.setTime(req.body.start_time)), //~
+          //             // end_time: req.body.end_time,
+          //             full_category: req.body.category_ids //req.body.full_category.split('.') //~ handle if new category
+          //           }]
+          //         }];
+          //         // console.log(newDay);
+          //         console.log('is this undefined? ', newDay.full_category);
+          //         // console.log(newDay.variables[0].log_data);
+          //         // newDay.variables[0].log_data = ; //~ add to array
+          //         /// adding save
+                        
+          //         newDay.save((err, data) => { 
+          //           // data.populate('variables.log_data.full_category')
+          //           handleErr(err);
+          //           console.log("Day saved to data collection", data);
+          //           // console.log(data.variables.log_data.full_category)
+          //           console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+          //           res.json(data);
+          //       });
+          // //  }).catch((error) => {
+            
+          // //  })
+          // ///~~~~~~~~~~~~ save was here
+              
+          // // }).catch(error => {
+          // //   console.error(error);
+          // // })
+
+          //   // res.redirect('/');
+          // });
 
 // delete a day document
 router.post('/day/:id/delete', (req, res, next) => {
@@ -377,8 +422,9 @@ router.get('/categories/:id', (req, res, next) => {
 });
 
 // GET all top-level/non top-level categories, according to flag parameter (true/false)
-router.get('/categories/top-level/:flag', (req, res, next) => {
-  Category.find({ is_top_level: req.params.flag }, (err, categories) => {
+// test (tasks top level) http://localhost:3000/categories/variable/5e3316671c71657e18823380/top-level/true
+router.get('/categories/variable/:varId/top-level/:flag', (req, res, next) => {
+  Category.find({ is_top_level: req.params.flag, variable: req.params.varId }, (err, categories) => {
     handleErr(err);
     res.json(categories);
   }).sort({ code: 'asc' });
@@ -402,6 +448,7 @@ router.post('/category', (req, res, next) => {
     handleErr(err);
     console.log("Category saved to data collection", category);
     // res.json(category);
+
   });
   // res.redirect('/');
 });
