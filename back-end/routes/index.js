@@ -398,12 +398,12 @@ router.post('/category', (req, res, next) => {
   newCategory.is_top_level = req.body.is_top_level;
   newCategory.color = req.body.color;
 
-  newCategory.save((err, data) => { 
+  newCategory.save((err, category) => { 
     handleErr(err);
-    console.log("Category saved to data collection", data);
+    console.log("Category saved to data collection", category);
+    // res.json(category);
   });
-
-  res.redirect('/');
+  // res.redirect('/');
 });
 
 // GET all variables

@@ -173,10 +173,10 @@ input[type=text], input[type=password], input[type=email] {
 
 .newCategoryTextInput input[type=text] {
     width: 20vw;
+}
 
-    // #categoryCode {
-    //     width: 10vw;
-    // }
+#categoryCode {
+    width: 10vw;
 }
 
 .logTaskInputHeader {
@@ -193,6 +193,22 @@ input[type=text], input[type=password], input[type=email] {
 }
 
 // category input 
+.addCategory {
+    z-index: 5;
+    position: absolute;
+    border-radius: $baseMargin;
+    padding: $baseMargin * 3;
+    margin-left: 22.5%;
+    margin-top: -20%;
+    background-color: $grayWhite;
+    @include softUiShadow();
+
+    .categoryHr {
+        width: 80%;
+        margin-bottom: $baseMargin * 2;
+    }
+}
+
 .addLogButton, .addCategoryButton {
     text-align: center;
     input[type=submit] {
@@ -202,12 +218,21 @@ input[type=text], input[type=password], input[type=email] {
     }
 }
 
+.cancelButton {
+    margin-left: 95%;
+    margin-top: 1%;
+    cursor: pointer;
+}
+
 .smallInfoButton {
+    margin-left: $baseMargin;
     font-style: italic;
     // font-size: smaller;
 }
 
 .colorGridCon {
+    margin-top: $baseMargin;
+    margin-bottom: $baseMargin;
     text-align: center;
     display: flex;
     justify-content: center;
@@ -327,6 +352,7 @@ a:hover {
 
     input[type=text] {
         width: 15vw;
+        height: 4vw;
     } 
 
     // add category forms
@@ -356,6 +382,7 @@ a:hover {
 
     input[type=text], input[type=password], input[type=email] {
         height: 3vw;
+        height: 4vw;
     }
 
     // header
