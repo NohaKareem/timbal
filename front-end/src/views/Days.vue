@@ -120,28 +120,19 @@
         console.log('date')
         // console.log(new Date().setHours(this.$refs.timeInput_from.value.split(":")[0],this.$refs.timeInput_from.value.split(":")[1])).toISOString();
         let dayDocument = {
-          date: new Date(), 
-           start_time: (this.$refs.timeInput_from.value),
-                end_time: (this.$refs.timeInput_to.value),
-                full_category: [
-                  "5e61102fb705711710a1b286"
-                ]
-          // variables: [
-          //   {
-          //     variable: this.variableId, 
-          //     log_data: [{
-          //       start_time: (this.$refs.timeInput_from.value),
-          //       end_time: (this.$refs.timeInput_to.value),
-          //       full_category: [
-          //         "5e61102fb705711710a1b286"
-          //       ]
-          //     }]
-          //   }
-          // ]   
+          date: new Date(),
+          variable: this.variableId, 
+          start_time: (this.$refs.timeInput_from.value),
+          end_time: (this.$refs.timeInput_to.value),
+          full_category: [ //~
+              "5e61102fb705711710a1b286"
+          ] 
         };
 
         // post 
-        axios.post('http://localhost:3000/day', dayDocument)
+        // test /day/5e94dfe5dd64435c38f3e346/variable/5e3316671c71657e18823380
+        axios.post('http://localhost:3000/day/5e94dfe5dd64435c38f3e346/variable/5e3316671c71657e18823380', dayDocument)
+        // axios.post('http://localhost:3000/day', dayDocument)
         .then(function(response) {
           console.log('added day document', response.data);
         }).catch(function(error) { console.error(error); });
