@@ -60,39 +60,40 @@ router.get('/:dayId/var/:varId', (req, res, next) => {
 // example (eat) http://localhost:3000/day/5e6aff42d2ff2246345cdb15/var/5e3316671c71657e18823380/details
 // example (many categories) http://localhost:3000/day/5e611877b705711710a1b28d/var/5e3316671c71657e18823380/details
 router.get('/:dayId/var/:varId/details', (req, res, next) => {
-Day.findOne({ _id: req.params.dayId, 
-'variables.variable' : req.params.varId 
-}, { 'variables.variable.$': req.params.varId }, (err, day) => {
-res.json(day);
-// res.render('vis/actualTimeSeries', { day: day });
-}).populate('variables.log_data.full_category');
+  Day.findOne({ _id: req.params.dayId, 
+  'variables.variable' : req.params.varId 
+  }, { 'variables.variable.$': req.params.varId }, (err, day) => {
+  res.json(day);
+  // res.render('vis/actualTimeSeries', { day: day });
+  }).populate('variables.log_data.full_category');
 }); 
 
 router.get('/:dayId/var/:varId/vis', (req, res, next) => {
-Day.find({ _id: req.params.dayId, 
-'variables.variable' : req.params.varId 
-}, (err, day) => {
-// res.json(day);
-res.render('vis/actualTimeSeries', { day: day });
-}).populate('variables.log_data.full_category');
+  Day.find({ _id: req.params.dayId, 
+  'variables.variable' : req.params.varId 
+  }, (err, day) => {
+  // res.json(day);
+  res.render('vis/actualTimeSeries', { day: day });
+  }).populate('variables.log_data.full_category');
 }); 
 
 // testing aggregate https://stackoverflow.com/a/42395156 https://docs.mongodb.com/manual/reference/operator/aggregation/add/
 // https://docs.mongodb.com/manual/reference/operator/aggregation/arrayElemAt/
 router.get('/:dayId/var/:varId/testing', (req, res, next) => {
-Day.aggregate([
-{ $match: { _id: req.params.dayId, 'variables.variable' : req.params.varId } },
-{ $project: { '$variables.variable': 1, 
-        '$variables.log_data.full_category[0].code' : 1,
-duration: Math.abs((variables.log_data.start_time.getHours() * 60 + variables.log_data.start_time.getMinutes())
-        - (variables.log_data.end_time.getHours() * 60 + variables.log_data.end_time.getMinutes()))
-} }
-],
-(err, day) => {
-res.json(day);
-// res.render('vis/actualTimeSeries', { day: day });
-}).populate('variables.log_data.full_category');
+  Day.aggregate([
+    { $match: { _id: req.params.dayId, 'variables.variable' : req.params.varId } },
+    { $project: { '$variables.variable': 1, 
+            '$variables.log_data.full_category[0].code' : 1,
+    duration: Math.abs((variables.log_data.start_time.getHours() * 60 + variables.log_data.start_time.getMinutes())
+            - (variables.log_data.end_time.getHours() * 60 + variables.log_data.end_time.getMinutes()))
+    } }
+  ],
+  (err, day) => {
+  res.json(day);
+  // res.render('vis/actualTimeSeries', { day: day });
+  }).populate('variables.log_data.full_category');
 }); 
+
 // testing
 
 // // ~GET a day's categories' visulization for a variable with _id of varId
@@ -137,95 +138,93 @@ res.json(day);
 //   });
 // });
 
-
 // ejs test route
 router.get('/new', function(req, res, next) {
-Day.find((err, days) => {
-handleErr(err);
-// res.json(days);
-res.render('day_new', { title: "Add day", days: days });
-}).sort({ date: 'desc' });
+  Day.find((err, days) => {
+  handleErr(err);
+  // res.json(days);
+  res.render('day_new', { title: "Add day", days: days });
+  }).sort({ date: 'desc' });
 });
 
 // GET day document if exists (check by date)
 router.get('/date/:date', function(req, res, next) {
-Day.findOne({ date: req.params.date }, (err, day) => {
-console.log('day date query result', day)
-handleErr(err);
-if (day)
-    res.json(day);
-else res.json(false);
+  Day.findOne({ date: req.params.date }, (err, day) => {
+  console.log('day date query result', day)
+  handleErr(err);
+  if (day)
+      res.json(day);
+  else res.json(false);
+  });
 });
-});
-
-
 
 // POST new day document
-router.post('/day', (req, res, next) => {
-// formatting time input
-let start_time = req.body.start_time;
-let end_time = req.body.end_time;
-let temp_date = new Date(req.body.date);//.setTime(hours, minutes);
-temp_date.setHours(start_time.split(':')[0], start_time.split(':')[1]);
-start_time = temp_date;
-let temp_end_time = new Date(req.body.date);
-temp_end_time.setHours(end_time.split(':')[0], end_time.split(':')[1]);
-end_time = temp_end_time;
+router.post('/', (req, res, next) => {
+  // formatting time input
+  let start_time = req.body.start_time;
+  let end_time = req.body.end_time;
+  let temp_date = new Date(req.body.date);//.setTime(hours, minutes);
+  temp_date.setHours(start_time.split(':')[0], start_time.split(':')[1]);
+  start_time = temp_date;
+  let temp_end_time = new Date(req.body.date);
+  temp_end_time.setHours(end_time.split(':')[0], end_time.split(':')[1]);
+  end_time = temp_end_time;
 
-// saving data
-var newDay = new Day(); 
-newDay.date = req.body.date; //~ check if exists, format
-newDay.variables = [{
-variable: req.body.variable,
-log_data: [{//[0]
-start_time: start_time, //~ parse input, discenr am and pm
-end_time: end_time, //~
-full_category: req.body.full_category //req.body.full_category.split('.') //~ handle if new category
-}]
-}];
-newDay.save((err, data) => { 
-// data.populate('variables.log_data.full_category')
-handleErr(err);
-console.log("Day saved to data collection", data);
-res.json(data);
-});
+  // saving data
+  var newDay = new Day(); 
+  newDay.date = req.body.date; //~ check if exists, format
+  newDay.variables = [{
+    variable: req.body.variable,
+    log_data: [{//[0]
+      start_time: start_time, //~ parse input, discenr am and pm
+      end_time: end_time, //~
+      full_category: req.body.full_category //req.body.full_category.split('.') //~ handle if new category
+    }]
+  }];
+  newDay.save((err, data) => { 
+  // data.populate('variables.log_data.full_category')
+  handleErr(err);
+  console.log("Day saved to data collection", data);
+  res.json(data);
+  });
 });
 
 // Update day document
-router.post('/day/:id/variable/:varId', (req, res, next) => {
-// formatting time input
-let start_time = req.body.start_time;
-let end_time = req.body.end_time;
-// ~date needs to be same date date as body date for time
-let temp_date = new Date(req.body.date);//.setTime(hours, minutes);
-temp_date.setHours(start_time.split(':')[0], start_time.split(':')[1]);
-start_time = temp_date;
-let temp_end_time = new Date(req.body.date);
-temp_end_time.setHours(end_time.split(':')[0], end_time.split(':')[1]);
-end_time = temp_end_time;
-console.log('before update')
-// updating data
-var q = Day.update(
-// {  _id: req.params.id }, { 'variables.variable.$': req.params.varId }, { //~var id 
-// {  _id: req.params.id }, { 'variables.variable': {"$elemMatch": { "variables.variable": req.params.varId }} }, { //~var id 
-{  _id: req.params.id,
-    'variables.variable': {"$elemMatch": { "variables.variable": req.params.varId }} 
-}, { //~var id 
-$push: {
-    'variables.$[outer].log_data': { //~if no var => variables.variable
-    start_time: start_time, 
-    end_time: end_time, 
-    full_category: req.body.full_category
-    }
-}}, 
-{
-    "arrayFilters": [{ "outer._id" : req.params.varId }]
-});
-q.exec(function(err, data) {
-console.log('updated day document', data);
-res.json(data);
-});
+router.post('/:id/variable/:varId', (req, res, next) => {
+  // formatting time input
+  let start_time = req.body.start_time;
+  let end_time = req.body.end_time;
+  // ~date needs to be same date date as body date for time
+  let temp_date = new Date(req.body.date);
+  temp_date.setHours(start_time.split(':')[0], start_time.split(':')[1]);
+  start_time = temp_date;
+  let temp_end_time = new Date(req.body.date);
+  temp_end_time.setHours(end_time.split(':')[0], end_time.split(':')[1]);
+  end_time = temp_end_time;
 
+  // updating data
+  var q = Day.findOneAndUpdate(
+  {  _id: req.params.id
+      // 'variables.variable': {"$elemMatch": { "variables.variable": req.params.varId }} 
+      // 'variables.variable':  { "variables.variable": req.params.varId } 
+  }, { //~var id 
+  $push: {
+      // using push https://stackoverflow.com/a/23577266/1446598 https://stackoverflow.com/a/33049923/1446598
+        'variables.0.log_data': { //~if no var => variables.variable
+          // 'variables.$[outer].log_data': { //~if no var => variables.variable
+              start_time: start_time, 
+              end_time: end_time, 
+              full_category: req.body.full_category
+          }
+  }}
+  // ,{
+  //     "arrayFilters": [{ "outer._id" : req.params.varId }]
+  // }
+  );
+  q.exec(function(err, data) {
+  console.log('updated day document', data);
+  res.json(data);
+  });
 });
 
 // delete a day document

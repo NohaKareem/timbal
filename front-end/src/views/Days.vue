@@ -132,11 +132,11 @@
         console.log(dayDocument)
         // post 
         // test /day/5e94dfe5dd64435c38f3e346/variable/5e3316671c71657e18823380
-        // axios.post('http://localhost:3000/day/5e94dfe5dd64435c38f3e346/variable/5e3316671c71657e18823380', dayDocument) // testing update
+        axios.post('http://localhost:3000/day/5e94dfe5dd64435c38f3e346/variable/5e3316671c71657e18823380', dayDocument) // testing update
             // axios.post('http://localhost:3000/day', dayDocument)
-            // .then(function(response) {
-            //   console.log('added day document', response.data);
-            // }).catch(function(error) { console.error(error); });
+            .then(function(response) {
+              console.log('added day document', response.data);
+            }).catch(function(error) { console.error(error); });
       }, 
 
       // check if day document exists, if not set new document and save id

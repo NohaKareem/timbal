@@ -93,8 +93,7 @@
               label.enter()
                     .append('text')
                     .attr("x", function(d) { return d.cx })
-                    .attr("y", function(d) { return d.cy })
-                    // .attr("dy", "0.35em")//~
+                    .attr("y", function(d) { return d.cy + 6 })
                     .text(function(d) { return d.code })
                     .attr("text-anchor", "middle")
 

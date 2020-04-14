@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+// import Home from "../views/Home.vue";
 import Days from "../views/Days.vue";
 import Categories from "../views/Categories.vue";
 import Systems from "../views/Systems.vue";
@@ -12,9 +12,9 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
-    name: "Home",
-    component: Home
+    path: "*",
+    name: "Days",
+    component: Days // ~Home, 404
   },
   {
     path: "/days",

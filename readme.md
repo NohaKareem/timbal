@@ -23,3 +23,5 @@ A time logging platform to facilitate personal research, to help cultivate effic
 * deep selectors for svg styling https://stackoverflow.com/a/56882465/1446598 https://stackoverflow.com/a/55368933/1446598 https://vue-loader.vuejs.org/guide/scoped-css.html#deep-selectors
 
 * find an element by property value, in an array of objects https://stackoverflow.com/a/35398031
+
+* updating nested arrays in mongoose https://stackoverflow.com/a/39523295
