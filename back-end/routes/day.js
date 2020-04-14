@@ -204,14 +204,15 @@ router.post('/:id/variable/:varId', (req, res, next) => {
 
   // updating data
   var q = Day.findOneAndUpdate(
-  {  _id: req.params.id
-      // 'variables.variable': {"$elemMatch": { "variables.variable": req.params.varId }} 
+  {  _id: req.params.id,
+      'variables': {"$elemMatch": { "variable": req.params.varId }} 
       // 'variables.variable':  { "variables.variable": req.params.varId } 
   }, { //~var id 
   $push: {
       // using push https://stackoverflow.com/a/23577266/1446598 https://stackoverflow.com/a/33049923/1446598
-        'variables.0.log_data': { //~if no var => variables.variable
-          // 'variables.$[outer].log_data': { //~if no var => variables.variable
+        // 'variables.0.log_data': { //~if no var => variables.variable
+          'variables.$.log_data': { //~if no var => variables.variable
+            // 'variables.$[outer].log_data': { //~if no var => variables.variable
               start_time: start_time, 
               end_time: end_time, 
               full_category: req.body.full_category
@@ -222,8 +223,8 @@ router.post('/:id/variable/:varId', (req, res, next) => {
   // }
   );
   q.exec(function(err, data) {
-  console.log('updated day document', data);
-  res.json(data);
+    console.log('updated day document - index', data);
+    res.json(data);
   });
 });
 

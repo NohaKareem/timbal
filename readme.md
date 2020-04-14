@@ -25,3 +25,4 @@ A time logging platform to facilitate personal research, to help cultivate effic
 * find an element by property value, in an array of objects https://stackoverflow.com/a/35398031
 
 * updating nested arrays in mongoose https://stackoverflow.com/a/39523295
+* debugging positional operators https://stackoverflow.com/a/28159282
