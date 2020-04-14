@@ -15,113 +15,118 @@
         dataToDisplay: []
       }
     },
-    created() {
-       
-    },
     mounted() {
-        this.getData();
-        // bubble chart
-        var makeData = function(n) {
-            var arr = [];
+      //~~variables
+      let self = this;
+      let dataToDisplay = [];
+      axios.get('http://localhost:3000/day/5e611877b705711710a1b28d/var/5e3316671c71657e18823380/details')
+      .then(function(response) {
+          self.day_data = response.data;
+          let logEntries = response.data.variables[0].log_data;
+          logEntries.forEach(logEntry => {
+              // ~todo: add to readme
+              // map time spent to each top-level category (at the top of the log hierarchy. hierarchy nesting is delimited by '.')
+              // top level element is always the first element
+              let topLevelCategory = logEntry.full_category[0].code;
+              let existingCategory = dataToDisplay.find(category => category.code === topLevelCategory);
+              // console.log(!existingCategory)
 
-            for (var i=0; i<n; i++){
-            // this.dataToDisplay.forEach(dataPoint => {
-              arr.push({
-                  cx: Math.floor((Math.random() * 300) + 1),
-                  cy: Math.floor((Math.random() * 300) + 1),
-                  r: Math.floor((Math.random() * 30) + 1)
-              });
-            // });
-            }
-            return arr;
-        }
+              // compute duration, in minutes, as difference between start and end time
+              let duration = Math.abs(
+                          ((new Date(logEntry.start_time)).getHours() * 60 + (new Date(logEntry.start_time)).getMinutes())
+                          - (new Date(logEntry.end_time).getHours() * 60 + new Date(logEntry.end_time).getMinutes())
+                          );
+              // add new duration if category doesn't exist
+              if (!existingCategory) {
+                  dataToDisplay.push({
+                    code: topLevelCategory, 
+                    // duration: duration, 
 
-        //create the SVG container
-        var svg = d3.select(".bubbleChart")
-            .append("svg")
-            .attr("width", 400)
-            .attr("height", 400);
 
-        //Put D3 create/update code in a function that can be re-called
-        function circles(svg) {
-            var data = makeData(10);
-
-            var point = svg.selectAll('circle')
-                // .attr('class', 'bubbleCircle')//~
-                // .style('box-shadow', `
-                                // -5px -5px 15px 0 white, 
-                                // 5px 5px 15px 0 transparentize(black, 0.9);`)
-                // .attr('fill', 'red')
-                .data(data);
-
-        // Enter loop, creates any new circles/things needed
-        point.enter()
-                .append('circle') 
-                .attr('cx', function(d){ return d.cx })
-                .attr('cy', function(d){ return d.cy })
-                .attr('r', function(d){ return d.r })
-                .attr('fill', 'pink');
-
-            // // Update loop will loop through any existing shapes, and change their values any time the data changes
-            // point.transition().duration(500)
-            // .attr('cx', function(d){ return d.cx })
-            // .attr('cy', function(d){ return d.cy })
-            // .attr('r', function(d){ return d.r });
-        }
-        circles(svg);
-
-        // setInterval(function() {
-        //     circles(svg);
-        //     }, 1000);
-      }, 
-      methods: {
-          getData() {
-            let self = this;
-          // let dataToDisplay = [];
-          //~~variables
-          axios.get('http://localhost:3000/day/5e611877b705711710a1b28d/var/5e3316671c71657e18823380/details')
-          .then(function(response) {
-              self.day_data = response.data;
-              let logEntries = response.data.variables[0].log_data;
-              logEntries.forEach(logEntry => {
-                  // ~todo: add to readme
-                  // map time spent to each top-level category (at the top of the log hierarchy. hierarchy nesting is delimited by '.')
-                  // top level element is always the first element
-                  let topLevelCategory = logEntry.full_category[0].code;
-                  let existingCategory = self.dataToDisplay.find(category => category.code === topLevelCategory);
-                  console.log(!existingCategory)
-
-                  // compute duration, in minutes, as difference between start and end time
-                  let duration = Math.abs(
-                              ((new Date(logEntry.start_time)).getHours() * 60 + (new Date(logEntry.start_time)).getMinutes())
-                              - (new Date(logEntry.end_time).getHours() * 60 + new Date(logEntry.end_time).getMinutes())
-                              );
-                  // self.dataToDisplay.push({
-                  // });
-
-                  // add new duration if category doesn't exist
-                  if (!existingCategory) {
-                      self.dataToDisplay.push({
-                        code: topLevelCategory, 
-                        duration: duration
-                      });
-                  } else {
-                    // increment duration
-                    self.dataToDisplay.find(category => category.code === topLevelCategory).duration += duration;
-                  }
-              
-                  // dataToDisplay[topLevelCategory] = (dataToDisplay[topLevelCategory] == undefined) ? duration : dataToDisplay[topLevelCategory] + duration;
-              });
-              console.log(self.dataToDisplay)
-              // convert data to a js object
-              // dataToDisplay.forEach(data => {
-              //     console.log(data)
-              // })
-          }).catch(function(error) {
-              console.error(error);
+                    cx: Math.floor((Math.random() * 300) + 1),
+                    cy: Math.floor((Math.random() * 300) + 1),
+                    r: duration//Math.floor((Math.random() * 30) + 1)
+                  });
+              } else {
+                // increment duration
+                dataToDisplay.find(category => category.code === topLevelCategory).duration += duration;
+              }
           });
-        }
-      }
+       
+          // bubble chart
+          var makeData = function(n) {
+              var arr = [];
+              for (var i=0; i<n; i++){
+                arr.push({
+                    cx: Math.floor((Math.random() * 300) + 1),
+                    cy: Math.floor((Math.random() * 300) + 1),
+                    r: Math.floor((Math.random() * 30) + 1)
+                });
+              }
+              // return arr;
+              dataToDisplay.forEach(d => {
+                console.log(d.cx, d.cy, d.r, d.duration)
+              })
+              return dataToDisplay;
+          }
+
+          //create the SVG container
+          var svg = d3.select(".bubbleChart")
+              .append("svg")
+              .attr("width", 400)
+              .attr("height", 400);
+
+          //Put D3 create/update code in a function that can be re-called
+          function circles(svg) {
+              var data = makeData(10);
+
+              var point = svg.selectAll('circle')
+                  // .attr('class', 'bubbleCircle')//~
+                  // .style('box-shadow', `
+                                  // -5px -5px 15px 0 white, 
+                                  // 5px 5px 15px 0 transparentize(black, 0.9);`)
+                  // .attr('fill', 'red')
+                  .data(data);
+
+              // Enter loop, creates any new circles/things needed
+              point.enter()
+                  .append('circle') 
+                  .attr('cx', function(d){ return d.cx })
+                  .attr('cy', function(d){ return d.cy })
+                  .attr('r', function(d){ return d.r })
+                  .attr('fill', 'pink')
+                        
+                    // // Update loop will loop through any existing shapes, and change their values any time the data changes
+                    // point.transition().duration(500)
+                    // .attr('cx', function(d){ return d.cx })
+                    // .attr('cy', function(d){ return d.cy })
+                    // .attr('r', function(d){ return d.r });
+
+              // adding text labels https://stackoverflow.com/a/46138457/1446598
+              var label = svg.selectAll('text')
+                    .data(data);
+              
+              label.enter()
+                    .append('text')
+                    .attr("x", function(d) { return d.cx })
+                    .attr("y", function(d) { return d.cy })
+                    // .attr("dy", "0.35em")//~
+                    .text(function(d) { return d.code })
+                    .attr("text-anchor", "middle")
+
+                      // text styling https://stackoverflow.com/a/41452514/1446598
+                    .attr("fill", "black");
+          }
+          circles(svg);
+
+
+          // setInterval(function() {
+          //     circles(svg);
+          //     }, 1000);
+      }).catch(function(error) {
+          console.error(error);
+      }); 
+      }, 
   }
 </script>
 
@@ -133,5 +138,12 @@
     // stroke: red;
     // stroke-width: 5px;
     @include softUiShadow_SVG();
+  }
+
+  .axis text {
+    // z-index: 6;
+    fill:black;   /* <== Set the fill */
+    // text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+    cursor: move;
   }
 </style>
