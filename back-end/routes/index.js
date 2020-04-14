@@ -209,13 +209,13 @@ router.get('/days/category/:id', (req, res,next) => {
 // start time eg. 2020-01-30T18:25:43.520+00:00
 // end time eg. 2020-01-30T19:25:50.521+00:00
 router.get('/days/start/:startdate/end/:enddate', (req, res, next) => {
-  console.log('in date');
-  d = new Date(2020, 01, 30, 18, 25, 43);//2020-01-30T18:25:43.511+00:00
-  console.log(d.toString());
-  console.log('date');
+  // d = new Date(2020, 01, 30, 18, 25, 43);//2020-01-30T18:25:43.511+00:00
+  // console.log(d.toString());
   Day.find( 
-    {"date": {
-      "$gte": req.params.startdate 
+    {
+      "date": {
+      "$gte": req.params.startdate,
+      "$lt": req.params.enddate
       // "$lt": new Date(req.params.enddate) 
     }}, (err, days) => {
       handleErr(err);
@@ -231,6 +231,18 @@ router.get('/day/new', function(req, res, next) {
     res.render('day_new', { title: "Add day", days: days });
   }).sort({ date: 'desc' });
 });
+
+// GET day document if exists (check by date)
+router.get('/day/date/:date', function(req, res, next) {
+  Day.findOne({ date: req.params.date }, (err, day) => {
+    console.log('day date query result', day)
+    handleErr(err);
+    if (day)
+        res.json(day);
+    else res.json(false);
+  });
+});
+
 
 // GET variable id by name
 router.get('/variable/name/:name', function(req, res, next) {

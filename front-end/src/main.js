@@ -10,7 +10,8 @@ Vue.use(Vuex);
  
 const store = new Vuex.Store({
     state: {
-        variable: "" // current seelcted variable
+        variable: "", // current selected variable id
+        day: "", // current day id
     }, 
     mutations: {
         // user(state, payload) {
@@ -18,6 +19,9 @@ const store = new Vuex.Store({
         // }, 
         variable(state, payload) {
             state.variable = payload;
+        }, 
+        day(state, payload) {
+            state.day = payload;
         }
     }
 });

@@ -54,22 +54,6 @@
           });
        
           // bubble chart
-          var makeData = function(n) {
-              var arr = [];
-              for (var i=0; i<n; i++){
-                arr.push({
-                    cx: Math.floor((Math.random() * 300) + 1),
-                    cy: Math.floor((Math.random() * 300) + 1),
-                    r: Math.floor((Math.random() * 30) + 1)
-                });
-              }
-              // return arr;
-              dataToDisplay.forEach(d => {
-                console.log(d.cx, d.cy, d.r, d.duration)
-              })
-              return dataToDisplay;
-          }
-
           //create the SVG container
           var svg = d3.select(".bubbleChart")
               .append("svg")
@@ -78,7 +62,7 @@
 
           //Put D3 create/update code in a function that can be re-called
           function circles(svg) {
-              var data = makeData(10);
+              var data = dataToDisplay;
 
               var point = svg.selectAll('circle')
                   // .attr('class', 'bubbleCircle')//~
@@ -115,7 +99,7 @@
                     .attr("text-anchor", "middle")
 
                       // text styling https://stackoverflow.com/a/41452514/1446598
-                    .attr("fill", "black");
+                    .attr("fill", "#F0F0F0");
           }
           circles(svg);
 
@@ -138,12 +122,5 @@
     // stroke: red;
     // stroke-width: 5px;
     @include softUiShadow_SVG();
-  }
-
-  .axis text {
-    // z-index: 6;
-    fill:black;   /* <== Set the fill */
-    // text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
-    cursor: move;
   }
 </style>
