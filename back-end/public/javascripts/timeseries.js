@@ -101,7 +101,7 @@
             left: 35
         }
         var width = window.innerWidth - 150;
-        var height = (lessThanDay(padding.pad)) ? (100 - margin.top - margin.bottom) : (300 - margin.top - margin.bottom);
+        var height = (lessThanDay(padding.pad)) ? (100 - margin.top - margin.bottom) : (100 - margin.top - margin.bottom);
 
         var x = d3.time.scale().
                 // domain()
@@ -119,17 +119,22 @@
 
         // [~adjust y axis given the nature of the data; spanning days/a single day]
         var xFormat, yFormat;
-        if (lessThanDay(padding.pad)) {
-            xFormat = "%H:%M";
+        // date as y axis constantly ~todo
             yFormat = "%m/%d/%y";
+            xFormat = "%H:%M";
             y.domain(d3.extent([padding.minDate]));
-        } else {
-            xFormat = "%m/%d/%y";
-            yFormat = "%H:%M";
-            var start = new Date(2012, 0, 1, 0, 0, 0, 0).getTime();
-            var stop = new Date(2012, 0, 1, 23, 59, 59, 59).getTime();
-            y.domain(d3.extent([start, stop]));
-        }
+
+        //     if (lessThanDay(padding.pad)) {
+        //     xFormat = "%H:%M";
+        //     // yFormat = "%m/%d/%y";
+        //     y.domain(d3.extent([padding.minDate]));
+        // } else {
+        //     xFormat = "%m/%d/%y";
+        //     // yFormat = "%H:%M";
+        //     var start = new Date(2012, 0, 1, 0, 0, 0, 0).getTime();
+        //     var stop = new Date(2012, 0, 1, 23, 59, 59, 59).getTime();
+        //     y.domain(d3.extent([start, stop]));
+        // }
 
         var xAxis = d3.svg.axis().scale(x).orient("top")
             .ticks(ticks)
@@ -164,18 +169,18 @@
             
         circles.selectAll(".circ")
             .data(data)
-            // .enter().append("circle")
-            // .enter().append("ellipse")
             .enter().append("rect")
-            // .enter().append("rect")
             .attr("class", "circ")
             .attr("x", function(d) {
                 // .attr("cx", function(d) {
+                console.log('x val', (lessThanDay(padding.pad)) ? x(d.value) : x(getDate(d.value))); //~~ replace .value with start and end time
                 return (lessThanDay(padding.pad)) ? x(d.value) : x(getDate(d.value)); //~~ replace .value with start and end time
             })
             .attr("y", function(d, i) {
                 // .attr("cy", function(d, i) {
-                return (lessThanDay(padding.pad)) ? y(getDate(d.value)) : y(getTime(d.value)); //~~ replace .value with date from start time 
+                return  y(getDate(d.value));
+                // return (lessThanDay(padding.pad)) ? y(d.value) : y(getDate(d.value)); //~~ replace .value with start and end time
+                // return (lessThanDay(padding.pad)) ? y(getDate(d.value)) : y(getTime(d.value)); //~~ replace .value with date from start time 
             })
             // .attr("r", 9)
             .attr("width", function(d) { return d.duration})// 70)//~rect imp ~data //~30

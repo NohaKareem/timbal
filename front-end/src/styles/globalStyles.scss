@@ -276,6 +276,17 @@ input[type=text], input[type=password], input[type=email] {
     margin-right: $baseMargin * 3;
 }
 
+.categoryCon {
+    background-color: red;
+    width: 5vw;
+    // width: auto;
+    padding: $baseMargin / 2;
+    // height: 3vw;
+    // margin-top: $baseMargin;
+    border-radius: $baseMargin * 2;
+    text-align: center;
+}
+
 // authentication forms 
 .signUpForm {
     display: flex;

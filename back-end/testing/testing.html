@@ -21,6 +21,11 @@
         <input type="time" name="outputDateTime" id="outputDateTime" value="15:00">
         <p id="outputDateString">output date</p>
         <hr>
+        <h2>testing valueof</h2>
+        or test 1422769085392
+        <input type="text" name="valueOfInput" id="valueOfInput" value="1580397943520">
+        <p id="valueOfOutput">output date</p>
+        <hr>
         <!-- 2020-02-01T15:47:10.000+00:00 -->
         2020-02-01T15:47:10.000+00:00
         <input type="text" name="inputDateString" id="inputDateString" placeholder="add date string here">
@@ -37,6 +42,9 @@
             let outputDateTime = document.querySelector('#outputDateTime');
             let outputDateString = document.querySelector('#outputDateString');
             
+            let valueOfInput= document.querySelector('#valueOfInput');
+            let valueOfOutput= document.querySelector('#valueOfOutput');
+            
             let inputDateString = document.querySelector('#inputDateString');
             let inputDateString_month = document.querySelector('#inputDateString_month');
             let inputDateString_day = document.querySelector('#inputDateString_day');
@@ -44,10 +52,23 @@
             let inputDateString_hour = document.querySelector('#inputDateString_hour');
             let inputDateString_mins = document.querySelector('#inputDateString_mins');
             
+            function updateValueOf(e) {
+                console.log('in update value of')
+                let date = new Date(valueOfInput);
+                console.log('date in updateVlaueOf', date);
+                valueOfOutput.innerHTML = date;
+            }
+
             function updateOutputString(e) {
                 let date = new Date(outputDateDate.value);
                 date.setHours(outputDateTime.value.split(':')[0], outputDateTime.value.split(':')[1]);
-                outputDateString.innerHTML = date;
+                outputDateString.innerHTML = `${date} 
+                        <br>    valueOf():  ${date.valueOf()} 
+                        <br>ISOString():  ${date.toISOString()}
+                        <br>    ISOString.valueOf():  ${date.toISOString().valueOf()}
+                        <br>UTCString():  ${date.toUTCString()}
+                        <br>    UTCString().valueOf():  ${date.toUTCString().valueOf()}
+                        `;
             }
 
             // test valueOf in both directions
@@ -75,7 +96,8 @@
             outputDateDate.addEventListener("change", updateOutputString, false);
             outputDateTime.addEventListener("change", updateOutputString, false);
             inputDateString.addEventListener("change", updateOutputDateValues, false);
-
+            valueOfInput.addEventListener("focus", updateValueOf, false);
+            
 
             let arr= {};//[];//['a', 'b', 'c'];
             console.log(arr['a'] == undefined);

@@ -191,6 +191,9 @@ router.post('/', (req, res, next) => {
 
 // Update day document
 router.post('/:id/variable/:varId', (req, res, next) => {
+  // ~TODO check if variable already exists to modify update query findOne then findOneAndUpdate https://stackoverflow.com/a/43867483
+  
+
   // formatting time input
   let start_time = req.body.start_time;
   let end_time = req.body.end_time;
@@ -206,21 +209,15 @@ router.post('/:id/variable/:varId', (req, res, next) => {
   var q = Day.findOneAndUpdate(
   {  _id: req.params.id,
       'variables': {"$elemMatch": { "variable": req.params.varId }} 
-      // 'variables.variable':  { "variables.variable": req.params.varId } 
   }, { //~var id 
   $push: {
       // using push https://stackoverflow.com/a/23577266/1446598 https://stackoverflow.com/a/33049923/1446598
-        // 'variables.0.log_data': { //~if no var => variables.variable
           'variables.$.log_data': { //~if no var => variables.variable
-            // 'variables.$[outer].log_data': { //~if no var => variables.variable
               start_time: start_time, 
               end_time: end_time, 
               full_category: req.body.full_category
           }
   }}
-  // ,{
-  //     "arrayFilters": [{ "outer._id" : req.params.varId }]
-  // }
   );
   q.exec(function(err, data) {
     console.log('updated day document - index', data);

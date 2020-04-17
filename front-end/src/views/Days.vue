@@ -24,17 +24,21 @@
         <input type="text" name="full_category" id="full_category" placeholder="task log" value="b.a.w.6003">
           <br>
       </div>
-        <hr>
-        <div class="addLogButton">
+      <hr>
+      <div class="addLogButton">
           <!-- <input type="submit" value="add log"> -->
           <input type="button" value="add log" @click="addDayDocument()">
-        </div>
+      </div>
+      <div class="selectCategoriesCon">
+        <div class="categoryCon">Hi</div>
+          <input type="button addButton" value="+">
+      </div>
     </form>
 
     <p class="cancelButton" @click="toggleAddCategoryWindow()">X</p>
     
     <!-- <div class="addCategory hidden" ref="addCategoryWindow"> -->
-      <div class="addCategory hidden" ref="addCategoryWindow">
+    <div class="addCategory hidden" ref="addCategoryWindow">
        <p class="cancelButton" @click="toggleAddCategoryWindow()">X</p>
        <form action="http://localhost:3000/category" method="POST">
           <h2>Add new category</h2>
@@ -62,7 +66,7 @@
             </div>
           </div>
         </form>
-      </div>
+    </div>  
     <hr>
     {{ variableId }}
     <bubbleChart />
