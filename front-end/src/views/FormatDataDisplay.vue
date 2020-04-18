@@ -1,11 +1,12 @@
 <template>
-    <div class="formatDataDisplayCon">
+    <div class="formatDataDisplayCon" ref="formatDataDisplayCon">
       <categoryItemsList :categoriesList="topLevelCategories" v-on:addedLogCategoryItem="addNewCateogryList()" />
     </div>
 </template>
 
 <script>
   import axios from "axios";
+  import Vue from 'vue';
   import CategoryItemsList from "./CategoryItemsList.vue";
   export default {
     name: "FormatDataDisplay", 
@@ -44,8 +45,29 @@
         //     currLogsList.push(categoryId);
         //     this.$store.commit('logInput', currLogsList);
         // }, 
-        addNewCateogryList() {
+
+        // render a new category list for every time an element is selected form the previous list.
+        // this builds a GUI for nested hierarchy of categories for a log entry
+        // dynamically isntantiating vue components ref https://css-tricks.com/creating-vue-js-component-instances-programmatically/
+       addNewCateogryList() {
           console.log('addNewCateogryList from item list caller');
+                  
+          // set a constructor for dynamically instantiating CategoryItemsList elements 
+          var CategoryItemsListClass = Vue.extend(CategoryItemsList);
+            console.log('!top level categories', this.nonTopLevelCategories)
+          var categoryItemsListInstance = new CategoryItemsListClass({
+            
+            // pass categoriesList prop
+            props: { categoriesList: this.nonTopLevelCategories } //~
+            // propsData: { categoriesList: this.nonTopLevelCategories } //~
+          });
+
+          console.log('props coming', categoryItemsListInstance.props)
+          
+          categoryItemsListInstance.$mount();
+          
+          // append to DOM
+          this.$refs.formatDataDisplayCon.appendChild(categoryItemsListInstance.$el);
 
         }
     }

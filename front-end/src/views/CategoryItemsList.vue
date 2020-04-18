@@ -1,5 +1,6 @@
 <template>
     <div class="categoryListCon">
+        category list con
         <div class="categoryListItem" v-for="category in categoriesList" :key="category._id"
             :style="'background-color:'+ category.color.color"
             @click="addCategoryToLog(category._id, category.is_top_level)">
