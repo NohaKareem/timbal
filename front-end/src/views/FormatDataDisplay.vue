@@ -1,21 +1,24 @@
 <template>
     <div class="formatDataDisplayCon">
-        <div class="categoryListCon">
-            <div class="categoryListItem" v-for="category in topLevelCategories" :key="category._id"
+      <categoryItemsList :categoriesList="topLevelCategories" />
+        <!-- <div class="categoryListCon"> -->
+            <!-- <div class="categoryListItem" v-for="category in topLevelCategories" :key="category._id"
                 :style="'background-color:'+ category.color.color"
                 @click="addCategoryToLog(category._id)">
                 {{ category.code }}: {{ category.description }}
             </div>
-            <div class="verticalLine"></div>
-        </div>
+            <div class="verticalLine"></div> -->
+        <!-- </div> -->
         <br>
     </div>
 </template>
 
 <script>
   import axios from "axios";
+  import CategoryItemsList from "./CategoryItemsList.vue";
   export default {
     name: "FormatDataDisplay", 
+    components: { 'categoryItemsList': CategoryItemsList },
     data() {
       return {
           topLevelCategories: [],
