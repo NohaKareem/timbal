@@ -71,7 +71,6 @@
     name: "Days", 
     data() {
       return {
-        days: [], 
         currentVariable: "tasks", 
         variables: [], 
         colors: [],
@@ -84,20 +83,6 @@
       }
     },
     methods: {
-      displayForm() {
-        
-      },
-      updateVariable() {
-        this.unselected = false;
-        // let self = this;
-        console.log(this.currentVariable)
-        this.$store.commit('variable', this.currentVariable);
-        // axios.get(`http://localhost:3000/variable/name/${self.currentVariable}`)
-        // .then(function(response) { 
-        //   self.$store.commit('variable', response.data);
-        // }).catch(function(error) { console.error(error);});
-      }, 
-
       // display window 
       toggleAddCategoryWindow() {
         this.$refs.addCategoryWindow.classList.toggle('hidden');
@@ -155,14 +140,6 @@
 
 created() {
      var self = this;
-
-      // get all days
-      axios.get('http://localhost:3000/days')
-        .then(function(response) { 
-          // console.log(response)
-          self.days = response.data;
-        }).catch(function(error) { console.error(error); });
-
       // get all variable names
       axios.get('http://localhost:3000/variables')
       .then(function(response) { 

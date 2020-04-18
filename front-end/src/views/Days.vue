@@ -15,9 +15,8 @@
     
     <dayInputForm v-if="displayForm" />  
 
-    {{ variableId }}
     <bubbleChart />
-    </div>
+  </div>
 </template>
 
 <script>
@@ -29,10 +28,9 @@
     components: { 'bubbleChart': BubbleChart, 'dayInputForm': DayInputForm },
     data() {
       return {
-        days: [], 
+        // days: [], 
         currentVariable: "tasks", 
         variables: [], 
-        colors: [],
         unselected: true, 
         displayForm: false
       }
@@ -58,145 +56,28 @@
         //   self.$store.commit('variable', response.data);
         // }).catch(function(error) { console.error(error);});
       }, 
-
-      // display window 
-      toggleAddCategoryWindow() {
-        this.$refs.addCategoryWindow.classList.toggle('hidden');
-      },
-      
-      // display 
-      showToolTip() {
-        console.log('in tool tip')
-          this.$refs.codeInfo.classList.toggle('hidden');
-      }, 
-
-      addDayDocument() {
-        this.checkIfDayDocExists();
-
-        // ~check if day exists
-        // if it exists, update day document 
-        // else, post new day document 
-
-        // console.log(new Date().setHours(this.$refs.timeInput_from.value.split(":")[0],this.$refs.timeInput_from.value.split(":")[1])).toISOString();
-        let dayDocument = {
-          date: new Date(this.$refs.date.value),
-          variable: this.variableId, 
-          start_time: (this.$refs.timeInput_from.value),
-          end_time: (this.$refs.timeInput_to.value),
-          full_category: [ //~
-              "5e61102fb705711710a1b286"
-          ] 
-        };
-        console.log(dayDocument)
-        // post 
-        // test /day/5e94dfe5dd64435c38f3e346/variable/5e3316671c71657e18823380
-        axios.post('http://localhost:3000/day/5e94dfe5dd64435c38f3e346/variable/5e3316671c71657e18823380', dayDocument) // testing update
-            // axios.post('http://localhost:3000/day', dayDocument)
-            .then(function(response) {
-              console.log('added day document', response.data);
-            }).catch(function(error) { console.error(error); });
-      }, 
-
-      // check if day document exists, if not set new document and save id
-      checkIfDayDocExists() {
-        //   
-        // console.log(new Date(this.$refs.date.value).toUTCString())
-        // console.log(new Date(this.$refs.date.value))
-        // let curr_date = new Date(this.$refs.date.value).toUTCString();
-        console.log('in check if day doc exists')
-        // get all days
-        
-        axios.get(`/day/date/2020-01-30T18:25:43.511+00:00`)
-        // axios.get(`/day/date/${curr_date}`)
-          .then(function(response) { 
-            console.log('day date vue query', response.data)
-          }).catch(function(error) { console.error(error); });
-      }
     },
 
 created() {
      var self = this;
 
-      // get all days
-      axios.get('http://localhost:3000/days')
-        .then(function(response) { 
-          // console.log(response)
-          self.days = response.data;
-        }).catch(function(error) { console.error(error); });
+        // // get all days
+        // axios.get('http://localhost:3000/days')
+        //   .then(function(response) { 
+        //     // console.log(response)
+        //     self.days = response.data;
+        //   }).catch(function(error) { console.error(error); });
 
       // get all variable names
       axios.get('http://localhost:3000/variables')
       .then(function(response) { 
         self.variables = response.data;
       }).catch(function(error) { console.error(error); });
-
-      // get all colors
-      axios.get('http://localhost:3000/colors')
-      .then(function(response) { 
-        // console.log(response)
-        self.colors = response.data;
-      }).catch(function(error) { console.error(error); });
-    }, 
-
-    mounted() {
-      // setting date to today https://stackoverflow.com/a/51466175/1446598
-      this.$refs.date.value = (new Date()).toISOString().substr(0,10);
-      // date.value =  (new Date()).toISOString().substr(0,10);
-      // setting sample time
-      this.$refs.timeInput_from.value = (new Date().getHours() + ":" + new Date().getMinutes());
-      this.$refs.timeInput_to.value = ((new Date().getHours() + 1) + ":" + new Date().getMinutes());
-
-          // // load bubble chart
-          // let self = this;
-          // axios.get('http://localhost:3000/bubble')
-          // .then(function(response) {
-          //   // let bubbleChart = document.querySelector('.bubbleChart');
-          //   // console.log(response.data)
-          //   // self.$refs.bubbleChart.innerHTML = response.data;
-          //   self.$refs.bubbleChart.innerHTML = response.data;
-          //   console.log(self.$refs.bubbleChart.innerHTML)
-          // })
-          // .catch(function(error) {
-          //   console.error(error);
-          // });
     }
   }
 
 </script>
 
 <style lang="scss">
-  @import '@/styles/globalStyles.scss';
-  select {
-    @include softUiShadow();
-    background-color: $grayWhite;
-    border: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-
-    // select menu styling https://stackoverflow.com/a/24671889
-    --baseFg: #F0F0F0;//c70062;
-    --baseBg: #ffe3f1;
-    --accentFg: #707070;//green;// #c70062;
-    --accentBg: #F0F0F0;//#ffaad4;
-
-     font: 400 12px/1.3 sans-serif;
-      -webkit-appearance: none;
-      appearance: none;
-      color: $timbalBlack;
-      // border: 1px solid var(--baseFg);
-      line-height: 1;
-      outline: 0;
-      padding: 0.65em 2.5em 0.55em 0.75em;
-      border-radius: $baseMargin * 5;// var(--radius);
-      // background-color: var(--baseBg);
-      background-image: 
-      linear-gradient(var(--baseFg), var(--baseFg)),
-        linear-gradient(-135deg, transparent 50%, var(--accentBg) 50%),
-        linear-gradient(-225deg, transparent 50%, var(--accentBg) 50%),
-        linear-gradient(var(--accentBg) 42%, var(--accentFg) 42%);
-      background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
-      background-size: 1px 100%, 20px 22px, 20px 22px, 20px 100%;
-      background-position: right 20px center, right bottom, right bottom, right bottom;  
-  }
+  @import '@/styles/globalStyles.scss'
 </style>
