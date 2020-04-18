@@ -30,7 +30,7 @@
           <input type="button" value="add log" @click="addDayDocument()">
       </div>
       <div class="selectCategoriesCon">
-        <div class="categoryCon">Hi</div>
+        <div class="categoryCon">~</div>
           <input type="button addButton" value="+">
       </div>
     </form>
@@ -48,10 +48,10 @@
                 <div class="codeInput">
                   <input type="text" name="code" id="categoryCode" placeholder="code">
                   <button class="smallInfoButton" value="s" @click="showToolTip()">i</button>
-                  <p class="codeInfo hidden" ref="codeInfo">initial(s) to represent the category</p>
                 </div>
                 <input type="text" name="description" id="categoryName" placeholder="descriptive name" value="sleep">
             </div>
+           <p class="codeInfo hidden" ref="codeInfo">initial(s) to represent the category</p>
             <h3>category color</h3>
             <div class="colorGridCon">
               <div class="colorGrid">

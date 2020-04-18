@@ -2,6 +2,12 @@ $desktopWidth: 830px;
 
 $grayWhite: #F0F0F0;
 $timbalBlack: #707070;
+$teal: #52BCB9;
+$blushPink: #F4B582;
+$melon: #FFD344;
+// $gradientTeal1: rgba(37,176,172,0.66);
+// $gradientTeal2:  rgba(67,232,227,0.48);
+$translucentTeal: rgba($teal, 0.48);
 //~
 $category_1: #C6C7F6;
 $category_2: #F6AED0;
@@ -60,7 +66,16 @@ $mobileLogEntryWidth: 5vw; // timeLogGrid.vue
     box-shadow:
         inset -5px -5px 15px 0 white,
         inset 5px 5px 15px 0 transparentize(black, 0.9);  
+        // inset 5px 5px 15px 0 transparentize($teal, 0.9);  
 }
+
+@mixin softUiSelectedInsetShadow_teal() {
+    box-shadow:
+        inset -5px -5px 15px 0 white,
+        // inset 5px 5px 15px 0 transparentize(black, 0.9),  
+        inset 5px 5px 10px 0 $teal;//transparentize($teal, 0.9);  
+}
+
 
 .hidden {
     display: none;
@@ -139,7 +154,8 @@ button.circle {
 }
 
 .circle:hover, input[type=submit]:hover, button:hover, , input[type=button]:hover {
-    @include softUiInsetShadow();
+    @include softUiInsetShadow();//softUiSelectedInsetShadow_teal();
+    // color: $teal;
 }
 
 input {
@@ -198,8 +214,8 @@ input[type=text], input[type=password], input[type=email] {
     position: absolute;
     border-radius: $baseMargin;
     padding: $baseMargin * 3;
-    margin-left: 22.5%;
-    margin-top: -20%;
+    margin-left: 10%;//22.5%;
+    margin-top: -30%;//-20
     background-color: $grayWhite;
     @include softUiShadow();
 
@@ -260,6 +276,7 @@ input[type=text], input[type=password], input[type=email] {
 
 .colorSwatch:hover {
     @include softUiInsetShadow();
+    cursor: pointer;
 }
 
 .newCategoryTextInput {
@@ -407,5 +424,12 @@ a:hover {
         width: $desktopProfilePicRadius;
         height: $desktopProfilePicRadius;
         margin-top: -$desktopProfilePicRadius;
+    }
+
+    // category input 
+    .addCategory {
+        padding: $baseMargin * 3;
+        margin-left: 22.5%;
+        margin-top: -29%;//-20
     }
 }
