@@ -19,6 +19,10 @@
                 <br>
             </div>
             <hr>
+
+            <!-- form GUI -->
+            <formatDataDisplay />
+
             <div class="addLogButton">
                 <!-- <input type="submit" value="add log"> -->
                 <input type="button" value="add log" @click="addDayDocument()">
@@ -28,7 +32,6 @@
                 <input type="button addButton" value="+">
             </div>
         </form>
-        
         <p class="cancelButton" @click="toggleAddCategoryWindow()">X</p>
         <!-- <div class="addCategory hidden" ref="addCategoryWindow"> -->
         <div class="addCategory hidden" ref="addCategoryWindow">
@@ -67,8 +70,10 @@
 
 <script>
   import axios from "axios";
+  import formatDataDisplay from "./FormatDataDisplay.vue";
   export default {
-    name: "Days", 
+    name: "DayInputForm", 
+    components: { 'formatDataDisplay': formatDataDisplay },
     data() {
       return {
         currentVariable: "tasks", 

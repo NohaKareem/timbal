@@ -130,14 +130,25 @@ $mblProfilePicRadius: 5vw;
     @include softUiShadow();
 }
 
-button, input[type=submit], input[type=button] {
+button, input[type=submit], input[type=button], .categoryListItem {
     @include softUiShadow();
     color: $timbalBlack;
     cursor: pointer;
     border: none;
 }
 
-button.dropDown, input[type=submit], input[type=button] {
+.categoryListItem {
+    text-shadow: 0.6px 0.5px 0.5px transparentize($timbalBlack, 0.7);
+    color: $grayWhite;
+    text-align: center;
+    padding: $baseMargin / 4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: $baseMargin;
+}
+
+button.dropDown, input[type=submit], input[type=button], .categoryListItem  {
     border-radius: $baseMargin * 5;
     width: 12vw;
     height: 5vw;
@@ -153,7 +164,7 @@ button.circle {
     // height: 10vw;
 }
 
-.circle:hover, input[type=submit]:hover, button:hover, , input[type=button]:hover {
+.circle:hover, input[type=submit]:hover, button:hover, input[type=button]:hover, .categoryListItem:hover {
     @include softUiInsetShadow();//softUiSelectedInsetShadow_teal();
     // color: $teal;
 }
@@ -385,7 +396,7 @@ a:hover {
 
     // add category forms
     .addLogButton, .addCategoryButton {
-    input[type=submit], input[type=button] {
+    input[type=submit], input[type=button], .categoryListItem  {
             width: 11.5vw;
             height: 4vw;
             font-size: $desktopPFontSize;

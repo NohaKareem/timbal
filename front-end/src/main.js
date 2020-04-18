@@ -10,7 +10,7 @@ Vue.use(Vuex);
  
 const store = new Vuex.Store({
     state: {
-        variable: "", // current selected variable id
+        variable: "5e3316671c71657e18823380", // current selected variable id, intiially tasks
         day: "", // current day id
     }, 
     mutations: {

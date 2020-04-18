@@ -39,7 +39,7 @@ router.get('/variable/:varId/top-level/:flag', (req, res, next) => {
   Category.find({ is_top_level: req.params.flag, variable: req.params.varId }, (err, categories) => {
     handleErr(err);
     res.json(categories);
-  }).sort({ code: 'asc' });
+  }).populate('color').sort({ code: 'asc' });
 });
 
 

@@ -7,7 +7,7 @@
       <!-- dropdown menu -->
         <select name="variableSelect" id="variableSelect" @change="updateVariable()" v-model="currentVariable">
         <option v-for="variable in variables" :key="variable._id" :value="unselected ? 'tasks' : variable._id" ref="currentVariableSelection">
-          {{ variable.name }} 
+          {{ variable.name }}
         </option>
       </select>
       <button class="circle" ref="addLogButton" @click="startLogInput()">+</button>
@@ -79,5 +79,8 @@ created() {
 </script>
 
 <style lang="scss">
-  @import '@/styles/globalStyles.scss'
+  @import '@/styles/globalStyles.scss';
+  input[type=time], input[type=date], input[type=text] {
+    color: $timbalBlack;
+  }
 </style>

@@ -1,0 +1,52 @@
+<template>
+    <div class="formatDataDisplayCon">
+        <div class="categoryListCon">
+            <div class="categoryListItem" v-for="category in topLevelCategories" :key="category._id"
+                :style="'background-color:'+ category.color.color">
+                {{ category.code }}: {{ category.description }}
+            </div>
+        </div>
+        <br>
+    </div>
+</template>
+
+<script>
+  import axios from "axios";
+  export default {
+    name: "FormatDataDisplay", 
+    data() {
+      return {
+          topLevelCategories: [],
+          nonTopLevelCategories: []
+      }
+    },
+    computed: {
+      variableId() {
+        return this.$store.state.variable;
+      }
+    },
+  
+created() {
+    var self = this;
+    let GET_CATEGORIES_LINK = `http://localhost:3000/categories/variable/${this.variableId}/top-level`;
+
+    // get all top level categories
+    axios.get(GET_CATEGORIES_LINK + '/true')
+     .then(function(response) {
+        self.topLevelCategories = response.data;
+        }).catch(function(error) { console.error(error); });
+
+    // get all non-top level categories
+    axios.get(GET_CATEGORIES_LINK + '/false')
+     .then(function(response) {
+        self.nonTopLevelCategories = response.data;
+        }).catch(function(error) { console.error(error); });
+    
+    }
+}
+</script>
+
+<style lang="scss">
+  @import '@/styles/globalStyles.scss';
+  
+</style>
