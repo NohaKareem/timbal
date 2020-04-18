@@ -5,6 +5,8 @@ A time logging platform to facilitate personal research, to help cultivate effic
 * Node Express
 * Mongo Atlas DB
 * Vue.js 
+* Vuex 
+* D3
 
 * Sass
 * Gulp
