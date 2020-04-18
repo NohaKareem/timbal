@@ -2,7 +2,7 @@
     <div class="categoryListCon">
         <div class="categoryListItem" v-for="category in categoriesList" :key="category._id"
             :style="'background-color:'+ category.color.color"
-            @click="addCategoryToLog(category._id)">
+            @click="addCategoryToLog(category._id, category.is_top_level)">
             {{ category.code }}: {{ category.description }}
         </div>
         <div class="verticalLine"></div>
@@ -43,10 +43,16 @@ created() {
     },
     methods: {
         // update vuex logInput state with selected categories (push to logInput array)
-        addCategoryToLog(categoryId) {
+        addCategoryToLog(categoryId, isTopLevel) {
             let currLogsList =  this.$store.state.logInput;
+            
+            // reset logInput in vuex if category is top level (ie. new log entry, not a nested hierarchy to an existing one)
+            if (isTopLevel) currLogsList = [];
             currLogsList.push(categoryId);
             this.$store.commit('logInput', currLogsList);
+
+            // emit event to parent, to render a new instance of this component
+            this.$emit("addedLogCategoryItem");
         }
     }
 }

@@ -1,15 +1,6 @@
 <template>
     <div class="formatDataDisplayCon">
-      <categoryItemsList :categoriesList="topLevelCategories" />
-        <!-- <div class="categoryListCon"> -->
-            <!-- <div class="categoryListItem" v-for="category in topLevelCategories" :key="category._id"
-                :style="'background-color:'+ category.color.color"
-                @click="addCategoryToLog(category._id)">
-                {{ category.code }}: {{ category.description }}
-            </div>
-            <div class="verticalLine"></div> -->
-        <!-- </div> -->
-        <br>
+      <categoryItemsList :categoriesList="topLevelCategories" v-on:addedLogCategoryItem="addNewCateogryList()" />
     </div>
 </template>
 
@@ -31,29 +22,31 @@
         return this.$store.state.variable;
       }
     },
-  
-created() {
-    var self = this;
-    let GET_CATEGORIES_LINK = `http://localhost:3000/categories/variable/${this.variableId}/top-level`;
+    created() {
+      var self = this;
+      let GET_CATEGORIES_LINK = `http://localhost:3000/categories/variable/${this.variableId}/top-level`;
 
-    // get all top level categories
-    axios.get(GET_CATEGORIES_LINK + '/true')
-     .then(function(response) {
-        self.topLevelCategories = response.data;
-        }).catch(function(error) { console.error(error); });
+      // get all top level categories
+      axios.get(GET_CATEGORIES_LINK + '/true')
+      .then(function(response) {
+          self.topLevelCategories = response.data;
+          }).catch(function(error) { console.error(error); });
 
-    // get all non-top level categories
-    axios.get(GET_CATEGORIES_LINK + '/false')
-     .then(function(response) {
-        self.nonTopLevelCategories = response.data;
-        }).catch(function(error) { console.error(error); });
-    
-    },
-    methods: {
-        addCategoryToLog(categoryId) {
-            let currLogsList =  this.$store.state.logInput;
-            currLogsList.push(categoryId);
-            this.$store.commit('logInput', currLogsList);
+      // get all non-top level categories
+      axios.get(GET_CATEGORIES_LINK + '/false')
+      .then(function(response) {
+          self.nonTopLevelCategories = response.data;
+          }).catch(function(error) { console.error(error); });
+      },
+      methods: {
+        // addCategoryToLog(categoryId) {
+        //     let currLogsList =  this.$store.state.logInput;
+        //     currLogsList.push(categoryId);
+        //     this.$store.commit('logInput', currLogsList);
+        // }, 
+        addNewCateogryList() {
+          console.log('addNewCateogryList from item list caller');
+
         }
     }
 }
