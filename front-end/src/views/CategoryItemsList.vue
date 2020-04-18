@@ -3,7 +3,7 @@
         category list con
         <div class="categoryListItem" v-for="category in categoriesList" :key="category._id"
             :style="'background-color:'+ category.color.color"
-            @click="addCategoryToLog(category._id, category.is_top_level)">
+            @click="addCategoryToLog(category._id, category.is_top_level, category.code)">
             {{ category.code }}: {{ category.description }}
         </div>
         <div class="verticalLine"></div>
@@ -11,7 +11,6 @@
 </template>
 
 <script>
-//   import axios from "axios";
   export default {
     name: "CategoryItemsList", 
     props: ["categoriesList"],
@@ -43,14 +42,20 @@ created() {
     
     },
     methods: {
-        // update vuex logInput state with selected categories (push to logInput array)
-        addCategoryToLog(categoryId, isTopLevel) {
+        // update vuex logInput state with selected categories (push to logInput array, concatenate log string delineated with '.')
+        addCategoryToLog(categoryId, isTopLevel, categoryStr) {
             let currLogsList =  this.$store.state.logInput;
+            let currLogStr =  this.$store.state.logStr;
             
-            // reset logInput in vuex if category is top level (ie. new log entry, not a nested hierarchy to an existing one)
-            if (isTopLevel) currLogsList = [];
+            // reset logInput and LogStr in vuex if category is top level (ie. new log entry, not a nested hierarchy to an existing one)
+            if (isTopLevel) {
+                currLogsList = [];
+                currLogStr = "";
+            }
             currLogsList.push(categoryId);
+            currLogStr += (isTopLevel ? "" :  ".") + categoryStr;
             this.$store.commit('logInput', currLogsList);
+            this.$store.commit('logStr', currLogStr);
 
             // emit event to parent, to render a new instance of this component
             this.$emit("addedLogCategoryItem");

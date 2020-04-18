@@ -139,6 +139,14 @@ button, input[type=submit], input[type=button], .categoryListItem {
 
 // category input list
 .formatDataDisplayCon {
+
+    // horizontal scroll https://stackoverflow.com/a/258393 
+    overflow: auto;
+    -ms-overflow-y: hidden;
+    overflow-y: hidden;
+}
+
+.formatDataDisplayCon {
     display: flex;
     justify-content: center;
 }

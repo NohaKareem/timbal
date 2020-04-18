@@ -12,7 +12,8 @@ const store = new Vuex.Store({
     state: {
         variable: "5e3316671c71657e18823380", // current selected variable id, intiially tasks
         day: "", // current day id
-        logInput: [] // array of ids of categories being logged
+        logInput: [], // array of ids of categories being logged
+        logStr: "" // string of category codes being logged
     }, 
     mutations: {
         // user(state, payload) {
@@ -25,6 +26,9 @@ const store = new Vuex.Store({
             state.day = payload;
         }, 
         logInput(state, payload) {
+            state.logInput = payload;
+        }, 
+        logStr(state, payload) {
             state.logInput = payload;
         }
     }
