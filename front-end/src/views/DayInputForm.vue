@@ -1,40 +1,81 @@
 <template>
-  <div class="dayCon">
-    <!-- {{days}} -->
-    <div class="dayTimelineCon">
-      <h2>Log a <span ref="variableTitle">task</span></h2>
-   
-      <!-- dropdown menu -->
-        <select name="variableSelect" id="variableSelect" @change="updateVariable()" v-model="currentVariable">
-        <option v-for="variable in variables" :key="variable._id" :value="unselected ? 'tasks' : variable._id" ref="currentVariableSelection">
-          {{ variable.name }} 
-        </option>
-      </select>
-      <button class="circle" ref="addLogButton" @click="startLogInput()">+</button>
-    </div>
-    
-    <dayInputForm v-if="displayForm" />  
-
-    {{ variableId }}
-    <bubbleChart />
+    <div class="dayInputFormCon">
+        <div class="logInputForm">
+        <form action="http://localhost:3000/day" method="POST">
+            <div class="logTaskInputHeader">
+            <div class="logTaskInput">
+                <label for="date">date</label>
+                <input type="date" name="date" id="date" ref="date">
+            </div>
+            <div class="logTaskInput">
+                <label for="timeInput_from">from</label>
+                <input type="time" name="timeInput_from" id="timeInput_from" ref="timeInput_from">
+            </div>
+            <div class="logTaskInput">
+                <label for="timeInput_to">to</label>
+                <input type="time" name="timeInput_to" id="timeInput_to" ref="timeInput_to">
+            </div>
+            <input type="text" name="full_category" id="full_category" placeholder="task log" value="b.a.w.6003">
+                <br>
+            </div>
+            <hr>
+            <div class="addLogButton">
+                <!-- <input type="submit" value="add log"> -->
+                <input type="button" value="add log" @click="addDayDocument()">
+            </div>
+            <div class="selectCategoriesCon">
+            <div class="categoryCon">~</div>
+                <input type="button addButton" value="+">
+            </div>
+        </form>
+        
+        <p class="cancelButton" @click="toggleAddCategoryWindow()">X</p>
+        <!-- <div class="addCategory hidden" ref="addCategoryWindow"> -->
+        <div class="addCategory hidden" ref="addCategoryWindow">
+            <p class="cancelButton" @click="toggleAddCategoryWindow()">X</p>
+            <form action="http://localhost:3000/category" method="POST">
+                <h2>Add new category</h2>
+                <hr class="categoryHr">
+                <div class="newCategoryForm">
+                <div class="newCategoryTextInput">
+                    <div class="codeInput">
+                        <input type="text" name="code" id="categoryCode" placeholder="code">
+                        <button class="smallInfoButton" value="s" @click="showToolTip()">i</button>
+                    </div>
+                    <input type="text" name="description" id="categoryName" placeholder="descriptive name" value="sleep">
+                </div>
+                <p class="codeInfo hidden" ref="codeInfo">initial(s) to represent the category</p>
+                <h3>category color</h3>
+                <div class="colorGridCon">
+                    <div class="colorGrid">
+                    <!-- ~add existing category colors -->
+                    <!-- ~TODO change post to axios post, add color to post -->
+                    <!-- ~TODO add selected colors to v-for -->
+                    <div class="colorSwatch" v-for="color in colors" :key="color._id" :style="`background-color: ${color.color}`"></div>
+                    </div>
+                </div>
+                <div class="addCategoryButton">
+                    <input type="submit" value="add category">
+                </div>
+                </div>
+            </form>
+        </div>  
+        <hr>
+      </div>
     </div>
 </template>
 
 <script>
   import axios from "axios";
-  import BubbleChart from "./BubbleChart.vue";
-  import DayInputForm from "./DayInputForm.vue";
   export default {
     name: "Days", 
-    components: { 'bubbleChart': BubbleChart, 'dayInputForm': DayInputForm },
     data() {
       return {
         days: [], 
         currentVariable: "tasks", 
         variables: [], 
         colors: [],
-        unselected: true, 
-        displayForm: false
+        unselected: true 
       }
     },
     computed: {
@@ -43,10 +84,8 @@
       }
     },
     methods: {
-      startLogInput() {
-        // toggle betweem show/hide display form, and add/cancel buttons
-        this.displayForm = !this.displayForm;
-        this.$refs.addLogButton.innerHTML = this.displayForm ? 'X' : '+';
+      displayForm() {
+        
       },
       updateVariable() {
         this.unselected = false;
