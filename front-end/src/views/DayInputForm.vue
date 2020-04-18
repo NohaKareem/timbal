@@ -27,10 +27,7 @@
                 <!-- <input type="submit" value="add log"> -->
                 <input type="button" value="add log" @click="addDayDocument()">
             </div>
-            <div class="selectCategoriesCon">
-            <div class="categoryCon">~</div>
-                <input type="button addButton" value="+">
-            </div>
+            <hr>
         </form>
         <p class="cancelButton" @click="toggleAddCategoryWindow()">X</p>
         <!-- <div class="addCategory hidden" ref="addCategoryWindow"> -->
@@ -63,7 +60,6 @@
                 </div>
             </form>
         </div>  
-        <hr>
       </div>
     </div>
 </template>

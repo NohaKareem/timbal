@@ -2,9 +2,11 @@
     <div class="formatDataDisplayCon">
         <div class="categoryListCon">
             <div class="categoryListItem" v-for="category in topLevelCategories" :key="category._id"
-                :style="'background-color:'+ category.color.color">
+                :style="'background-color:'+ category.color.color"
+                @click="addCategoryToLog(category._id)">
                 {{ category.code }}: {{ category.description }}
             </div>
+            <div class="verticalLine"></div>
         </div>
         <br>
     </div>
@@ -17,7 +19,8 @@
     data() {
       return {
           topLevelCategories: [],
-          nonTopLevelCategories: []
+          nonTopLevelCategories: [], 
+          atTopLevel: true // true if current category level is top level
       }
     },
     computed: {
@@ -42,6 +45,13 @@ created() {
         self.nonTopLevelCategories = response.data;
         }).catch(function(error) { console.error(error); });
     
+    },
+    methods: {
+        addCategoryToLog(categoryId) {
+            let currLogsList =  this.$store.state.logInput;
+            currLogsList.push(categoryId);
+            this.$store.commit('logInput', currLogsList);
+        }
     }
 }
 </script>

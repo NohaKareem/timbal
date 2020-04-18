@@ -137,6 +137,29 @@ button, input[type=submit], input[type=button], .categoryListItem {
     border: none;
 }
 
+// category input list
+.formatDataDisplayCon {
+    display: flex;
+    justify-content: center;
+}
+
+// .categoryListCon {
+//     // display: flex;
+//     // flex-direction: row;
+//     // flex-wrap: wrap;
+// }
+
+// .verticalLine {
+//     // border-right: $grayWhite 2px solid;
+//     @include softUiShadow();
+//     // border-color: $grayWhite;
+//     background-color: red;
+//     border: 0;
+//     width: 2%;
+//     height: 100%;
+//     height: $baseMargin;
+// }
+
 .categoryListItem {
     text-shadow: 0.6px 0.5px 0.5px transparentize($timbalBlack, 0.7);
     color: $grayWhite;
@@ -302,17 +325,6 @@ input[type=text], input[type=password], input[type=email] {
     flex-direction: row;
     align-items: center;
     margin-right: $baseMargin * 3;
-}
-
-.categoryCon {
-    background-color: red;
-    width: 5vw;
-    // width: auto;
-    padding: $baseMargin / 2;
-    // height: 3vw;
-    // margin-top: $baseMargin;
-    border-radius: $baseMargin * 2;
-    text-align: center;
 }
 
 // authentication forms 
