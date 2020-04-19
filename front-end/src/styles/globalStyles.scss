@@ -305,7 +305,8 @@ input[type=text], input[type=password], input[type=email] {
     }
 }
 
-.addLogButton, .addCategoryButton {
+.addLogButton, .addCategoryButton, 
+input[type=submit], input[type=button] {
     text-align: center;
     input[type=submit] {
         width: 20vw;
@@ -465,7 +466,8 @@ a.imageLink:hover {
     } 
 
     // add category forms
-    .addLogButton, .addCategoryButton {
+    .addLogButton, .addCategoryButton, 
+    input[type=submit], input[type=button] {
     input[type=submit], input[type=button], .categoryListItem  {
             width: 7vw;//9vw;//11.5vw;
             height: 3vw;//4vw;

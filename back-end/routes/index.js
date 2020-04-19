@@ -1,8 +1,14 @@
 var express = require('express');
 var path = require('path');
 var router = express.Router();
+var path = require('path');
+var passport = require('passport');
 var Day = require('../models/Day.js');
 var Color = require('../models/Color.js');
+var User = require('../models/User.js');
+
+const AUTHENTICATED_ROUTE = 'http://localhost:8080/'; // redirect to front-end index
+const LOGIN_ROUTE = 'http://localhost:8080/#/signin'; // redirect to front-end signin
 
 const APP_NAME = "Timbal";
 
@@ -51,6 +57,64 @@ router.get('/color/:id', (req, res, next) => {
     res.json(colors);
   }).sort({ date: 'desc' });
 });
+
+// authentication 
+router.post('/signin', passport.authenticate('local'), function(req, res, next) {
+	if(!req.user) {
+		res.redirect('/');
+	}
+  res.redirect(AUTHENTICATED_ROUTE); 
+  return next();
+});
+
+router.post('/signup', function(req, res, next) {
+	User.register(new User({
+		username:req.body.username,
+    email:req.body.email, 
+    firstName:req.body.firstName, 
+    lastName:req.body.lastName
+  }),
+		req.body.password,
+
+		function(err, user) {
+      if (err) { 
+        // res.sendFile((path.join(__dirname, '../views', 'register.ejs')), { user:user, message: req.flash('message') });
+        res.send({ user:user, message: req.flash('message') });
+      }
+      
+      // automatically logs in any new user
+      passport.authenticate('local')(req, res, function() {
+        // res.redirect(AUTHENTICATED_ROUTE);
+        return next();
+      });
+    });
+});
+
+// check if user is logged in
+function isLoggedIn(req, res, next) {
+	if(req.user) {//isAuthenticated()
+		return next();
+  }
+  return  res.json({ msg: 'need to login' });
+}
+
+// checking if user is registered. test method from https://blog.zairza.in/oauth-using-mevn-stack-4b4a383dae08
+router.get("/check", (req, res) => {
+  if (req.user === undefined) {
+    res.json({});
+  } else {
+    res.json({ user: req.user });
+  }
+});
+
+// facebook
+router.get('/auth/facebook', passport.authenticate('facebook'));
+
+router.get('/auth/facebook/callback', passport.authenticate('facebook', {
+  successRedirect: AUTHENTICATED_ROUTE,
+  failureRedirect: '/login'
+}));
+
 
 // helper method
 function handleErr(err) {

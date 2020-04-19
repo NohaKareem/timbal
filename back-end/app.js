@@ -17,6 +17,14 @@ var variableRouter = require('./routes/variable');
 var variablesRouter = require('./routes/variables');
 var usersRouter = require('./routes/users');
 
+
+var flash = require('connect-flash');
+var passport = require('passport');
+var expressSession = require('express-session');
+var User = require('./models/User.js');
+var LocalStrategy = require('passport-local').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
+
 var app = express();
 
 // allow cors
@@ -38,6 +46,38 @@ mongoose.connect('mongodb+srv://' + dbAuth.DB_AUTH + '@cluster0-y9uwh.mongodb.ne
 		console.log('connected!');
 	}
 });
+
+// authentication 
+// sessions resave https://stackoverflow.com/a/51540685
+app.use(expressSession({ secret: 'sessionEncryptionKey', 
+  resave: true,//false, 
+  saveUninitialized: true, 
+  // cookie: { secure: true }
+  key: 'sid' }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
+// facbeook
+passport.use(new FacebookStrategy({
+  clientID: dbAuth.FACEBOOK_APP_ID,
+  clientSecret: dbAuth.FACEBOOK_APP_SECRET,
+  callbackURL: 'http://localhost:3000/auth/facebook/callback',
+  profileFields: ['id','displayName','photos']
+}, function(accessToken, refreshToken, profile, done) {
+  process.nextTick(function() {
+    //Assuming user exists
+    //console.log(profile.displayName);
+    //user = profile.displayName;
+    //console.log(profile.photos[0].value);
+    done(null, profile);
+  });
+}));
+
+// local strategy
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
