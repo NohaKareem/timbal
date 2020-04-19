@@ -8,7 +8,9 @@
             {{ category.code }}: {{ category.description }} 
         </div>
         <button class="circle" type="button" @click="launchNewCategoryWindow()">+</button>
-        <newCategoryWindow v-if="showNewCategoryWindow" />
+        <transition name="appearTransition">
+          <newCategoryWindow v-if="showNewCategoryWindow" />
+        </transition>
         <div class="verticalLine"></div>
     </div>
 </template>
@@ -72,4 +74,14 @@
 <style lang="scss">
   @import '@/styles/globalStyles.scss';
   
+  // transitions
+  .appearTransition-enter-active, .appearTransition-leave-active {
+    transition: all 0.75s ease-in-out;//steps(3,start);
+  }
+  .appearTransition-enter, .appearTransition-leave-to {
+    opacity: 0;
+  }
+  .appearTransition-enter-to, .appearTransition-leave {
+    opacity: 1;
+  }
 </style>

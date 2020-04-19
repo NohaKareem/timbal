@@ -293,6 +293,7 @@ input[type=text], input[type=password], input[type=email] {
     position: absolute;
     border-radius: $baseMargin;
     padding: $baseMargin * 3;
+    margin-top: -50vh;
     // margin-left: 10%;//22.5%;
     // margin-top: -30%;//-20
     background-color: $grayWhite;
