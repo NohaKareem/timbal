@@ -9,7 +9,7 @@
               <div class="newCategoryTextInput">
                   <div class="codeInput">
                       <input type="text" name="code" id="categoryCode" placeholder="code">
-                      <button class="smallInfoButton" value="s" @click="showToolTip()">i</button>
+                      <button class="smallInfoButton" type="button" value="i" @click="showToolTip()">i</button>
                   </div>
                   <input type="text" name="description" id="categoryName" placeholder="descriptive name" value="sleep">
               </div>
@@ -33,17 +33,37 @@
 </template>
 
 <script>
+  import axios from "axios";
   export default {
     name: "ShowNewCategoryWindow", 
     data() {
       return {
+        colors: []
       }
     },
     computed: {
   
     },
-  
-    methods: {
+    created() {
+      let self = this;
+      // get all colors
+      axios.get('http://localhost:3000/colors')
+      .then(function(response) { 
+        // console.log(response)
+        self.colors = response.data;
+      }).catch(function(error) { console.error(error); });
+    },
+    methods: {   
+      // display info tooltip
+      showToolTip() {
+        console.log('in tool tip')
+          this.$refs.codeInfo.classList.toggle('hidden');
+      }, 
+
+       // display window 
+      toggleAddCategoryWindow() {
+        this.$refs.addCategoryWindow.classList.toggle('hidden');
+      },
     }
 }
 </script>
