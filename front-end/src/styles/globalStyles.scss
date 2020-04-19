@@ -361,7 +361,22 @@ input[type=submit], input[type=button] {
     height: 5vw;
     border-radius: 50%;
     @include softUiShadow();
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $grayWhite;
 }
+
+// .colorSwatch.overlay {
+//     background-color: red;
+//     // position: absolute;
+
+//     // z-index: 0;
+// }
+
+// .colorGrid.overlaySwatches {
+//     margin-top: -14vw;
+// }
 
 .colorSwatch:hover {
     @include softUiInsetShadow();

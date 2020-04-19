@@ -20,10 +20,17 @@
               <!-- display category color palette -->
               <h3>category color</h3>
               <div class="colorGridCon">
-                  <div class="colorGrid">
-                  <div class="colorSwatch" v-for="color in colors" :key="color._id" :style="`background-color: ${color.color}`" @click="selectColor(color._id)"></div>
+                <div class="colorGrid">
+                  <div class="colorSwatch" v-for="color in colors" :key="color._id" :style="`background-color: ${color.color}`" @click="selectColor(color._id)">
+                    <p v-if="color._id === selectedColor">&#10004;</p>
                   </div>
+                </div>
               </div>
+              <!-- <div class="colorGridCon">
+                <div class="colorGrid overlaySwatches">
+                  <div v-for="color in colors" :key="color._id" :class="selectedColor !== color._id ? 'hidden' : 'colorSwatch overlay'"></div>
+                </div>
+              </div> -->
               <div class="addCategoryButton">
                   <input type="submit" value="add category">
                   <!-- <button type="button" @click="uploadColor()">add category</button> -->
