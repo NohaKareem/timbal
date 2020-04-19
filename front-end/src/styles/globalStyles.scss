@@ -417,8 +417,8 @@ a:hover {
     // add category forms
     .addLogButton, .addCategoryButton {
     input[type=submit], input[type=button], .categoryListItem  {
-            width: 11.5vw;
-            height: 4vw;
+            width: 7vw;//9vw;//11.5vw;
+            height: 3vw;//4vw;
             font-size: $desktopPFontSize;
         }
     }
@@ -462,5 +462,17 @@ a:hover {
         padding: $baseMargin * 3;
         margin-left: 22.5%;
         margin-top: -29%;//-20
+    }
+
+    button.circle {
+        width: 3vw;
+        height: 3vw;
+        font-size: $desktopPFontSize;
+    }
+
+    .categoryListItem {
+        width: 7vw;
+        height: 3vw;
+        font-size: $desktopPFontSize;
     }
 }
