@@ -7,16 +7,21 @@
             @click="addCategoryToLog(category._id, category.is_top_level, category.code, category.color != undefined ? category.color.color : currColor)">
             {{ category.code }}: {{ category.description }} 
         </div>
+        <button class="circle" type="button" @click="launchNewCategoryWindow()">+</button>
+        <newCategoryWindow v-if="showNewCategoryWindow" />
         <div class="verticalLine"></div>
     </div>
 </template>
 
 <script>
+  import NewCategoryWindow from './NewCategoryWindow.vue';
   export default {
     name: "CategoryItemsList", 
+    components: { 'newCategoryWindow': NewCategoryWindow },
     props: ["categoriesList"],
     data() {
       return {
+          showNewCategoryWindow: false
       }
     },
     computed: {
@@ -30,33 +35,36 @@
         return this.$store.state.logStr;
       }
     },
-  
     mounted() {
         console.log('props from component')
         console.log(this.categoriesList)    
     },
     methods: {
-        // update vuex logInput state with selected categories (push to logInput array, concatenate log string delineated with '.')
-        addCategoryToLog(categoryId, isTopLevel, categoryStr, catColor) {
-            let currLogsList =  this.currLogsList;
-            let currLogStr =  this.currLogStr;
-            
-            // reset logInput and LogStr in vuex if category is top level (ie. new log entry, not a nested hierarchy to an existing one)
-            if (isTopLevel) {
-                currLogsList = [];
-                currLogStr = "";
+      launchNewCategoryWindow() {
+        this.showNewCategoryWindow = true;
+        console.log('launch new window')
+      },
+      // update vuex logInput state with selected categories (push to logInput array, concatenate log string delineated with '.')
+      addCategoryToLog(categoryId, isTopLevel, categoryStr, catColor) {
+          let currLogsList =  this.currLogsList;
+          let currLogStr =  this.currLogStr;
+          
+          // reset logInput and LogStr in vuex if category is top level (ie. new log entry, not a nested hierarchy to an existing one)
+          if (isTopLevel) {
+              currLogsList = [];
+              currLogStr = "";
 
-                // update current top level color, to use with subcategories
-                this.$store.commit.currColor = catColor;
-            }
-            currLogsList.push(categoryId);
-            currLogStr += (isTopLevel ? "" :  ".") + categoryStr;
-            this.$store.commit('logInput', currLogsList);
-            this.$store.commit('logStr', currLogStr);
+              // update current top level color, to use with subcategories
+              this.$store.commit.currColor = catColor;
+          }
+          currLogsList.push(categoryId);
+          currLogStr += (isTopLevel ? "" :  ".") + categoryStr;
+          this.$store.commit('logInput', currLogsList);
+          this.$store.commit('logStr', currLogStr);
 
-            // emit event to parent, to render a new instance of this component
-            this.$emit("addedLogCategoryItem");
-        }
+          // emit event to parent, to render a new instance of this component
+          this.$emit("addedLogCategoryItem");
+      }
     }
 }
 </script>
