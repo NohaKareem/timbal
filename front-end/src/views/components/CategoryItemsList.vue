@@ -1,9 +1,10 @@
 <template>
     <div class="categoryListCon">
         category list con
+        <!-- add category color if top level category, otherwise add current top level category color -->
         <div class="categoryListItem" v-for="category in categoriesList" :key="category._id"
-            :style="'background-color:'+ category.color.color"
-            @click="addCategoryToLog(category._id, category.is_top_level, category.code)">
+            :style="category.color != undefined ? 'background-color:'+ category.color.color : green"
+            @click="addCategoryToLog(category._id, category.is_top_level, category.code, category.color != undefined ? category.color.color : currColor)">
             {{ category.code }}: {{ category.description }}
         </div>
         <div class="verticalLine"></div>
@@ -18,39 +19,35 @@
       return {
       }
     },
-    // computed: {
-    //   variableId() {
-    //     return this.$store.state.variable;
-    //   }
-    // },
+    computed: {
+      currColor() {
+        return this.$store.state.currColor;
+      }, 
+      currLogsList() {
+        return this.$store.state.logInput;
+      }, 
+      currLogsStr() {
+        return this.$store.state.logStr;
+      }
+    },
   
-created() {
-    // var self = this;
-    // let GET_CATEGORIES_LINK = `http://localhost:3000/categories/variable/${this.variableId}/top-level`;
-
-    // // get all top level categories
-    // axios.get(GET_CATEGORIES_LINK + '/true')
-    //  .then(function(response) {
-    //     self.topLevelCategories = response.data;
-    //     }).catch(function(error) { console.error(error); });
-
-    // // get all non-top level categories
-    // axios.get(GET_CATEGORIES_LINK + '/false')
-    //  .then(function(response) {
-    //     self.nonTopLevelCategories = response.data;
-    //     }).catch(function(error) { console.error(error); });
-    
+    mounted() {
+        console.log('props from component')
+        console.log(this.categoriesList)    
     },
     methods: {
         // update vuex logInput state with selected categories (push to logInput array, concatenate log string delineated with '.')
-        addCategoryToLog(categoryId, isTopLevel, categoryStr) {
-            let currLogsList =  this.$store.state.logInput;
-            let currLogStr =  this.$store.state.logStr;
+        addCategoryToLog(categoryId, isTopLevel, categoryStr, catColor) {
+            let currLogsList =  this.currLogsList;
+            let currLogStr =  this.currLogStr;
             
             // reset logInput and LogStr in vuex if category is top level (ie. new log entry, not a nested hierarchy to an existing one)
             if (isTopLevel) {
                 currLogsList = [];
                 currLogStr = "";
+
+                // update current top level color, to use with subcategories
+                this.$store.commit.currColor = catColor;
             }
             currLogsList.push(categoryId);
             currLogStr += (isTopLevel ? "" :  ".") + categoryStr;

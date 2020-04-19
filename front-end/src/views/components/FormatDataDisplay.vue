@@ -54,15 +54,15 @@
                   
           // set a constructor for dynamically instantiating CategoryItemsList elements 
           var CategoryItemsListClass = Vue.extend(CategoryItemsList);
-            console.log('!top level categories', this.nonTopLevelCategories)
           var categoryItemsListInstance = new CategoryItemsListClass({
             
             // pass categoriesList prop
-            props: { categoriesList: this.nonTopLevelCategories } //~
+            propsData: { "categoriesList": this.nonTopLevelCategories } //~
             // propsData: { categoriesList: this.nonTopLevelCategories } //~
           });
-
-          console.log('props coming', categoryItemsListInstance.props)
+          console.log('new instance')
+          console.log(categoryItemsListInstance)
+          console.log('props =>', categoryItemsListInstance._props)
           
           categoryItemsListInstance.$mount();
           

@@ -207,6 +207,11 @@ button.dropDown, input[type=submit], input[type=button], .categoryListItem  {
     height: 5vw;
 }
 
+.categoryListItem {
+    width: auto;//
+    margin-right: $baseMargin;
+}
+
 button.circle {
     border-radius: 50%;
     margin-left: $baseMargin * 2;
@@ -504,7 +509,7 @@ a.imageLink:hover {
     }
 
     .categoryListItem {
-        width: 7vw;
+        width: auto; // 7vw
         height: 3vw;
         font-size: $desktopPFontSize;
     }
