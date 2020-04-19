@@ -1,6 +1,7 @@
 <template>
   <div class="auth">
     <h1 class="hidden">Sign Up</h1>
+    <h1>Welcome to timbal!</h1>
     <form action="http://localhost:3000/signup" method="POST" class="signUpForm">
       <input type="text" name="firstName" id="firstName" placeholder="first name">
       <input type="text" name="lastName" id="lastName" placeholder="last name">

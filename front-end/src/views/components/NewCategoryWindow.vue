@@ -8,23 +8,25 @@
               <div class="newCategoryForm">
               <div class="newCategoryTextInput">
                   <div class="codeInput">
-                      <input type="text" name="code" id="categoryCode" value="s" placeholder="code">
+                      <input type="text" name="code" ref="catCode" id="categoryCode" placeholder="code">
                       <button class="smallInfoButton" type="button" @click="showToolTip()">i</button>
                   </div>
-                  <input type="text" name="description" id="categoryName" placeholder="descriptive name" value="sleep">
+                  <input type="text" name="description" ref="catDescription" id="categoryName" placeholder="descriptive name">
+                  <!-- pass variable -->
+                  <input type="text" name="variable"  ref="catVariable" :value="variableId" id="variableName" placeholder="code" class="hidden">
+                  <input type="text" name="color"  ref="catColor" :value="selectedColor" id="colorId" class="hidden">
               </div>
               <p class="codeInfo hidden" ref="codeInfo">initial(s) to represent the category</p>
+              <!-- display category color palette -->
               <h3>category color</h3>
               <div class="colorGridCon">
                   <div class="colorGrid">
-                  <!-- ~add existing category colors -->
-                  <!-- ~TODO change post to axios post, add color to post -->
-                  <!-- ~TODO add selected colors to v-for -->
-                  <div class="colorSwatch" v-for="color in colors" :key="color._id" :style="`background-color: ${color.color}`"></div>
+                  <div class="colorSwatch" v-for="color in colors" :key="color._id" :style="`background-color: ${color.color}`" @click="selectColor(color._id)"></div>
                   </div>
               </div>
               <div class="addCategoryButton">
                   <input type="submit" value="add category">
+                  <!-- <button type="button" @click="uploadColor()">add category</button> -->
               </div>
               </div>
           </form>
@@ -38,11 +40,14 @@
     name: "ShowNewCategoryWindow", 
     data() {
       return {
-        colors: []
+        colors: [], 
+        selectedColor: ""        
       }
     },
     computed: {
-  
+      variableId() {
+        return this.$store.state.variable;
+      }
     },
     created() {
       let self = this;
@@ -53,7 +58,28 @@
         self.colors = response.data;
       }).catch(function(error) { console.error(error); });
     },
-    methods: {   
+    methods: { 
+      // update data to be passed to form 
+      selectColor(colorId) {
+        this.selectedColor = colorId;
+      },
+      
+      // uploadColor() {
+      //   // get day id if exists
+      //   // let self = this;
+      //   let colorDoc = {
+      //     variable: this.variableId, 
+      //     code: this.$refs.catCode.value, 
+      //     description: this.$refs.catDescription.value, 
+      //     color: this.selectedColor
+      //   };
+      //   console.log(colorDoc)
+      //   axios.post(`http://localhost:3000/color`, colorDoc)
+      //     .then(function(response) { 
+      //       console.log('added color', response.data)
+      //     }).catch(function(error) { console.error(error); });
+      // },
+
       // display info tooltip
       showToolTip() {
         console.log('in tool tip')

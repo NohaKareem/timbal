@@ -1,6 +1,7 @@
 <template>
   <div class="auth">
     <h1 class="hidden">Sign In</h1>
+    <h1>Welcome back!</h1>
     <form action="http://localhost:3000/signIn" method="POST" class="signUpForm">
       <input type="email"  name="email" id="email" placeholder="email">
       <input type="password" name="password" id="password" placeholder="password">
