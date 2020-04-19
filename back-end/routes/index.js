@@ -44,6 +44,14 @@ router.get('/colors', (req, res, next) => {
   }).sort({ date: 'desc' });
 });
 
+// GET a color bby id
+router.get('/color/:id', (req, res, next) => {
+  Color.findOne({ _id: req.params.id }, (err, colors) => {
+    handleErr(err);
+    res.json(colors);
+  }).sort({ date: 'desc' });
+});
+
 // helper method
 function handleErr(err) {
   if(err) return next(err);

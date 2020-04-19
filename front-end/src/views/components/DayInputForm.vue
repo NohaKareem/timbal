@@ -172,6 +172,9 @@ created() {
     }, 
 
     mounted() {
+      // update vuex with day doc if exists
+      this.checkIfDayDocExists();
+
       // setting date to today https://stackoverflow.com/a/51466175/1446598
       this.$refs.date.value = (new Date()).toISOString().substr(0,10);
       // date.value =  (new Date()).toISOString().substr(0,10);

@@ -356,6 +356,10 @@ a:hover {
     background-color: $timbalBlack;
     color: $grayWhite;
 }
+a.imageLink:hover {
+    background-color: $grayWhite;
+    text-decoration: none;
+}
 
 .auth {
     text-align: center;
@@ -365,6 +369,12 @@ a:hover {
         width: 20vw;
         height: 8vw;
     }
+}
+
+.bubbleChart {
+    display: flex;
+    justify-content: center;
+    margin-top: $baseMargin;
 }
 
 // .alternativeLinks {

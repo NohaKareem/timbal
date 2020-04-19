@@ -4,7 +4,7 @@
     <header class="timbalHeader">
       <nav>
         <h1 class="hidden">Header</h1>
-        <img src="logo_gray.svg" alt="timbal logo" class="logo">
+        <router-link to="/" class="imageLink"><img src="logo_gray.svg" alt="timbal logo" class="logo"></router-link>
         <div class="profilePic"></div>
       </nav>
     </header>

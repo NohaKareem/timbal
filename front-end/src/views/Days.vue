@@ -21,8 +21,8 @@
 
 <script>
   import axios from "axios";
-  import BubbleChart from "./BubbleChart.vue";
-  import DayInputForm from "./DayInputForm.vue";
+  import BubbleChart from "./vis/BubbleChart.vue";
+  import DayInputForm from "./components/DayInputForm.vue";
   export default {
     name: "Days", 
     components: { 'bubbleChart': BubbleChart, 'dayInputForm': DayInputForm },

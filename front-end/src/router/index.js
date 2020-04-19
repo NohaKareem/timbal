@@ -7,7 +7,7 @@ import Systems from "../views/Systems.vue";
 import Variables from "../views/Variables.vue";
 import SignUp from "../views/SignUp.vue";
 import SignIn from "../views/SignIn.vue";
-import Timeline from "../views/Timeline.vue";
+import Timeline from "../views/vis/Timeline.vue";
 
 Vue.use(VueRouter);
 
