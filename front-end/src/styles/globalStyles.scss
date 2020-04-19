@@ -116,6 +116,27 @@ h3 {
     width: 19vw;
 }
 
+// menu 
+// .menuAndAppCon {
+//     // display: flex;
+//     // flex-direction: row;
+//     // flex-wrap: wrap;
+//     display: grid;
+//     grid-template-columns: (2, minmax(0, 1fr));
+// }
+
+.menuCon {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: center;
+    a {
+        margin-right: $baseMargin;
+    }
+    // height: 100vh;
+    // width: 20vw;
+}
+
 // profile pic
 $mblProfilePicRadius: 5vw;
 .profilePic {
@@ -350,6 +371,7 @@ input[type=text], input[type=password], input[type=email] {
 
 a {
     color: $timbalBlack;
+    text-decoration: none;
 }
 
 a:hover {
