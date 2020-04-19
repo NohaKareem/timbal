@@ -75,7 +75,8 @@
         currentVariable: "tasks", 
         variables: [], 
         colors: [],
-        unselected: true
+        unselected: true, 
+        dayDocExists: false
       }
     },
     computed: {
@@ -99,22 +100,12 @@
       }, 
 
       addDayDocument() {
-        this.checkIfDayDocExists();
-
         // ~check if day exists
         // if it exists, update day document 
         // else, post new day document 
+        this.checkIfDayDocExists();
 
-        // console.log(new Date().setHours(this.$refs.timeInput_from.value.split(":")[0],this.$refs.timeInput_from.value.split(":")[1])).toISOString();
-        // let dayDocument = {
-        //   date: new Date(this.$refs.date.value),
-        //   variable: this.variableId, 
-        //   start_time: (this.$refs.timeInput_from.value),
-        //   end_time: (this.$refs.timeInput_to.value),
-        //   full_category: [ //~
-        //       "5e61102fb705711710a1b286"
-        //   ] 
-        // };
+        
         let dayDocument = {
           date: new Date(this.$refs.date.value),
           variable: this.variableId, 
@@ -129,30 +120,50 @@
         console.log('LOG INPUT')
         console.log( this.$store.state.logInput)
         console.log(dayDocument)
+        let self = this;
         // post 
         // test /day/5e94dfe5dd64435c38f3e346/variable/5e3316671c71657e18823380
-                axios.post('http://localhost:3000/day', dayDocument) // testing update
-                // axios.post('http://localhost:3000/day/5e94dfe5dd64435c38f3e346/variable/5e3316671c71657e18823380', dayDocument) // testing update
-                    // axios.post('http://localhost:3000/day', dayDocument)
-                    .then(function(response) {
-                      console.log('added day document', response.data);
-                    }).catch(function(error) { console.error(error); });
-              }, 
+        axios.post(self.dayDocExists ? `http://localhost:3000/day/${self.$store.state.day}/variable/${ self.variableId}` : 'http://localhost:3000/day', dayDocument) 
+        // axios.post('http://localhost:3000/day', dayDocument) 
+        // axios.post('http://localhost:3000/day/5e94dfe5dd64435c38f3e346/variable/5e3316671c71657e18823380', dayDocument) // testing update
+            // axios.post('http://localhost:3000/day', dayDocument)
+            .then(function(response) {
+              console.log('ADDED')
+              console.log('added day document through route ' + self.dayDocExists ? `http://localhost:3000/day/${self.$store.state.day}/variable/${ self.variableId}` : 'http://localhost:3000/day', response.data);
+              
+              // update day id in vuex
+              self.$store.commit('day', response.data._id);
+
+            }).catch(function(error) { console.error(error); });
+      }, 
 
       // check if day document exists, if not set new document and save id
       checkIfDayDocExists() {
-        //   
-        // console.log(new Date(this.$refs.date.value).toUTCString())
-        // console.log(new Date(this.$refs.date.value))
-        // let curr_date = new Date(this.$refs.date.value).toUTCString();
         console.log('in check if day doc exists')
-        // get all days
-        console.log(new Date())
-        console.log(new Date().toISOString())
-        axios.get(`/day/date/2020-01-30T18:25:43.511+00:00`)
-        // axios.get(`/day/date/${curr_date}`)
+
+        // get day id if exists
+        let self = this;
+        axios.get(`http://localhost:3000/day/date/${new Date(this.$refs.date.value).toISOString()}`)
+        // axios.get(`/day/date/2020-01-30T18:25:43.511+00:00`)
           .then(function(response) { 
-            console.log('day date vue query', response.data)
+            console.log('day doc exists response', response.data)
+            // if no day document exists, start one
+            if (!response.data) {
+                  console.log('does not exist')
+                  self.dayDocExists = false;
+                  // axios.post('http://localhost:3000/day', dayDocument) // testing update
+                  //       .then(function(response) {
+                  //         console.log('started day document', response.data);
+
+                  //         // udpate day id in vuex
+                  //         self.$store.commit('day', response.data._id);
+                  //       }).catch(function(error) { console.error(error); });
+                  } else {
+                    console.log('exists')
+                      // update day id in vuex
+                      self.dayDocExists = true;
+                      self.$store.commit('day', response.data._id);
+                  }  
           }).catch(function(error) { console.error(error); });
       }
     },
