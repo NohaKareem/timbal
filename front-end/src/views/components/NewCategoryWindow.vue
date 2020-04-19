@@ -8,8 +8,8 @@
               <div class="newCategoryForm">
               <div class="newCategoryTextInput">
                   <div class="codeInput">
-                      <input type="text" name="code" id="categoryCode" placeholder="code">
-                      <button class="smallInfoButton" type="button" value="i" @click="showToolTip()">i</button>
+                      <input type="text" name="code" id="categoryCode" value="s" placeholder="code">
+                      <button class="smallInfoButton" type="button" @click="showToolTip()">i</button>
                   </div>
                   <input type="text" name="description" id="categoryName" placeholder="descriptive name" value="sleep">
               </div>
