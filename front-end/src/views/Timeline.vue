@@ -8,14 +8,24 @@
 //   import axios from "axios";
 import * as d3 from 'd3';
 import moment from "vue-moment";
-this.use(moment);
-this.use(d3);
+import Vue from 'vue';
+
+// including js liibraries https://vuejsdevelopers.com/2017/04/22/vue-js-libraries-plugins/
+Object.defineProperty(Vue.prototype, '$moment', { value: moment });
+// this.use(moment);
+// this.use(d3);
 //   import moment from "moment";
 import _ from 'lodash';
-this.prototype._ = _;
+// this.prototype._ = _;
+Object.defineProperty(Vue.prototype, '$_', { value: _ });
 
 export default {
     name: "Timeline", 
+    data() {
+        return {
+            self: this
+        }
+    },
     methods: {
         // render timeseries   
         timeseries() {
@@ -40,7 +50,7 @@ export default {
                 }
 
                 function getDate(d) {
-                    var date = moment(d);
+                    var date = this.self.$moment(d);
                     date.hour(1);
                     date.minute(0);
                     date.second(0);
@@ -48,7 +58,7 @@ export default {
                 }
 
                 // function getTime(d) {
-                //     var date = moment(d);
+                //     var date = this.self.$moment(d);
                 //     date.date(1);
                 //     date.month(0);
                 //     date.year(2012);
@@ -62,14 +72,14 @@ export default {
                 function timeRangePad(dates) {
                     var minDate, maxDate, pad;
                     if (dates.length > 1) {
-                        minDate = moment(_.min(dates));
-                        maxDate = moment(_.max(dates));
+                        minDate = this.self.$moment(_.min(dates));
+                        maxDate = this.self.$moment(_.max(dates));
                         pad = getDatePadding(minDate, maxDate);
                         minDate.subtract(1, pad);
                         maxDate.add(1, pad);
                     } else {
-                        minDate = moment(dates[0]).subtract(1, 'hour');
-                        maxDate = moment(dates[0]).add(1, 'hour');
+                        minDate = this.self.$moment(dates[0]).subtract(1, 'hour');
+                        maxDate = this.self.$moment(dates[0]).add(1, 'hour');
                     }
                     return {
                         'minDate': minDate,
@@ -253,7 +263,7 @@ export default {
             console.log('logs')
             console.log(logs)
 
-            this.timeseries('timeseries two', logs);
+            // this.timeseries('timeseries two', logs);
         });
         // return [
         //     {

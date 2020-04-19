@@ -147,7 +147,8 @@
         // let curr_date = new Date(this.$refs.date.value).toUTCString();
         console.log('in check if day doc exists')
         // get all days
-        
+        console.log(new Date())
+        console.log(new Date().toISOString())
         axios.get(`/day/date/2020-01-30T18:25:43.511+00:00`)
         // axios.get(`/day/date/${curr_date}`)
           .then(function(response) { 

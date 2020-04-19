@@ -20,10 +20,14 @@
       // ~ todo consider force
       let self = this;
       let dataToDisplay = [];
-      axios.get('http://localhost:3000/day/5e611877b705711710a1b28d/var/5e3316671c71657e18823380/details')
+      axios.get(`http://localhost:3000/day/5e611877b705711710a1b28d/var/${this.$store.state.variable}/details`)
+      // axios.get('http://localhost:3000/day/5e611877b705711710a1b28d/var/5e3316671c71657e18823380/details')
       .then(function(response) {
           self.day_data = response.data;
           let logEntries = response.data.variables[0].log_data;
+
+          // get color
+
           logEntries.forEach(logEntry => {
               // ~todo: add to readme
               // map time spent to each top-level category (at the top of the log hierarchy. hierarchy nesting is delimited by '.')
