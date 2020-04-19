@@ -5,7 +5,7 @@
 </template>
 
 <script>
-//   import axios from "axios";
+  import axios from "axios";
 import * as d3 from 'd3';
 import moment from "vue-moment";
 import Vue from 'vue';
@@ -15,7 +15,7 @@ Object.defineProperty(Vue.prototype, '$moment', { value: moment });
 // this.use(moment);
 // this.use(d3);
 //   import moment from "moment";
-import _ from 'lodash';
+import * as _ from 'lodash';
 // this.prototype._ = _;
 Object.defineProperty(Vue.prototype, '$_', { value: _ });
 
@@ -29,6 +29,7 @@ export default {
     methods: {
         // render timeseries   
         timeseries() {
+            console.log('in time series method')
                 /* TIMESERIES - A simple D3.js timeseries.
                 *   [timeseries code + doc edited, original source: https://github.com/mlvl/timeseries]
                 *   call timeseries(<classd>, <data>, <enableBrush>) with the following parameters
@@ -50,7 +51,7 @@ export default {
                 }
 
                 function getDate(d) {
-                    var date = this.self.$moment(d);
+                    var date = this.$moment(d);
                     date.hour(1);
                     date.minute(0);
                     date.second(0);
@@ -58,7 +59,7 @@ export default {
                 }
 
                 // function getTime(d) {
-                //     var date = this.self.$moment(d);
+                //     var date = this.$moment(d);
                 //     date.date(1);
                 //     date.month(0);
                 //     date.year(2012);
@@ -72,14 +73,14 @@ export default {
                 function timeRangePad(dates) {
                     var minDate, maxDate, pad;
                     if (dates.length > 1) {
-                        minDate = this.self.$moment(_.min(dates));
-                        maxDate = this.self.$moment(_.max(dates));
+                        minDate = this.$moment(this.$_.min(dates));
+                        maxDate = this.$moment(this.$_.max(dates));
                         pad = getDatePadding(minDate, maxDate);
                         minDate.subtract(1, pad);
                         maxDate.add(1, pad);
                     } else {
-                        minDate = this.self.$moment(dates[0]).subtract(1, 'hour');
-                        maxDate = this.self.$moment(dates[0]).add(1, 'hour');
+                        minDate = this.$moment(dates[0]).subtract(1, 'hour');
+                        maxDate = this.$moment(dates[0]).add(1, 'hour');
                     }
                     return {
                         'minDate': minDate,
@@ -109,7 +110,7 @@ export default {
 
                 function render(classd, spaced, data) {
                     
-                    var padding = timeRangePad(_.pluck(data, 'value'));
+                    var padding = timeRangePad(this.$_.pluck(data, 'value'));
                     
                     var margin = {
                         top: 10,
@@ -226,6 +227,8 @@ export default {
             }
     },
     mounted() {
+        console.log('in mount')
+
         // // get timeline visualization
         // axios.get('http://localhost:3000/timeSeries')
         // .then(function(response) {
@@ -239,8 +242,15 @@ export default {
 
         //reading in CSV which contains data
         let logs = [];
-        d3.json("http://localhost:3000/day/5e611877b705711710a1b28d/var/5e3316671c71657e18823380/details", 
-        function(error, data) {
+        let self = this;
+        console.log('before d3.json')
+        // d3.json("http://localhost:3000/day/5e611877b705711710a1b28d/var/5e3316671c71657e18823380/details", 
+        // function(error, data) {
+        axios.get("http://localhost:3000/day/5e611877b705711710a1b28d/var/5e3316671c71657e18823380/details")
+          .then(function(response) {
+            console.log('in data')
+            let data = response.data;
+            console.log(data)
             data.variables[0].log_data.forEach((logEntry) => {
                 let durationInMinutes = Math.abs(new Date(logEntry.start_time).getHours() * 60 + new Date(logEntry.start_time).getMinutes()
                     - new Date(logEntry.end_time).getHours() * 60 + new Date(logEntry.end_time).getMinutes());
@@ -263,7 +273,9 @@ export default {
             console.log('logs')
             console.log(logs)
 
-            // this.timeseries('timeseries two', logs);
+            console.log('before time series method')
+            self.timeseries('timeline', logs);
+            console.log('after time series method')
         });
         // return [
         //     {

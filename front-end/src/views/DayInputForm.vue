@@ -100,37 +100,24 @@
       }, 
 
       addDayDocument() {
-        // ~check if day exists
-        // if it exists, update day document 
-        // else, post new day document 
+        // check if day exists
         this.checkIfDayDocExists();
 
-        
         let dayDocument = {
           date: new Date(this.$refs.date.value),
           variable: this.variableId, 
           start_time: (this.$refs.timeInput_from.value),
           end_time: (this.$refs.timeInput_to.value),
-          full_category: [ //~
+          full_category: [ //~~~~
               "5e61102fb705711710a1b286"
-          ] 
-          
-          // this.$store.state.logInput
+          ]
         };
-        console.log('LOG INPUT')
-        console.log( this.$store.state.logInput)
-        console.log(dayDocument)
         let self = this;
-        // post 
+        // post new day document. if day document exists, update day document; otherwise , post new day document 
         // test /day/5e94dfe5dd64435c38f3e346/variable/5e3316671c71657e18823380
         axios.post(self.dayDocExists ? `http://localhost:3000/day/${self.$store.state.day}/variable/${ self.variableId}` : 'http://localhost:3000/day', dayDocument) 
-        // axios.post('http://localhost:3000/day', dayDocument) 
-        // axios.post('http://localhost:3000/day/5e94dfe5dd64435c38f3e346/variable/5e3316671c71657e18823380', dayDocument) // testing update
-            // axios.post('http://localhost:3000/day', dayDocument)
             .then(function(response) {
-              console.log('ADDED')
-              console.log('added day document through route ' + self.dayDocExists ? `http://localhost:3000/day/${self.$store.state.day}/variable/${ self.variableId}` : 'http://localhost:3000/day', response.data);
-              
+              // console.log('added day document through route ' + self.dayDocExists ? `http://localhost:3000/day/${self.$store.state.day}/variable/${ self.variableId}` : 'http://localhost:3000/day', response.data);
               // update day id in vuex
               self.$store.commit('day', response.data._id);
 
