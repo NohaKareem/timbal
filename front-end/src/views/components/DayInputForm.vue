@@ -72,7 +72,7 @@
         let self = this;
         // post new day document. if day document exists, update day document; otherwise , post new day document 
         // test /day/5e94dfe5dd64435c38f3e346/variable/5e3316671c71657e18823380
-        axios.post(self.dayDocExists ? `http://localhost:3000/day/${self.$store.state.day}/variable/${ self.variableId}` : 'http://localhost:3000/day', dayDocument) 
+        axios.post(self.dayDocExists ? `http://localhost:3000/day/${self.$store.state.day}/variable/${self.variableId}` : 'http://localhost:3000/day', dayDocument) 
             .then(function(response) {
               // console.log('added day document through route ' + self.dayDocExists ? `http://localhost:3000/day/${self.$store.state.day}/variable/${ self.variableId}` : 'http://localhost:3000/day', response.data);
               // update day id in vuex

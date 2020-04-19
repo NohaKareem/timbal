@@ -23,9 +23,11 @@
                 <div class="colorGrid">
                   <div class="colorSwatch" v-for="color in colors" :key="color._id" :style="`background-color: ${color.color}`" @click="selectColor(color._id)">
                     <p v-if="color._id === selectedColor">&#10004;</p>
+                    <p v-if="usedColors.includes(color._id)">X</p>
                   </div>
                 </div>
               </div>
+              <p class="codeInfo hidden" ref="colorNote">this color's already taken! try another one</p>
               <!-- <div class="colorGridCon">
                 <div class="colorGrid overlaySwatches">
                   <div v-for="color in colors" :key="color._id" :class="selectedColor !== color._id ? 'hidden' : 'colorSwatch overlay'"></div>
@@ -48,7 +50,8 @@
     data() {
       return {
         colors: [], 
-        selectedColor: ""        
+        selectedColor: "", 
+        usedColors: []      
       }
     },
     computed: {
@@ -64,11 +67,32 @@
         // console.log(response)
         self.colors = response.data;
       }).catch(function(error) { console.error(error); });
+
+      // get all used colors
+      let GET_CATEGORIES_LINK = `http://localhost:3000/categories/variable/${this.variableId}/top-level`;
+      axios.get(GET_CATEGORIES_LINK + '/true')
+      .then(function(response) {
+        console.log('used colors', response.data)
+        response.data.forEach(category => {
+          self.usedColors.push(category.color._id);
+        });
+      });
+
     },
     methods: { 
-      // update data to be passed to form 
+      // update data to be passed to form
       selectColor(colorId) {
-        this.selectedColor = colorId;
+        let colorNote = this.$refs.colorNote;
+        
+        // update form feedback to indicate if color is already used
+        if (this.usedColors.includes(colorId)) {
+          console.log('this color is already taken')
+          colorNote.classList.remove('hidden');
+          this.selectedColor = "";
+        } else {
+          this.selectedColor = colorId;
+          colorNote.classList.add('hidden');
+        }
       },
       
       // uploadColor() {
