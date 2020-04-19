@@ -5,9 +5,11 @@
       <header class="timbalHeader">
         <nav>
           <h1 class="hidden">Header</h1>
-          <router-link to="/" class="imageLink"><img src="logo_gray.svg" alt="timbal logo" class="logo"></router-link>
+          <!-- <router-link to="/" class="imageLink"> -->
+          <img src="logo_gray.svg" alt="timbal logo" class="logo" @click="toggleMenu()">
+          <!-- </router-link> -->
           <div class="profilePic"></div>
-          <div class="menuCon">
+          <div :class="hideMenu ? 'hidden menuCon' : 'menuCon'">
             <h2 class="hidden">Nav menu</h2>
             <!-- <router-link to="/queryBuilder">Query Builder</router-link> |  -->
             <router-link to="/">Home</router-link>
@@ -27,7 +29,22 @@
     </div>
   </div>
 </template>
-
+<script>
+export default {
+  name: "App", 
+   data() {
+      return {
+        hideMenu: true
+      }
+   }, 
+   methods: {
+     toggleMenu() {
+       console.log('in toggle')
+       this.hideMenu = !this.hideMenu;
+     }
+   }
+}
+</script>
 <style lang="scss">
   // @import '@/styles/reset.scss';
   @import '@/styles/globalStyles.scss';

@@ -78,7 +78,7 @@ $mobileLogEntryWidth: 5vw; // timeLogGrid.vue
 
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 body {
@@ -114,6 +114,7 @@ h3 {
 
 .logo {
     width: 19vw;
+    cursor: pointer;
 }
 
 // menu 
