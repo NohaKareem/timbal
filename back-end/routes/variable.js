@@ -40,7 +40,7 @@ router.post('/', (req, res, next) => {
         console.log("Variable saved to data collection", data);
     });
 
-    res.redirect('/');
+    res.redirect('back');
 });
 
 // helper method

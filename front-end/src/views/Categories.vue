@@ -17,16 +17,20 @@
               :key="category._id">
               {{ category.code }}: {{ category.description }}
         </div> -->
-       
-        <!-- </div> -->
-        <div class="addButtonCenter"><button class="circle" type="button" @click="launchNewCategoryWindow()">+</button></div>
-        <hr>
+      <div class="addButtonCenter"><button class="circle" type="button" @click="launchNewCategoryWindow()">+</button></div>
+      <hr>
     </div>
     <transition name="appearTransition">
       <newCategoryWindow v-if="showNewCategoryWindow" />
     </transition>
-   
     <br>
+    <div class="addVar">
+      <form action="http://localhost:3000/variable" method="post">
+      <input type="text" name="name" value="name" placeholder="variable name">
+      <input type="text" name="description" value="description" placeholder="description">
+      <input type="submit" value="add variable">
+    </form>
+    </div>
   </div>
 </template>
 
