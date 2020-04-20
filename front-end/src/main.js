@@ -30,10 +30,10 @@ const store = new Vuex.Store({
             state.logInput = payload;
         }, 
         logStr(state, payload) {
-            state.logInput = payload;
+            state.logStr = payload;
         }, 
         currColor(state, payload) {
-            state.logInput = payload;
+            state.currColor = payload;
         }
     }
 });

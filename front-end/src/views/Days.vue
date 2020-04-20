@@ -1,9 +1,10 @@
 <template>
   <div class="dayCon">
-    <!-- {{days}} -->
+    <timeline />  
+
     <div class="dayTimelineCon">
       <h2>Log a <span ref="variableTitle">task</span></h2>
-   
+
       <!-- dropdown menu -->
         <select name="variableSelect" id="variableSelect" @change="updateVariable()" v-model="currentVariable">
         <option v-for="variable in variables" :key="variable._id" :value="unselected ? 'tasks' : variable._id" ref="currentVariableSelection">
@@ -22,10 +23,11 @@
 <script>
   import axios from "axios";
   import BubbleChart from "./vis/BubbleChart.vue";
+  import Timeline from "./vis/Timeline.vue";
   import DayInputForm from "./components/DayInputForm.vue";
   export default {
     name: "Days", 
-    components: { 'bubbleChart': BubbleChart, 'dayInputForm': DayInputForm },
+    components: { 'bubbleChart': BubbleChart, 'dayInputForm': DayInputForm, 'timeline': Timeline  },
     data() {
       return {
         // days: [], 

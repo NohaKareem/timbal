@@ -1,6 +1,5 @@
 <template>
     <div class="categoryListCon">
-        category list con
         <!-- add category color if top level category, otherwise add current top level category color -->
         <div class="categoryListItem" v-for="category in categoriesList" :key="category._id"
             :style="category.color !== undefined ? 'background-color:'+ category.color.color : 'background-color:'+ currColor"
@@ -44,17 +43,19 @@
       },
       // update vuex logInput state with selected categories (push to logInput array, concatenate log string delineated with '.')
       addCategoryToLog(categoryId, isTopLevel, categoryStr, catColor) {
-          let currLogsList =  this.currLogsList;
-          let currLogStr =  this.currLogStr;
+          let currLogsList = this.currLogsList;
+          let currLogStr = this.currLogStr;
           
           // reset logInput and LogStr in vuex if category is top level (ie. new log entry, not a nested hierarchy to an existing one)
           if (isTopLevel) {
+            console.log('its top level')
               currLogsList = [];
               currLogStr = "";
 
               // update current top level color, to use with subcategories
-              this.$store.commit.currColor = catColor;
+              this.$store.commit('currColor', catColor);
           }
+              this.$store.commit('currColor', catColor);
           console.log('before push ')
           console.log(currLogsList)
           currLogsList.push(categoryId);

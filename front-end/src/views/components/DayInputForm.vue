@@ -113,39 +113,42 @@
     },
 
 created() {
-     var self = this;
-      // get all variable names
-      axios.get('http://localhost:3000/variables')
-      .then(function(response) { 
-        self.variables = response.data;
-      }).catch(function(error) { console.error(error); });
-    }, 
+    // setting date to today https://stackoverflow.com/a/51466175/1446598
+    this.$refs.date.value = (new Date()).toISOString().substr(0,10);
+    // date.value =  (new Date()).toISOString().substr(0,10);
+    // setting sample time
+    this.$refs.timeInput_from.value = (new Date().getHours() + ":" + new Date().getMinutes());
+    this.$refs.timeInput_to.value = ((new Date().getHours() + 1) + ":" + new Date().getMinutes());
+    
+    var self = this;
 
-    mounted() {
-      // update vuex with day doc if exists
-      this.checkIfDayDocExists();
+    // get all variable names
+    axios.get('http://localhost:3000/variables')
+    .then(function(response) { 
+      self.variables = response.data;
+    }).catch(function(error) { console.error(error); });
+  }, 
 
-      // setting date to today https://stackoverflow.com/a/51466175/1446598
-      this.$refs.date.value = (new Date()).toISOString().substr(0,10);
-      // date.value =  (new Date()).toISOString().substr(0,10);
-      // setting sample time
-      this.$refs.timeInput_from.value = (new Date().getHours() + ":" + new Date().getMinutes());
-      this.$refs.timeInput_to.value = ((new Date().getHours() + 1) + ":" + new Date().getMinutes());
+    // mounted() {
+    //   // update vuex with day doc if exists
+    //   this.checkIfDayDocExists();
+    //   console.log('date set')
 
-          // // load bubble chart
-          // let self = this;
-          // axios.get('http://localhost:3000/bubble')
-          // .then(function(response) {
-          //   // let bubbleChart = document.querySelector('.bubbleChart');
-          //   // console.log(response.data)
-          //   // self.$refs.bubbleChart.innerHTML = response.data;
-          //   self.$refs.bubbleChart.innerHTML = response.data;
-          //   console.log(self.$refs.bubbleChart.innerHTML)
-          // })
-          // .catch(function(error) {
-          //   console.error(error);
-          // });
-    }
+    
+    //       // // load bubble chart
+    //       // let self = this;
+    //       // axios.get('http://localhost:3000/bubble')
+    //       // .then(function(response) {
+    //       //   // let bubbleChart = document.querySelector('.bubbleChart');
+    //       //   // console.log(response.data)
+    //       //   // self.$refs.bubbleChart.innerHTML = response.data;
+    //       //   self.$refs.bubbleChart.innerHTML = response.data;
+    //       //   console.log(self.$refs.bubbleChart.innerHTML)
+    //       // })
+    //       // .catch(function(error) {
+    //       //   console.error(error);
+    //       // });
+    // }
   }
 
 </script>

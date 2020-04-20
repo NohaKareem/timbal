@@ -14,6 +14,7 @@
                   <input type="text" name="description" value="make" ref="catDescription" id="categoryName" placeholder="descriptive name">
                   
                   <!-- pass variable fieldss to form -->
+                  <input type="text" name="is_top_level"  ref="is_top_level" :value="is_top_level" id="is_top_level" placeholder="true" class="hidden">
                   <input type="text" name="variable"  ref="catVariable" :value="variableId" id="variableName" placeholder="code" class="hidden">
                   <input type="text" name="color"  ref="catColor" :value="selectedColor" id="colorId" class="hidden">
               </div>
@@ -52,7 +53,8 @@
         colors: [], 
         selectedColor: "", 
         usedColors: [], 
-        formIncomplete: true    
+        formIncomplete: true, 
+        is_top_level: true//~   
       }
     },
     computed: {

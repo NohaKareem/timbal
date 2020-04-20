@@ -163,6 +163,11 @@ button, input[type=submit], input[type=button], .categoryListItem {
     border: none;
 }
 
+.categoryListItem {
+    padding-right: $baseMargin * 3 !important;
+    padding-left: $baseMargin * 3 !important;
+}
+
 // category input list
 .formatDataDisplayCon {
 

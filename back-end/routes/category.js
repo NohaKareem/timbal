@@ -22,7 +22,8 @@ router.post('/', (req, res, next) => {
         handleErr(err);
         console.log("Category saved to data collection", category);
         // res.json(category);
-
+        // next();
+        res.redirect('back');
     });
     // res.redirect('/');
 });
