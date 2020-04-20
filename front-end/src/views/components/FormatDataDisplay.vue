@@ -3,8 +3,8 @@
       <categoryItemsList :categoriesList="topLevelCategories" v-on:addedLogCategoryItem="addNewCateogryList()" />
       <!-- <categoryItemsList v-if="showNonTopLevelCategories" :categoriesList="nonTopLevelCategories" /> -->
       <categoryItemsList
-          v-for="n in amountOfSecondaryLevels"
-          :key="`secondary-list-${n}`"
+          v-for="n in subCategoryMenus"
+          :key="`subcategoryList_${n}`"
           :categoriesList="nonTopLevelCategories"
           v-on:addedLogCategoryItem="addNewCateogryList()"
       />
@@ -23,7 +23,7 @@
           topLevelCategories: [],
           nonTopLevelCategories: [], 
           atTopLevel: true, // true if current category level is top level
-          amountOfSecondaryLevels: 0
+          subCategoryMenus: 0
       }
     },
     computed: {
@@ -54,33 +54,10 @@
         //     this.$store.commit('logInput', currLogsList);
         // }, 
 
-        // render a new category list for every time an element is selected form the previous list.
-        // this builds a GUI for nested hierarchy of categories for a log entry
-        // dynamically isntantiating vue components ref https://css-tricks.com/creating-vue-js-component-instances-programmatically/
-       addNewCateogryList() {
-          // this.showNonTopLevelCategories = true;
-          this.amountOfSecondaryLevels++;
-
-          // console.log('addNewCateogryList from item list caller');
-                  
-          // // set a constructor for dynamically instantiating CategoryItemsList elements 
-          // var CategoryItemsListClass = Vue.extend(CategoryItemsList);
-          // var categoryItemsListInstance = new CategoryItemsListClass({
-            
-          //   // pass categoriesList prop
-          //   propsData: { "categoriesList": this.nonTopLevelCategories } //~
-          //   // propsData: { categoriesList: this.nonTopLevelCategories } //~
-          // });
-          // console.log('new instance')
-          // console.log(categoryItemsListInstance)
-          // console.log('props =>', categoryItemsListInstance._props)
-          
-          // categoryItemsListInstance.$mount();
-          
-          // // append to DOM
-          // this.$refs.formatDataDisplayCon.appendChild(categoryItemsListInstance.$el);
-        
-        }
+      // increment number of subcategory menus to be displayed
+      addNewCateogryList() {
+        this.subCategoryMenus++;
+      }
     }
 }
 </script>

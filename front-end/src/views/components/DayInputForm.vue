@@ -57,17 +57,23 @@
     },
     methods: {
       addDayDocument() {
+        console.log('in addDayDoc')
         // check if day exists
         this.checkIfDayDocExists();
+
+        console.log('logInput in dayDoc')
+        console.log(this.$store.state.logInput)
 
         let dayDocument = {
           date: new Date(this.$refs.date.value),
           variable: this.variableId, 
           start_time: (this.$refs.timeInput_from.value),
           end_time: (this.$refs.timeInput_to.value),
-          full_category: [ //~~~~
-              "5e61102fb705711710a1b286"
-          ]
+          full_category: this.$store.state.logInput
+          
+          // [ //~~~~
+              // "5e61102fb705711710a1b286"
+          // ]
         };
         let self = this;
         // post new day document. if day document exists, update day document; otherwise , post new day document 

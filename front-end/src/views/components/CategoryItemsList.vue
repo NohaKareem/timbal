@@ -4,7 +4,7 @@
         <div class="categoryListItem" v-for="category in categoriesList" :key="category._id"
             :style="category.color !== undefined ? 'background-color:'+ category.color.color : 'background-color:'+ currColor"
             @click="addCategoryToLog(category._id, category.is_top_level, category.code, category.color != undefined ? category.color.color : currColor)">
-            {{ category.code }}: {{ category.description }}
+            {{ category.code }}: {{ category.description }} {{category._id}}
         </div>
         <button class="circle" type="button" @click="launchNewCategoryWindow()">+</button>
         <transition name="appearTransition">
@@ -44,7 +44,8 @@
       // update vuex logInput state with selected categories (push to logInput array, concatenate log string delineated with '.')
       addCategoryToLog(categoryId, isTopLevel, categoryStr, catColor) {
           let currLogsList = this.currLogsList;
-          let currLogStr = this.currLogStr;
+          let currLogStr = this.$store.state.logStr;//this.currLogStr;
+          console.log('currLogStr', currLogStr)
           
           // reset logInput and LogStr in vuex if category is top level (ie. new log entry, not a nested hierarchy to an existing one)
           if (isTopLevel) {
@@ -55,13 +56,16 @@
               // update current top level color, to use with subcategories
               this.$store.commit('currColor', catColor);
           }
-              this.$store.commit('currColor', catColor);
           console.log('before push ')
           console.log(currLogsList)
+          console.log('curr category string', categoryStr)
           currLogsList.push(categoryId);
           currLogStr += (isTopLevel ? "" :  ".") + categoryStr;
           this.$store.commit('logInput', currLogsList);
           this.$store.commit('logStr', currLogStr);
+          
+          currLogStr = this.$store.state.logInput;//this.currLogStr;
+          console.log('currLogStr AFTER', currLogsList)
 
           // emit event to parent, to render a new instance of this component
           this.$emit("addedLogCategoryItem");

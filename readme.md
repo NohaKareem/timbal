@@ -28,3 +28,5 @@ A time logging platform to facilitate personal research, to help cultivate effic
 
 * updating nested arrays in mongoose https://stackoverflow.com/a/39523295
 * debugging positional operators https://stackoverflow.com/a/28159282
+
+* dynamically isntantiating vue components ref https://css-tricks.com/creating-vue-js-component-instances-programmatically/
