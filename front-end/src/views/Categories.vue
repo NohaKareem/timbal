@@ -14,8 +14,7 @@
         <form action="`http://localhost:3000/categories/category/${category._id/}/delete`" method="post"></form>
           <button class="smallInfoButton" type="button"><i class="fa fa-trash" aria-hidden="true"></i></button>
         </div>
-        
-        <button class="circle" type="button" @click="launchNewCategoryWindow()">+</button>
+        <div class="addButtonCenter"><button class="circle" type="button" @click="launchNewCategoryWindow()">+</button></div>
         <hr>
     </div>
     <transition name="appearTransition">
@@ -90,6 +89,9 @@ h2 {
   text-align: center;
 }
 h1 {
+  text-align: center;
+}
+.addButtonCenter {
   text-align: center;
 }
 </style>
