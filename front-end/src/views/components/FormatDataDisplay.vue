@@ -48,12 +48,6 @@
           }).catch(function(error) { console.error(error); });
       },
       methods: {
-        // addCategoryToLog(categoryId) {
-        //     let currLogsList =  this.$store.state.logInput;
-        //     currLogsList.push(categoryId);
-        //     this.$store.commit('logInput', currLogsList);
-        // }, 
-
       // increment number of subcategory menus to be displayed
       addNewCateogryList() {
         this.subCategoryMenus++;

@@ -92,8 +92,6 @@ export default {
 
         // rendering method
         function render(classd, spaced, data, colors) {
-            console.log('in render', data)
-
             // using map instead of pluck https://stackoverflow.com/a/35136589
             var padding = timeRangePad(_.map(data, 'value'));
             
@@ -209,11 +207,11 @@ export default {
         let logs = [];
         let self = this;
 
-        axios.get("http://localhost:3000/day/5e611877b705711710a1b28d/var/5e3316671c71657e18823380/details")
+        // axios.get(`http://localhost:3000/day/${this.$store.state.day}/var/${this.$store.state.variable}/details`)
+        // sampple day id
+        axios.get(`http://localhost:3000/day/5e611877b705711710a1b28d/var/${this.$store.state.variable}/details`)
           .then(function(response) {
             let data = response.data;
-            console.log('timeline data')
-            console.log(response.data)
             data.variables[0].log_data.forEach((logEntry) => {
                 let durationInMinutes = Math.abs(new Date(logEntry.start_time).getHours() * 60 + new Date(logEntry.start_time).getMinutes()
                     - new Date(logEntry.end_time).getHours() * 60 + new Date(logEntry.end_time).getMinutes());
@@ -251,6 +249,7 @@ export default {
     stroke: #000;
     shape-rendering: crispEdges;
 }
+
 .axis text {
     font-size: 12px;
 }
@@ -259,6 +258,7 @@ export default {
     stroke: #d5d5d5;
     opacity: 0.7;
 }
+
 .domain {
     display: none;
 }

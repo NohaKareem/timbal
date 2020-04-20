@@ -151,7 +151,7 @@ $mblProfilePicRadius: 5vw;
     margin-left: auto;
     margin-top: -$mblProfilePicRadius;
     border-radius: 50%;
-    background-color: teal;
+    background-color: $teal;
 
     @include softUiShadow();
 }
