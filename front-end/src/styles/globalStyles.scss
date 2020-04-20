@@ -180,13 +180,18 @@ button, input[type=submit], input[type=button], .categoryListItem {
 .formatDataDisplayCon {
     display: flex;
     justify-content: center;
+    button.circle {
+        margin-left: 25%;
+    }
 }
 
-// .categoryListCon {
-//     // display: flex;
-//     // flex-direction: row;
-//     // flex-wrap: wrap;
-// }
+.categoryListCon {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    text-align: center;
+    // align-items: center;
+}
 
 // .verticalLine {
 //     // border-right: $grayWhite 2px solid;
