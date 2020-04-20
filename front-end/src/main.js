@@ -12,6 +12,7 @@ const store = new Vuex.Store({
     state: {
         variable: "5e3316671c71657e18823380", // current selected variable id, intiially tasks
         day: "", // current day id
+        colors: [], // array of color-coding options
         logInput: [], // array of ids of categories being logged
         logStr: "", // string of category codes being logged
         currColor: "" // string value of color of current top level category being logged
@@ -26,6 +27,9 @@ const store = new Vuex.Store({
         day(state, payload) {
             state.day = payload;
         }, 
+        colors(state, payload) {
+            state.colors = payload;
+        },
         logInput(state, payload) {
             state.logInput = payload;
         }, 

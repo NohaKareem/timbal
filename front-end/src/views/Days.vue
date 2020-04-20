@@ -63,12 +63,22 @@
 created() {
      var self = this;
 
-        // // get all days
-        // axios.get('http://localhost:3000/days')
-        //   .then(function(response) { 
-        //     // console.log(response)
-        //     self.days = response.data;
-        //   }).catch(function(error) { console.error(error); });
+      // get all colors
+      axios.get('http://localhost:3000/colors')
+      .then(function(response) { 
+        self.$store.commit('colors', response.data);
+        // response.data.forEach(element => {
+          // console.log(element._id == '5e8b9ebd4b8d5674645b32bb')
+        // });
+        // response.data.includes((d) => {return d._id === id:'5e8b9ebd4b8d5674645b32bb'})
+        // filter array by attribute value https://stackoverflow.com/a/2722213
+        let colorId = '5e8b9ebd4b8d5674645b32bb';
+        var color = response.data.filter((color) => {
+          console.log(color._id == colorId)
+            return color._id == colorId;
+        });
+        console.log(color[0].color )
+      }).catch(function(error) { console.error(error); });
 
       // get all variable names
       axios.get('http://localhost:3000/variables')
