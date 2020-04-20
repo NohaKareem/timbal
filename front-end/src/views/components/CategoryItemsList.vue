@@ -3,9 +3,9 @@
         category list con
         <!-- add category color if top level category, otherwise add current top level category color -->
         <div class="categoryListItem" v-for="category in categoriesList" :key="category._id"
-            :style="category.color !== undefined ? 'background-color:'+ category.color.color : 'background-color:'+ green"
+            :style="category.color !== undefined ? 'background-color:'+ category.color.color : 'background-color:'+ currColor"
             @click="addCategoryToLog(category._id, category.is_top_level, category.code, category.color != undefined ? category.color.color : currColor)">
-            {{ category.code }}: {{ category.description }} 
+            {{ category.code }}: {{ category.description }}
         </div>
         <button class="circle" type="button" @click="launchNewCategoryWindow()">+</button>
         <transition name="appearTransition">
@@ -37,10 +37,6 @@
         return this.$store.state.logStr;
       }
     },
-    mounted() {
-        console.log('props from component')
-        console.log(this.categoriesList)    
-    },
     methods: {
       launchNewCategoryWindow() {
         this.showNewCategoryWindow = true;
@@ -59,6 +55,8 @@
               // update current top level color, to use with subcategories
               this.$store.commit.currColor = catColor;
           }
+          console.log('before push ')
+          console.log(currLogsList)
           currLogsList.push(categoryId);
           currLogStr += (isTopLevel ? "" :  ".") + categoryStr;
           this.$store.commit('logInput', currLogsList);

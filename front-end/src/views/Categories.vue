@@ -1,6 +1,10 @@
 <template>
   <div id="categoryCon">
-    {{categories}}
+    <!-- {{categories}} -->
+    <br>
+    <br>
+    <br>
+    <!-- {{variables}} -->
   </div>
 </template>
 
@@ -10,7 +14,8 @@
     name: "Categories", 
     data() {
       return {
-        categories: []
+        categories: [], 
+        variables: []
       }
     },
     created() {
@@ -19,8 +24,16 @@
       // get all categories
       axios.get('http://localhost:3000/categories')
         .then(function(response) {
-          // console.log(response)
           self.categories = response.data;
+        })
+        .catch(function(error) {
+          console.error(error);
+        });
+
+      // get all variables
+      axios.get('http://localhost:3000/variables')
+        .then(function(response) {
+          self.variables = response.data;
         })
         .catch(function(error) {
           console.error(error);
