@@ -156,12 +156,12 @@ router.post('/:id/variable/:varId', (req, res, next) => {
 
 // delete a day document
 router.post('/day/:id/delete', (req, res, next) => {
-console.log('in delete')
-var q = Day.findOneAndDelete({  _id: req.params.id });
-q.exec(function(err, mydata) {
-console.log('deleted day document');
-});
-res.redirect('/');
+  console.log('in delete')
+    var q = Day.findOneAndDelete({  _id: req.params.id });
+    q.exec(function(err, mydata) {
+    console.log('deleted day document');
+  });
+  res.redirect('/');
 });
   
   

@@ -13,7 +13,7 @@
             <h2 class="hidden">Nav menu</h2>
             <!-- <router-link to="/queryBuilder">Query Builder</router-link> |  -->
             <router-link to="/">Home</router-link>
-            <!-- <router-link to="/categoryLibrary">Category Library</router-link> -->
+            <router-link to="/categories">Category Library</router-link>
           </div>
         </nav>
       </header>
@@ -54,4 +54,6 @@ export default {
 <style lang="scss">
   // @import '@/styles/reset.scss';
   @import '@/styles/globalStyles.scss';
+  @import url('https://fonts.googleapis.com/css2?family=Quattrocento+Sans&display=swap');
+  @import url('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 </style>

@@ -3,7 +3,6 @@
     <h1>Categories Library</h1>
     <div v-for="variable in variables" :key="variable._id">
       <h2>{{ variable.name }} Categories</h2>
-      <br>
       <!-- {{categories.filter(cat => {return cat.variable == variable._id })[0]}} -->
       <div class="categoryListItemEditable">
         <div class="categoryListItem" 
@@ -11,26 +10,40 @@
               v-for="category in categories.filter(cat => {return cat.variable == variable._id })" 
               :key="category._id">
               {{ category.code }}: {{ category.description }}
-            </div>
         </div>
+        <form action="`http://localhost:3000/categories/category/${category._id/}/delete`" method="post"></form>
+          <button class="smallInfoButton" type="button"><i class="fa fa-trash" aria-hidden="true"></i></button>
+        </div>
+        
+        <button class="circle" type="button" @click="launchNewCategoryWindow()">+</button>
+        <hr>
     </div>
+    <transition name="appearTransition">
+      <newCategoryWindow v-if="showNewCategoryWindow" />
+    </transition>
    
     <br>
-    <!-- {{variables}} -->
   </div>
 </template>
 
 <script>
   import axios from "axios";
+  import NewCategoryWindow from './components/NewCategoryWindow.vue';
   export default {
     name: "Categories", 
+    components: { 'newCategoryWindow': NewCategoryWindow },
     data() {
       return {
         categories: [], 
-        variables: []
+        variables: [], 
+        showNewCategoryWindow: false
       }
     },
-    methods: {
+    methods: {  
+      launchNewCategoryWindow() {
+        this.showNewCategoryWindow = true;
+        console.log('launch new window')
+      },
       getColor(categoryColorId) {
         // if non-top level category, chose a default color
         if (categoryColorId == undefined ) return "#707070";
@@ -67,7 +80,6 @@
       .then(function(response) { 
         self.$store.commit('colors', response.data);
       }).catch(function(error) { console.error(error); });
-
     }
   }
 </script>
@@ -75,6 +87,9 @@
 <style lang="scss" scoped>
 h2 {
   font-weight: normal;
+  text-align: center;
+}
+h1 {
   text-align: center;
 }
 </style>

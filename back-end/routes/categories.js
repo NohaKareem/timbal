@@ -50,6 +50,15 @@ router.get('/variable/:varId/top-level/:flag', (req, res, next) => {
   }).populate('color').sort({ code: 'asc' });
 });
 
+// delete a category document
+router.post('/category/:id/delete', (req, res, next) => {
+    var q = Day.findOneAndDelete({  _id: req.params.id });
+    q.exec(function(err, mydata) {
+    console.log('deleted category document');
+  });
+  res.redirect('/');
+});
+  
 
 // helper method
 function handleErr(err) {

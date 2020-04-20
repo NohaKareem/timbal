@@ -11,6 +11,7 @@ function isLoggedIn(req, res, next) {
   }
   return  res.json({ msg: 'need to login' });
 }
+
 // ejs test route
 router.get('/new', function(req, res, next) {
     res.render('category_new', { title: "Add category" });
@@ -34,7 +35,7 @@ router.post('/', (req, res, next) => {
     });
     // res.redirect('/');
 });
-  
+
 // helper method
 function handleErr(err) {
   if(err) return next(err);
