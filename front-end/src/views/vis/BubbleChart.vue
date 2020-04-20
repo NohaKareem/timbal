@@ -16,8 +16,6 @@
       }
     },
     mounted() {
-      //~~variables
-      // ~ todo consider force
       let self = this;
       let dataToDisplay = [];
       axios.get(`http://localhost:3000/day/5e611877b705711710a1b28d/var/${this.$store.state.variable}/details`)
@@ -43,7 +41,7 @@
                   let topLevelCategory = logEntry.full_category[0].code;
                   let existingCategory = dataToDisplay.find(category => category.code === topLevelCategory);
                   // console.log(!existingCategory)
-
+                  let categoryColor = logEntry.full_category[0].color;//~
                   // compute duration, in minutes, as difference between start and end time
                   let duration = Math.abs(
                               ((new Date(logEntry.start_time)).getHours() * 60 + (new Date(logEntry.start_time)).getMinutes())
@@ -53,12 +51,10 @@
                   if (!existingCategory) {
                       dataToDisplay.push({
                         code: topLevelCategory, 
-                        // duration: duration, 
-
-
+                        color: categoryColor, 
                         cx: Math.floor((Math.random() * 300) + 1),
                         cy: Math.floor((Math.random() * 300) + 1),
-                        r: duration//Math.floor((Math.random() * 30) + 1)
+                        r: duration
                       });
                   } else {
                     // increment duration
@@ -92,7 +88,15 @@
                       .attr('cx', function(d){ return d.cx })
                       .attr('cy', function(d){ return d.cy })
                       .attr('r', function(d){ return d.r })
-                      .attr('fill', 'pink')
+                      .attr('fill', function(d){ 
+                        let categoryColorId = d.color;
+                        
+                        // filter array by attribute value https://stackoverflow.com/a/2722213
+                        // get color from vuex store, returned color object (with color property) is an array of 1 object
+                        return self.$store.state.colors.filter((color) => {
+                          return color._id == categoryColorId;
+                        })[0].color;
+                      })
                             
                         // // Update loop will loop through any existing shapes, and change their values any time the data changes
                         // point.transition().duration(500)
