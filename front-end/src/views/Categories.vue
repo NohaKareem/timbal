@@ -114,4 +114,12 @@ h1 {
   padding: 10px;
   margin-left: -20px;
 }
+.addVar {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  justify-items: center;
+  align-content: center;
+  align-items: center;
+}
 </style>
