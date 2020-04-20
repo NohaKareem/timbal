@@ -4,7 +4,7 @@
         <div class="categoryListItem" v-for="category in categoriesList" :key="category._id"
             :style="category.color !== undefined ? 'background-color:'+ category.color.color : 'background-color:'+ currColor"
             @click="addCategoryToLog(category._id, category.is_top_level, category.code, category.color != undefined ? category.color.color : currColor)">
-            {{ category.code }}: {{ category.description }} {{category._id}}
+            {{ category.code }}: {{ category.description }}
         </div>
         <button class="circle" type="button" @click="launchNewCategoryWindow()">+</button>
         <transition name="appearTransition">

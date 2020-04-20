@@ -190,6 +190,12 @@ button, input[type=submit], input[type=button], .categoryListItem {
     flex-direction: column;
     justify-items: center;
     text-align: center;
+
+    // vertical scroll if overlow
+    height: 30vw;
+    overflow: auto;
+    -ms-overflow-x: hidden;
+    overflow-x: hidden;
     // align-items: center;
 }
 
@@ -212,6 +218,7 @@ button, input[type=submit], input[type=button], .categoryListItem {
     display: flex;
     justify-content: center;
     align-items: center;
+    // height: 5vw !important;
     margin-top: $baseMargin;
 }
 
