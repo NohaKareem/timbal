@@ -1,17 +1,22 @@
 <template>
   <div class="dayCon">
-    <timeline />  
+    <div class="timelineHeaderCon">
 
-    <div class="dayTimelineCon">
-      <h2>Log a <span ref="variableTitle">task</span></h2>
-   
       <!-- dropdown menu -->
         <select name="variableSelect" id="variableSelect" @change="updateVariable()" v-model="currentVariable">
         <option v-for="variable in variables" :key="variable._id" :value="unselected ? 'tasks' : variable._id" ref="currentVariableSelection">
           {{ variable.name }}
         </option>
       </select>
+      
+      <timeline />  
+      
       <button class="circle" ref="addLogButton" @click="startLogInput()">+</button>
+    </div>
+    <div class="dayTimelineCon">
+      <h2>Log a <span ref="variableTitle">task</span></h2>
+   
+      
     </div>
     
     <dayInputForm v-if="displayForm" />  

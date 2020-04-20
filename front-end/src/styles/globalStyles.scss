@@ -298,6 +298,26 @@ input[type=text], input[type=password], input[type=email] {
     text-align: center;
 }
 
+// timeline header
+.timelineHeaderCon {
+    display: flex;
+    flex-direction: row;
+    justify-items: center;
+    align-items: center;
+    align-content: center;
+    justify-items: center;
+
+    .timeline {
+        width: 70vw;
+    
+        // horizontal scroll https://stackoverflow.com/a/258393 
+        overflow: auto;
+        -ms-overflow-y: hidden;
+        overflow-y: hidden;
+
+    }
+}
+
 // category input
 .addCategoryCon {
     display: flex;
