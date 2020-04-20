@@ -52,7 +52,7 @@ router.get('/variable/:varId/top-level/:flag', (req, res, next) => {
 
 // delete a category document
 router.post('/category/:id/delete', (req, res, next) => {
-    var q = Day.findOneAndDelete({  _id: req.params.id });
+    var q = Category.findOneAndDelete({  _id: req.params.id });
     q.exec(function(err, mydata) {
     console.log('deleted category document');
   });
