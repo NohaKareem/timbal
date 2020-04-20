@@ -168,6 +168,13 @@ button, input[type=submit], input[type=button], .categoryListItem {
     padding-left: $baseMargin * 3 !important;
 }
 
+// category library 
+.categoryListItemEditable {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 // category input list
 .formatDataDisplayCon {
 

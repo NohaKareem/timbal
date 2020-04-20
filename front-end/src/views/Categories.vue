@@ -75,5 +75,6 @@
 <style lang="scss" scoped>
 h2 {
   font-weight: normal;
+  text-align: center;
 }
 </style>
