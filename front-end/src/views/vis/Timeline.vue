@@ -20,35 +20,26 @@ export default {
     methods: {
         // render timeseries   
         timeseries(spaced, data) {
-            /* TIMESERIES - A simple D3.js timeseries.
-            *   [timeseries code + doc edited, original source: https://github.com/mlvl/timeseries]
-            *   call timeseries(<classd>, <data>, <enableBrush>) with the following parameters
-            *   classd - the class name of your container div for the timeseries to attach to
-            */
-            // var timeseries = function(spaced, data, self) {
-                console.log('received data')
-                console.log(data)
-                let classd = spaced.replace(new RegExp(" "), "."); //~added let
-                render(classd, spaced, data, this.colors);
-            // }
-        
-            // /* Use this function, in conjunction to setting a time element to 'selected', to highlight the 
-            // data point on the timeseries. */
-            // function redraw() {
-            //     d3.selectAll(".circ")
-            //         .transition(10)
-            //         .style("opacity", function(d) {
-            //             return d.selected ? 1 : 0.6;
-            //         })
-            //         .attr("r", function(d) {
-            //             return d.selected ? 15 : 7;
-            //         });
-            // }
-
-            // if (typeof define === "function" && define.amd) define(timeseries);
-            // else if (typeof module === "object" && module.exports) module.exports = timeseries;
-            
-            // this.timeseries = timeseries;//~
+        /* TIMESERIES - A simple D3.js timeseries.
+        *   [timeseries code + some styling + doc edited, original source: https://github.com/mlvl/timeseries]
+        *   call timeseries(<classd>, <data>, <enableBrush>) with the following parameters
+        *   classd - the class name of your container div for the timeseries to attach to
+        */
+        let classd = spaced.replace(new RegExp(" "), "."); 
+        render(classd, spaced, data, this.colors);
+    
+        // /* Use this function, in conjunction to setting a time element to 'selected', to highlight the 
+        // data point on the timeseries. */
+        // function redraw() {
+        //     d3.selectAll(".circ")
+        //         .transition(10)
+        //         .style("opacity", function(d) {
+        //             return d.selected ? 1 : 0.6;
+        //         })
+        //         .attr("r", function(d) {
+        //             return d.selected ? 15 : 7;
+        //         });
+        // }
 
         function lessThanDay(d) {
             return (d === "hours" || d === "minutes" || d === "seconds") ? true : false;
@@ -102,9 +93,9 @@ export default {
         // rendering method
         function render(classd, spaced, data, colors) {
             console.log('in render', data)
+
             // using map instead of pluck https://stackoverflow.com/a/35136589
             var padding = timeRangePad(_.map(data, 'value'));
-            // var padding = this.timeRangePad(this.$_.pluck(data, 'value'));
             
             var margin = {
                 top: 10,
@@ -136,13 +127,12 @@ export default {
                 // .orient("top")
                 .ticks(ticks)
                 .tickSize(-height, 0)
-                .tickFormat(d3.timeFormat(xFormat)); //~was commented
+                .tickFormat(d3.timeFormat(xFormat)); 
 
             var yAxis = d3.axisLeft(y)
-                // .orient("left")//~important
                 .ticks(5)
                 .tickSize(-width + margin.right, margin.left)
-                .tickFormat(d3.timeFormat(yFormat));//~important
+                .tickFormat(d3.timeFormat(yFormat));
 
             var svg = d3.select("." + classd).append("svg")
                 .attr("width", width + margin.left + margin.right)
@@ -194,20 +184,23 @@ export default {
                     return colors.filter((color) => {
                         return color._id == categoryColorId;
                     })[0].color;
-                })
+                });
                 
                 // .on("click", function() {})
 
                 // add text https://stackoverflow.com/a/20644664/1446598
-                .append("text")
-                // .attr("x", function(d) {
-                //     // .attr("cx", function(d) {
-                //     return (this.lessThanDay(padding.pad)) ? x(d.value) : x(this.getDate(d.value))
-                // })
-                // .attr("y", 20)
-                // .attr("dy", ".5em")
-                .text(function(d) { return d.logCode })
-                .attr("color", "red")
+                // adding text labels https://stackoverflow.com/a/46138457/1446598
+                var label = svg.selectAll('text')
+                        .data(data);
+                
+                // add text https://stackoverflow.com/a/20644664/1446598
+                label.enter()
+                        .append('text')
+                        .attr("x", function(d) { return d.value })
+                        .attr("y", function(d) { return d.value + 2 })
+                        .text(function(d) { return d.logCode })
+                        .attr("text-anchor", "middle")
+                        .attr("fill", "#707070");
             }
         }
     },
@@ -251,6 +244,23 @@ export default {
 
 .y.axis line {
     stroke: rgba(255, 255, 255, 0) !important;
+}
+
+.axis path, .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+.axis text {
+    font-size: 12px;
+}
+
+.tick line {
+    stroke: #d5d5d5;
+    opacity: 0.7;
+}
+.domain {
+    display: none;
 }
 
 </style>
