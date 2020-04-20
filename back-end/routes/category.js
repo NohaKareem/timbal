@@ -4,13 +4,20 @@ var Category = require('../models/Category.js');
 
 const APP_NAME = "Timbal";
   
+// check if user is logged in
+function isLoggedIn(req, res, next) {
+	if(req.user) {//isAuthenticated()
+		return next();
+  }
+  return  res.json({ msg: 'need to login' });
+}
 // ejs test route
 router.get('/new', function(req, res, next) {
     res.render('category_new', { title: "Add category" });
   });
   
 // POST new category
-router.post('/', (req, res, next) => {
+router.post('/', isLoggedIn, (req, res, next) => {
     var newCategory = new Category(); 
     newCategory.variable = req.body.variable;
     newCategory.code = req.body.code;

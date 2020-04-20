@@ -4,6 +4,14 @@ var Category = require('../models/Category.js');
 
 const APP_NAME = "Timbal";
 
+// check if user is logged in
+function isLoggedIn(req, res, next) {
+	if(req.user) {//isAuthenticated()
+		return next();
+  }
+  return  res.json({ msg: 'need to login' });
+}
+
 // async function findCategoryIds(categories) {
 //   let category_ids = [];
 //   categories.split('.').forEach(categoryCode => {
@@ -18,7 +26,7 @@ const APP_NAME = "Timbal";
 // });
 // }
 
-router.get('/', (req, res, next) => {
+router.get('/', isLoggedIn, (req, res, next) => {
     Category.find((err, categories) => {
       handleErr(err);
       res.json(categories);
@@ -26,7 +34,7 @@ router.get('/', (req, res, next) => {
 });
 
 // GET category with specific id
-router.get('/:id', (req, res, next) => {
+router.get('/:id', isLoggedIn, (req, res, next) => {
   Category.find({ _id: req.params.id }, (err, categories) => {
     handleErr(err);
     res.json(categories);
@@ -35,7 +43,7 @@ router.get('/:id', (req, res, next) => {
 
 // GET all top-level/non top-level categories, according to flag parameter (true/false)
 // test (tasks top level) http://localhost:3000/categories/variable/5e3316671c71657e18823380/top-level/true
-router.get('/variable/:varId/top-level/:flag', (req, res, next) => {
+router.get('/variable/:varId/top-level/:flag', isLoggedIn, (req, res, next) => {
   Category.find({ is_top_level: req.params.flag, variable: req.params.varId }, (err, categories) => {
     handleErr(err);
     res.json(categories);

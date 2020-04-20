@@ -8,14 +8,15 @@ import Variables from "../views/Variables.vue";
 import SignUp from "../views/SignUp.vue";
 import SignIn from "../views/SignIn.vue";
 import Timeline from "../views/vis/Timeline.vue";
+import Error from "../views/Error.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "*",
-    name: "Days",
-    component: Days // ~Home, 404
+    path: "/", 
+    name: "SignUp", 
+    component: SignUp
   },
   {
     path: "/days",
@@ -60,7 +61,12 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue")
-  }
+  },  
+  {
+    path: "*",
+    name: "Error",
+    component: Error // ~Home, 404
+  },
 ];
 
 const router = new VueRouter({

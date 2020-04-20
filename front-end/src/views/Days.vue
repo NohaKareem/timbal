@@ -74,6 +74,9 @@ created() {
       .then(function(response) { 
         self.variables = response.data;
       }).catch(function(error) { console.error(error); });
+
+      console.log('chcecking if user logged in')
+      //  (response.data.msg) ? false : true;
     }
   }
 

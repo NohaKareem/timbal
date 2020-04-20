@@ -4,8 +4,16 @@ var System = require('../models/System.js');
 
 const APP_NAME = "Timbal";
 
+// check if user is logged in
+function isLoggedIn(req, res, next) {
+	if(req.user) {//isAuthenticated()
+		return next();
+  }
+  return  res.json({ msg: 'need to login' });
+}
+
 // GET all systems
-router.get('/', (req, res, next) => {
+router.get('/', isLoggedIn, (req, res, next) => {
     System.find((err, systems) => {
         handleErr(err);
         res.json(systems);
@@ -13,7 +21,7 @@ router.get('/', (req, res, next) => {
 });
 
 //~todo: test id routes (except cateogries tested)
-router.get('/:id', (req, res, next) => { 
+router.get('/:id', isLoggedIn, (req, res, next) => { 
     System.find({ _id: req.params.id }, (err, systems) => {
         handleErr(err);
         res.json(systems);

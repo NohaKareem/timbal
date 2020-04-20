@@ -15,7 +15,8 @@ const store = new Vuex.Store({
         colors: [], // array of color-coding options
         logInput: [], // array of ids of categories being logged
         logStr: "", // string of category codes being logged
-        currColor: "" // string value of color of current top level category being logged
+        currColor: "", // string value of color of current top level category being logged
+        isLoggedIn: false // boolean determining if user is logged in
     }, 
     mutations: {
         // user(state, payload) {
@@ -38,6 +39,9 @@ const store = new Vuex.Store({
         }, 
         currColor(state, payload) {
             state.currColor = payload;
+        },
+        isLoggedIn(state, payload) {
+            state.isLoggedIn = payload;
         }
     }
 });

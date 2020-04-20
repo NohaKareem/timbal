@@ -4,6 +4,14 @@ var Day = require('../models/Day.js');
 
 const APP_NAME = "Timbal";
 
+// check if user is logged in
+function isLoggedIn(req, res, next) {
+	if(req.user) {//isAuthenticated()
+		return next();
+  }
+  return  res.json({ msg: 'need to login' });
+}
+
 // GET a day's log for a specific variable
 // testing: { dayId: many vars: 5e611877b705711710a1b28d, task only: 5e6aff42d2ff2246345cdb15, 
 //  tasks varId:5e3316671c71657e18823380, energy varId: 5e70f222aba2813dac23b9d8 }
@@ -81,7 +89,7 @@ router.get('/date/:date', function(req, res, next) {
 });
 
 // POST new day document
-router.post('/', (req, res, next) => {
+router.post('/', isLoggedIn, (req, res, next) => {
   // formatting time input
   let start_time = req.body.start_time;
   let end_time = req.body.end_time;
@@ -112,10 +120,9 @@ router.post('/', (req, res, next) => {
 });
 
 // Update day document
-router.post('/:id/variable/:varId', (req, res, next) => {
-  // ~TODO check if variable already exists to modify update query findOne then findOneAndUpdate https://stackoverflow.com/a/43867483
+router.post('/:id/variable/:varId', isLoggedIn, (req, res, next) => {
+  // check if variable already exists to modify update query findOne then findOneAndUpdate https://stackoverflow.com/a/43867483
   
-
   // formatting time input
   let start_time = req.body.start_time;
   let end_time = req.body.end_time;
@@ -148,7 +155,7 @@ router.post('/:id/variable/:varId', (req, res, next) => {
 });
 
 // delete a day document
-router.post('/day/:id/delete', (req, res, next) => {
+router.post('/day/:id/delete', isLoggedIn, (req, res, next) => {
 console.log('in delete')
 var q = Day.findOneAndDelete({  _id: req.params.id });
 q.exec(function(err, mydata) {
