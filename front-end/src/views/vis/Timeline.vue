@@ -215,8 +215,7 @@ export default {
         //reading in CSV which contains data
         let logs = [];
         let self = this;
-        // d3.json("http://localhost:3000/day/5e611877b705711710a1b28d/var/5e3316671c71657e18823380/details", 
-        // function(error, data) {
+
         axios.get("http://localhost:3000/day/5e611877b705711710a1b28d/var/5e3316671c71657e18823380/details")
           .then(function(response) {
             let data = response.data;
@@ -233,24 +232,25 @@ export default {
                     if (i == 0) color = category.color;
                     fullCategoryStr += category.code + ((i === logEntry.full_category.length - 1) ? "" : ".");
             });
-            // parse date https://stackoverflow.com/a/53269761/1446598
-            // let formattedDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse(logEntry.start_time);// logEntry.start_time.toTimeString();
             
             logs.push({
-                'value': new Date(logEntry.start_time).valueOf(), //~startTime
-                // 'value': new Date(formattedDate).valueOf(), //~startTime
-                'duration': durationInMinutes, //unix timestapm sconds
+                'value': new Date(logEntry.start_time).valueOf(), 
+                'duration': durationInMinutes, 
                 'logCode': fullCategoryStr, 
                 'color': color
             });
         });
         self.timeseries('timeline', logs);
-        });
-        // this.timeseries('timeline', logs);
+    });
     }
 }
 </script>
 
 <style lang="scss">
 @import '@/styles/globalStyles.scss';
+
+.y.axis line {
+    stroke: rgba(255, 255, 255, 0) !important;
+}
+
 </style>
