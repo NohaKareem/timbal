@@ -75,11 +75,10 @@
                   var data = dataToDisplay;
 
                   var point = svg.selectAll('circle')
-                      // .attr('class', 'bubbleCircle')//~
+                      // .attr('class', 'bubbleCircle')
                       // .style('box-shadow', `
-                                      // -5px -5px 15px 0 white, 
-                                      // 5px 5px 15px 0 transparentize(black, 0.9);`)
-                      // .attr('fill', 'red')
+                        // -5px -5px 15px 0 white, 
+                        // 5px 5px 15px 0 transparentize(black, 0.9);`)
                       .data(data);
 
                   // Enter loop, creates any new circles/things needed
@@ -98,11 +97,11 @@
                         })[0].color;
                       })
                             
-                        // // Update loop will loop through any existing shapes, and change their values any time the data changes
-                        // point.transition().duration(500)
-                        // .attr('cx', function(d){ return d.cx })
-                        // .attr('cy', function(d){ return d.cy })
-                        // .attr('r', function(d){ return d.r });
+                      // // Update loop will loop through any existing shapes, and change their values any time the data changes
+                      // point.transition().duration(500)
+                      // .attr('cx', function(d){ return d.cx })
+                      // .attr('cy', function(d){ return d.cy })
+                      // .attr('r', function(d){ return d.r });
 
                   // adding text labels https://stackoverflow.com/a/46138457/1446598
                   var label = svg.selectAll('text')

@@ -12,39 +12,43 @@ import * as _ from "lodash";
 
 export default {
     name: "Timeline",
+    computed: {
+        colors() {
+            return this.$store.state.colors;
+        }
+    },
     methods: {
         // render timeseries   
         timeseries(spaced, data) {
-                /* TIMESERIES - A simple D3.js timeseries.
-                *   [timeseries code + doc edited, original source: https://github.com/mlvl/timeseries]
-                *   call timeseries(<classd>, <data>, <enableBrush>) with the following parameters
-                *   classd - the class name of your container div for the timeseries to attach to
-                */
-                // var timeseries = function(spaced, data, self) {
-                    console.log('received data')
-                    console.log(data)
-                    let classd = spaced.replace(new RegExp(" "), "."); //~added let
-                    render(classd, spaced, data);
-                // }
+            /* TIMESERIES - A simple D3.js timeseries.
+            *   [timeseries code + doc edited, original source: https://github.com/mlvl/timeseries]
+            *   call timeseries(<classd>, <data>, <enableBrush>) with the following parameters
+            *   classd - the class name of your container div for the timeseries to attach to
+            */
+            // var timeseries = function(spaced, data, self) {
+                console.log('received data')
+                console.log(data)
+                let classd = spaced.replace(new RegExp(" "), "."); //~added let
+                render(classd, spaced, data, this.colors);
+            // }
+        
+            // /* Use this function, in conjunction to setting a time element to 'selected', to highlight the 
+            // data point on the timeseries. */
+            // function redraw() {
+            //     d3.selectAll(".circ")
+            //         .transition(10)
+            //         .style("opacity", function(d) {
+            //             return d.selected ? 1 : 0.6;
+            //         })
+            //         .attr("r", function(d) {
+            //             return d.selected ? 15 : 7;
+            //         });
+            // }
+
+            // if (typeof define === "function" && define.amd) define(timeseries);
+            // else if (typeof module === "object" && module.exports) module.exports = timeseries;
             
-                // /* Use this function, in conjunction to setting a time element to 'selected', to highlight the 
-                // data point on the timeseries. */
-                // function redraw() {
-                //     d3.selectAll(".circ")
-                //         .transition(10)
-                //         .style("opacity", function(d) {
-                //             return d.selected ? 1 : 0.6;
-                //         })
-                //         .attr("r", function(d) {
-                //             return d.selected ? 15 : 7;
-                //         });
-                // }
-
-                // if (typeof define === "function" && define.amd) define(timeseries);
-                // else if (typeof module === "object" && module.exports) module.exports = timeseries;
-                
-                // this.timeseries = timeseries;//~
-
+            // this.timeseries = timeseries;//~
 
         function lessThanDay(d) {
             return (d === "hours" || d === "minutes" || d === "seconds") ? true : false;
@@ -96,7 +100,7 @@ export default {
         }
 
         // rendering method
-        function render(classd, spaced, data) {
+        function render(classd, spaced, data, colors) {
             console.log('in render', data)
             // using map instead of pluck https://stackoverflow.com/a/35136589
             var padding = timeRangePad(_.map(data, 'value'));
@@ -182,11 +186,17 @@ export default {
                 .attr("rx", 15)//~imp // set to val of width/2 if width === height
                 .attr("ry", 15)//~imp 
                 // .attr("ry", 9)
-                
-                .on("click", function() {
-                    //FROM TINA: function takes d param, but throws error as long as you're not doing anything here
-                    //~~ display tool tip
+                .attr('fill', function(d){ 
+                    let categoryColorId = d.color;
+
+                    // filter array by attribute value https://stackoverflow.com/a/2722213
+                    // get color from vuex store, returned color object (with color property) is an array of 1 object
+                    return colors.filter((color) => {
+                        return color._id == categoryColorId;
+                    })[0].color;
                 })
+                
+                // .on("click", function() {})
 
                 // add text https://stackoverflow.com/a/20644664/1446598
                 .append("text")
@@ -198,7 +208,7 @@ export default {
                 // .attr("dy", ".5em")
                 .text(function(d) { return d.logCode })
                 .attr("color", "red")
-        }
+            }
         }
     },
     mounted() {
@@ -210,25 +220,30 @@ export default {
         axios.get("http://localhost:3000/day/5e611877b705711710a1b28d/var/5e3316671c71657e18823380/details")
           .then(function(response) {
             let data = response.data;
+            console.log('timeline data')
+            console.log(response.data)
             data.variables[0].log_data.forEach((logEntry) => {
                 let durationInMinutes = Math.abs(new Date(logEntry.start_time).getHours() * 60 + new Date(logEntry.start_time).getMinutes()
                     - new Date(logEntry.end_time).getHours() * 60 + new Date(logEntry.end_time).getMinutes());
                 let fullCategoryStr = "";
+                let color = "";
 
-                // delinate nested categories by .
+                // delinate nested categories by '.' and save top-level category's color id
                 logEntry.full_category.forEach((category, i) => {
+                    if (i == 0) color = category.color;
                     fullCategoryStr += category.code + ((i === logEntry.full_category.length - 1) ? "" : ".");
             });
-                // parse date https://stackoverflow.com/a/53269761/1446598
-                // let formattedDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse(logEntry.start_time);// logEntry.start_time.toTimeString();
-                
-                logs.push({
-                    'value': new Date(logEntry.start_time).valueOf(), //~startTime
-                    // 'value': new Date(formattedDate).valueOf(), //~startTime
-                    'duration': durationInMinutes, //unix timestapm sconds
-                    'logCode': fullCategoryStr 
-                });
+            // parse date https://stackoverflow.com/a/53269761/1446598
+            // let formattedDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse(logEntry.start_time);// logEntry.start_time.toTimeString();
+            
+            logs.push({
+                'value': new Date(logEntry.start_time).valueOf(), //~startTime
+                // 'value': new Date(formattedDate).valueOf(), //~startTime
+                'duration': durationInMinutes, //unix timestapm sconds
+                'logCode': fullCategoryStr, 
+                'color': color
             });
+        });
         self.timeseries('timeline', logs);
         });
         // this.timeseries('timeline', logs);
