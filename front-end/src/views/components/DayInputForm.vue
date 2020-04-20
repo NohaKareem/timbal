@@ -1,5 +1,8 @@
 <template>
     <div class="dayInputFormCon">
+          <div class="dayTimelineCon">
+            <h2>Log a <span ref="variableTitle">{{ variableName }}</span> session</h2>
+          </div>
         <div class="logInputForm">
         <form action="http://localhost:3000/day" method="POST">
             <div class="logTaskInputHeader">
@@ -44,7 +47,8 @@
         currentVariable: "tasks", 
         variables: [], 
         unselected: true, 
-        dayDocExists: false
+        dayDocExists: false, 
+        variableName: "task"
       }
     },
     computed: {
@@ -134,28 +138,16 @@ created() {
       self.variables = response.data;
     }).catch(function(error) { console.error(error); });
   }, 
-
-    // mounted() {
-    //   // update vuex with day doc if exists
-    //   this.checkIfDayDocExists();
-    //   console.log('date set')
-
-    
-    //       // // load bubble chart
-    //       // let self = this;
-    //       // axios.get('http://localhost:3000/bubble')
-    //       // .then(function(response) {
-    //       //   // let bubbleChart = document.querySelector('.bubbleChart');
-    //       //   // console.log(response.data)
-    //       //   // self.$refs.bubbleChart.innerHTML = response.data;
-    //       //   self.$refs.bubbleChart.innerHTML = response.data;
-    //       //   console.log(self.$refs.bubbleChart.innerHTML)
-    //       // })
-    //       // .catch(function(error) {
-    //       //   console.error(error);
-    //       // });
-    // }
+  mounted() {
+    // // get variable name
+    // axios.get(`http://localhost:3000/variables/${this.variableId}`)
+    // .then(function(response) { 
+    //   self.variableName = response.data[0].name;
+    //   console.log('get varible data')
+    //   console.log(response.data[0].name)
+    // }).catch(function(error) { console.error(error); });
   }
+}
 
 </script>
 

@@ -13,11 +13,6 @@
       
       <button class="circle" ref="addLogButton" @click="startLogInput()">+</button>
     </div>
-    <div class="dayTimelineCon">
-      <h2>Log a <span ref="variableTitle">task</span></h2>
-   
-      
-    </div>
     
     <dayInputForm v-if="displayForm" />  
 
