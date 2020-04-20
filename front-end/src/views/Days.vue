@@ -4,7 +4,7 @@
 
     <div class="dayTimelineCon">
       <h2>Log a <span ref="variableTitle">task</span></h2>
-
+   
       <!-- dropdown menu -->
         <select name="variableSelect" id="variableSelect" @change="updateVariable()" v-model="currentVariable">
         <option v-for="variable in variables" :key="variable._id" :value="unselected ? 'tasks' : variable._id" ref="currentVariableSelection">

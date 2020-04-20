@@ -15,7 +15,7 @@
                 <label for="timeInput_to">to</label>
                 <input type="time" name="timeInput_to" id="timeInput_to" ref="timeInput_to">
             </div>
-            <input type="text" name="full_category" id="full_category" placeholder="task log" value="b.a.w.6003">
+            <input type="text" name="full_category" id="full_category" placeholder="task log" :value="logString" disabled>
                 <br>
             </div>
             <hr>
