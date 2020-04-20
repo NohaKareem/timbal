@@ -61,10 +61,12 @@ router.get('/color/:id', (req, res, next) => {
 // authentication 
 router.post('/signin', passport.authenticate('local'), function(req, res, next) {
 	if(!req.user) {
-		res.redirect('/');
+    console.log('user not logged in')
+		res.redirect(LOGIN_ROUTE);
 	}
-  res.redirect(AUTHENTICATED_ROUTE); 
-  return next();
+    console.log('user  logged in')
+    res.redirect(AUTHENTICATED_ROUTE); 
+  // return next();
 });
 
 router.post('/signup', function(req, res, next) {
@@ -84,8 +86,8 @@ router.post('/signup', function(req, res, next) {
       
       // automatically logs in any new user
       passport.authenticate('local')(req, res, function() {
-        // res.redirect(AUTHENTICATED_ROUTE);
-        return next();
+        res.redirect(AUTHENTICATED_ROUTE);
+        // return next();
       });
     });
 });

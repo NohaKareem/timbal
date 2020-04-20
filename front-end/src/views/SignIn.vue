@@ -3,7 +3,7 @@
     <h1 class="hidden">Sign In</h1>
     <h1>Welcome back!</h1>
     <form action="http://localhost:3000/signIn" method="POST" class="signUpForm">
-      <input type="email"  name="email" id="email" placeholder="email">
+      <input type="text"  name="username" id="username" placeholder="username">
       <input type="password" name="password" id="password" placeholder="password">
       <input type="submit" value="sign in">
     </form>
