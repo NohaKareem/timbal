@@ -5,10 +5,10 @@
       <header class="timbalHeader">
         <nav>
           <h1 class="hidden">Header</h1>
-          <!-- <router-link to="/" class="imageLink"> -->
           <img src="logo_gray.svg" alt="timbal logo" class="logo" @click="toggleMenu()">
-          <!-- </router-link> -->
-          <div class="profilePic"></div>
+          
+          <!--  check if page is an authentication page -->
+          <div class="profilePic" v-if="!(this.currRoute.substring(0,4) == 'Sign')"></div>
           <div :class="hideMenu ? 'hidden menuCon' : 'menuCon'">
             <h2 class="hidden">Nav menu</h2>
             <!-- <router-link to="/queryBuilder">Query Builder</router-link> |  -->
@@ -37,6 +37,12 @@ export default {
         hideMenu: true
       }
    }, 
+   computed: {
+      // get current route name https://stackoverflow.com/a/53126892/1446598
+      currRoute() {
+        return this.$route.name;
+      }
+   },
    methods: {
      toggleMenu() {
        console.log('in toggle')
