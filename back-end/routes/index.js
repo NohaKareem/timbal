@@ -17,31 +17,7 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: APP_NAME });
 });
 
-/* GET time series Test page. */
-router.get('/timeSeries', function(req, res, next) {
-  res.sendFile('timeseries.html', { root: path.join(__dirname, '../views/vis') });
-  // res.render('vis/timeseries');
-});
-
-router.get('/timeline', function(req, res, next) {
-  res.sendFile('timeline.html', { root: path.join(__dirname, '../views/vis') });
-  // res.sendFile('actualTimeSeries.html', { root: path.join(__dirname, '../public') });
-});
-
-// testing routes
-// test build 5e61102fb705711710a1b286
-// test eat 5e6afdf8d2ff2246345cdb13
-// test work 5e6110efb705711710a1b288 
-// test variable(tasks) id 5e3316671c71657e18823380 
-router.get('/testing/:id', (req, res, next) => {
-  Day.find({
-      'variables.log_data.full_category': req.params.id
-  }, (err, days) => {
-    handleErr(err);
-    res.json(days);
-  });
-}); 
-
+// colors
 // GET all colors
 router.get('/colors', (req, res, next) => {
   Color.find((err, colors) => {
@@ -92,14 +68,6 @@ router.post('/signup', function(req, res, next) {
     });
 });
 
-// check if user is logged in
-function isLoggedIn(req, res, next) {
-	if(req.user) {//isAuthenticated()
-		return next();
-  }
-  return  res.json({ msg: 'need to login' });
-}
-
 // checking if user is registered. test method from https://blog.zairza.in/oauth-using-mevn-stack-4b4a383dae08
 router.get("/check", (req, res) => {
   if (req.user === undefined) {
@@ -117,10 +85,34 @@ router.get('/auth/facebook/callback', passport.authenticate('facebook', {
   failureRedirect: '/login'
 }));
 
-
 // helper method
 function handleErr(err) {
   if(err) return next(err);
 }
+
+// testing routes
+// // test build 5e61102fb705711710a1b286
+// // test eat 5e6afdf8d2ff2246345cdb13
+// // test work 5e6110efb705711710a1b288 
+// // test variable(tasks) id 5e3316671c71657e18823380 
+// router.get('/testing/:id', (req, res, next) => {
+//   Day.find({
+//       'variables.log_data.full_category': req.params.id
+//   }, (err, days) => {
+//     handleErr(err);
+//     res.json(days);
+//   });
+// }); 
+
+// /* GET time series Test page. */
+// router.get('/timeSeries', function(req, res, next) {
+//   res.sendFile('timeseries.html', { root: path.join(__dirname, '../views/vis') });
+//   // res.render('vis/timeseries');
+// });
+
+// router.get('/timeline', function(req, res, next) {
+//   res.sendFile('timeline.html', { root: path.join(__dirname, '../views/vis') });
+//   // res.sendFile('actualTimeSeries.html', { root: path.join(__dirname, '../public') });
+// });
 
 module.exports = router;

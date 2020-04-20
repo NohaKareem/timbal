@@ -3,7 +3,7 @@
     <div class="timelineHeaderCon">
 
       <!-- dropdown menu -->
-        <select name="variableSelect" id="variableSelect" @change="updateVariable()" v-model="currentVariable">
+      <select name="variableSelect" id="variableSelect" @change="updateVariable()" v-model="currentVariable">
         <option v-for="variable in variables" :key="variable._id" :value="unselected ? 'tasks' : variable._id" ref="currentVariableSelection">
           {{ variable.name }}
         </option>
@@ -70,16 +70,25 @@ created() {
       }).catch(function(error) { console.error(error); });
 
       // get all variable names
-      axios.get('http://localhost:3000/variables')
+      axios.get('http://localhost:3000/variables', 
+      // { headers: { "Content-Type": "application/json" }, withCredentials: true }
+        )
       .then(function(response) { 
-        self.variables = response.data;
+        if(response.data.msg) {
+          self.$store.commit('isLoggedIn', false);
+          console.log('user NOT logged in');
+        }
+        else {
+          self.$store.commit('isLoggedIn', true);
+          self.variables = response.data;
+          console.log('user logged in');
+        } 
       }).catch(function(error) { console.error(error); });
 
-      console.log('chcecking if user logged in')
+      // console.log('chcecking if user logged in')
       //  (response.data.msg) ? false : true;
     }
   }
-
 </script>
 
 <style lang="scss">

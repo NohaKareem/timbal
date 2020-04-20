@@ -26,7 +26,7 @@ function isLoggedIn(req, res, next) {
 // });
 // }
 
-router.get('/', isLoggedIn, (req, res, next) => {
+router.get('/', (req, res, next) => {
     Category.find((err, categories) => {
       handleErr(err);
       res.json(categories);
@@ -34,7 +34,7 @@ router.get('/', isLoggedIn, (req, res, next) => {
 });
 
 // GET category with specific id
-router.get('/:id', isLoggedIn, (req, res, next) => {
+router.get('/:id', (req, res, next) => {
   Category.find({ _id: req.params.id }, (err, categories) => {
     handleErr(err);
     res.json(categories);
@@ -43,7 +43,7 @@ router.get('/:id', isLoggedIn, (req, res, next) => {
 
 // GET all top-level/non top-level categories, according to flag parameter (true/false)
 // test (tasks top level) http://localhost:3000/categories/variable/5e3316671c71657e18823380/top-level/true
-router.get('/variable/:varId/top-level/:flag', isLoggedIn, (req, res, next) => {
+router.get('/variable/:varId/top-level/:flag', (req, res, next) => {
   Category.find({ is_top_level: req.params.flag, variable: req.params.varId }, (err, categories) => {
     handleErr(err);
     res.json(categories);

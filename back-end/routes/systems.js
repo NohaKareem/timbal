@@ -13,7 +13,7 @@ function isLoggedIn(req, res, next) {
 }
 
 // GET all systems
-router.get('/', isLoggedIn, (req, res, next) => {
+router.get('/', (req, res, next) => {
     System.find((err, systems) => {
         handleErr(err);
         res.json(systems);
@@ -21,7 +21,7 @@ router.get('/', isLoggedIn, (req, res, next) => {
 });
 
 //~todo: test id routes (except cateogries tested)
-router.get('/:id', isLoggedIn, (req, res, next) => { 
+router.get('/:id', (req, res, next) => { 
     System.find({ _id: req.params.id }, (err, systems) => {
         handleErr(err);
         res.json(systems);

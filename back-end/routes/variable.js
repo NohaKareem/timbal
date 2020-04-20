@@ -18,7 +18,7 @@ router.get('/new', function(req, res, next) {
 });
   
 // GET variable id by name
-router.get('/name/:name', isLoggedIn, function(req, res, next) {
+router.get('/name/:name', function(req, res, next) {
     // capitalize input https://stackoverflow.com/a/49003361
     let taskName = req.params.name.charAt(0).toUpperCase() + req.params.name.slice(1);
     Variable.findOne({ name: taskName }, (err, variable) => {
@@ -30,7 +30,7 @@ router.get('/name/:name', isLoggedIn, function(req, res, next) {
   });
   
 // POST new variable
-router.post('/', isLoggedIn, (req, res, next) => {
+router.post('/', (req, res, next) => {
     var newVariable = new Variable(); 
     newVariable.name = req.body.name;
     newVariable.description = req.body.description;

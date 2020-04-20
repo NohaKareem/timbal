@@ -8,7 +8,7 @@
       <input type="submit" value="sign in">
     </form>
     <div class="alternativeLinks">
-        <p><a href="http://localhost:3000/facebook">log in using facebook</a></p>
+        <p><a href="http://localhost:3000/auth/facebook">log in using facebook</a></p>
         <p>new here? <router-link to="/signUp"> sign up </router-link> </p>
     </div>
     <router-view />

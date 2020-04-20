@@ -89,7 +89,7 @@ router.get('/date/:date', function(req, res, next) {
 });
 
 // POST new day document
-router.post('/', isLoggedIn, (req, res, next) => {
+router.post('/', (req, res, next) => {
   // formatting time input
   let start_time = req.body.start_time;
   let end_time = req.body.end_time;
@@ -120,7 +120,7 @@ router.post('/', isLoggedIn, (req, res, next) => {
 });
 
 // Update day document
-router.post('/:id/variable/:varId', isLoggedIn, (req, res, next) => {
+router.post('/:id/variable/:varId', (req, res, next) => {
   // check if variable already exists to modify update query findOne then findOneAndUpdate https://stackoverflow.com/a/43867483
   
   // formatting time input
@@ -155,7 +155,7 @@ router.post('/:id/variable/:varId', isLoggedIn, (req, res, next) => {
 });
 
 // delete a day document
-router.post('/day/:id/delete', isLoggedIn, (req, res, next) => {
+router.post('/day/:id/delete', (req, res, next) => {
 console.log('in delete')
 var q = Day.findOneAndDelete({  _id: req.params.id });
 q.exec(function(err, mydata) {

@@ -17,7 +17,7 @@ router.get('/new', function(req, res, next) {
   });
   
 // POST new category
-router.post('/', isLoggedIn, (req, res, next) => {
+router.post('/', (req, res, next) => {
     var newCategory = new Category(); 
     newCategory.variable = req.body.variable;
     newCategory.code = req.body.code;

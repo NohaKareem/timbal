@@ -147,12 +147,15 @@ created() {
     //   console.log(response.data[0].name)
     // }).catch(function(error) { console.error(error); });
   }
-}
+   
+  }
 
 </script>
 
 <style lang="scss">
   @import '@/styles/globalStyles.scss';
+  
+  // select menu styling https://stackoverflow.com/a/24671889
   select {
     @include softUiShadow();
     background-color: $grayWhite;
@@ -161,22 +164,19 @@ created() {
     -moz-appearance: none;
     appearance: none;
 
-    // select menu styling https://stackoverflow.com/a/24671889
-    --baseFg: #F0F0F0;//c70062;
+    --baseFg: #F0F0F0;
     --baseBg: #ffe3f1;
-    --accentFg: #707070;//green;// #c70062;
-    --accentBg: #F0F0F0;//#ffaad4;
+    --accentFg: #707070;
+    --accentBg: #F0F0F0;
 
      font: 400 12px/1.3 sans-serif;
       -webkit-appearance: none;
       appearance: none;
       color: $timbalBlack;
-      // border: 1px solid var(--baseFg);
       line-height: 1;
       outline: 0;
       padding: 0.65em 2.5em 0.55em 0.75em;
-      border-radius: $baseMargin * 5;// var(--radius);
-      // background-color: var(--baseBg);
+      border-radius: $baseMargin * 5;
       background-image: 
       linear-gradient(var(--baseFg), var(--baseFg)),
         linear-gradient(-135deg, transparent 50%, var(--accentBg) 50%),

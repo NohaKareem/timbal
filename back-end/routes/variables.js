@@ -13,7 +13,7 @@ function isLoggedIn(req, res, next) {
 }
 
 // GET all variables
-router.get('/', isLoggedIn, (req, res, next) => {
+router.get('/', (req, res, next) => {
     Variable.find((err, variables) => {
       handleErr(err);
       res.json(variables);
@@ -21,7 +21,7 @@ router.get('/', isLoggedIn, (req, res, next) => {
   });
 
 // GET variable with specific id
-router.get('/:id', isLoggedIn, (req, res, next) => {
+router.get('/:id', (req, res, next) => {
     Variable.find({ _id: req.params.id }, (err, variables) => {
         handleErr(err);
         res.json(variables);
@@ -29,7 +29,7 @@ router.get('/:id', isLoggedIn, (req, res, next) => {
 });
 
 // GET all categories for variable with specific id
-router.get('/:id/categories', isLoggedIn, (req, res, next) => {
+router.get('/:id/categories', (req, res, next) => {
     Category.find({ variable: req.params.id }, (err, categories) => {
         handleErr(err);
         res.json(categories);

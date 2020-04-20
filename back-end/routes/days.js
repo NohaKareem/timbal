@@ -12,7 +12,7 @@ function isLoggedIn(req, res, next) {
   return  res.json({ msg: 'need to login' });
 }
 
-router.get('/', isLoggedIn, (req, res, next) => {
+router.get('/', (req, res, next) => {
   Day.find((err, days) => {
     handleErr(err);
     res.json(days);
@@ -20,7 +20,7 @@ router.get('/', isLoggedIn, (req, res, next) => {
 });
 
 
-router.get('/:id', isLoggedIn, (req, res, next) => {
+router.get('/:id', (req, res, next) => {
   Day.find({ _id: req.params.id }, (err, days) => {
     handleErr(err);
     res.json(days);
@@ -28,7 +28,7 @@ router.get('/:id', isLoggedIn, (req, res, next) => {
 });
 
 // GET all logs for a specific variable
-router.get('/variables/:id', isLoggedIn, (req, res, next) => {
+router.get('/variables/:id', (req, res, next) => {
   Day.find({ 
     'variables.variable': req.params.id  
   }, (err, days) => {
@@ -38,7 +38,7 @@ router.get('/variables/:id', isLoggedIn, (req, res, next) => {
 });
 
 // GET all days with a specific category
-router.get('/category/:id', isLoggedIn, (req, res,next) => {
+router.get('/category/:id', (req, res,next) => {
   Day.find({
     'variables.log_data.full_category': req.params.id 
   }, (err, days) => {
@@ -50,7 +50,7 @@ router.get('/category/:id', isLoggedIn, (req, res,next) => {
 // GET all days within a specific date frame 
 // start time eg. 2020-01-30T18:25:43.520+00:00
 // end time eg. 2020-01-30T19:25:50.521+00:00
-router.get('/start/:startdate/end/:enddate', isLoggedIn, (req, res, next) => {
+router.get('/start/:startdate/end/:enddate', (req, res, next) => {
   // d = new Date(2020, 01, 30, 18, 25, 43);//2020-01-30T18:25:43.511+00:00
   // console.log(d.toString());
   Day.find( 
@@ -66,7 +66,7 @@ router.get('/start/:startdate/end/:enddate', isLoggedIn, (req, res, next) => {
 });
 
 // /** GET all occurences of a ~toplevel category (~assuming var 0) */
-// router.get('/toplevel/:id', isLoggedIn, (req, res, next) => {
+// router.get('/toplevel/:id', (req, res, next) => {
 //   Day.find(
 //   { variables: { variable: '5e3316d51c71657e18823382' } }
 //   , (err, days) => {

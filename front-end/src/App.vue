@@ -5,7 +5,7 @@
       <header class="timbalHeader">
         <nav>
           <h1 class="hidden">Header</h1>
-          <img src="logo_gray.svg" alt="timbal logo" class="logo" @click="toggleMenu()">
+          <img src="/logo_gray.svg" alt="timbal logo" class="logo" @click="toggleMenu()">
           
           <!--  check if page is an authentication page -->
           <div class="profilePic" v-if="!(this.currRoute.substring(0,4) == 'Sign')"></div>
