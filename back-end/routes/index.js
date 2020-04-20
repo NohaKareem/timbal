@@ -69,17 +69,17 @@ router.post('/signin', passport.authenticate('local'), function(req, res, next) 
 
 router.post('/signup', function(req, res, next) {
 	User.register(new User({
-		username:req.body.username,
-    email:req.body.email, 
-    firstName:req.body.firstName, 
-    lastName:req.body.lastName
+		username: req.body.username,
+    email: req.body.email, 
+    firstName: req.body.firstName, 
+    lastName: req.body.lastName
   }),
 		req.body.password,
 
 		function(err, user) {
       if (err) { 
         // res.sendFile((path.join(__dirname, '../views', 'register.ejs')), { user:user, message: req.flash('message') });
-        res.send({ user:user, message: req.flash('message') });
+        res.send({ user:user, message: req.flash('message', err) });
       }
       
       // automatically logs in any new user
