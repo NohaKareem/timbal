@@ -26,6 +26,7 @@
             self.$refs.bubbleChart.innerHTML = "Nothing logged in this day to visualize yet!"
             return;
           }
+          // details route passes only needed variable, at index 0
           let logEntries = response.data.variables[0].log_data;
 
               logEntries.forEach(logEntry => {
