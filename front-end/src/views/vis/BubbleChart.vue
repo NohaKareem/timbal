@@ -39,7 +39,7 @@
                   let categroyDescription = logEntry.full_category[0].description;
                   let existingCategory = dataToDisplay.find(category => category.code === topLevelCategory);
                   // console.log(!existingCategory)
-                  let categoryColor = logEntry.full_category[0].color;//~
+                  let categoryColor = logEntry.full_category[0].color;
                   // compute duration, in minutes, as difference between start and end time
                   let duration = Math.abs(
                               ((new Date(logEntry.start_time)).getHours() * 60 + (new Date(logEntry.start_time)).getMinutes())
@@ -66,8 +66,8 @@
               //create the SVG container
               var svg = d3.select(".bubbleChart")
                   .append("svg")
-                  .attr("width", 400)
-                  .attr("height", 400);
+                  .attr("width", 900)//400
+                  .attr("height", 500);
 
               //Put D3 create/update code in a function that can be re-called
               function circles(svg) {

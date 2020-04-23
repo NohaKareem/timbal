@@ -308,14 +308,15 @@ input[type=text], input[type=password], input[type=email] {
 // timeline header
 .timelineHeaderCon {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    flex-wrap: wrap;
     justify-items: center;
     align-items: center;
     align-content: center;
     justify-items: center;
 
     .timeline {
-        width: 70vw;
+        width: 100vw;
     
         // horizontal scroll https://stackoverflow.com/a/258393 
         overflow: auto;
@@ -594,5 +595,14 @@ a.imageLink:hover {
         width: auto; // 7vw
         height: 3vw;
         font-size: $desktopPFontSize;
+    }
+
+    .timelineHeaderCon {
+        display: flex;
+        flex-direction: row;
+    
+        .timeline {
+            width: 70vw;
+        }
     }
 }
