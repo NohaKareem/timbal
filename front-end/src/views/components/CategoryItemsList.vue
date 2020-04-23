@@ -3,7 +3,7 @@
         <!-- add category color if top level category, otherwise add current top level category color -->
         <!-- a check is made on the foreground color to see if it's a light color, or if the previously sest color (from top-level cateogry) is a light color, requiring contrasting foreground  -->
         <div class="categoryListItem" v-for="category in categoriesList" :key="category._id"
-            :style="category.color !== undefined ? 'background-color:'+ category.color.color : 'background-color:'+ currColor + ';' + 'color:' + currForegroundColor" 
+            :style="(category.color !== undefined ? 'background-color:'+ category.color.color : 'background-color:'+ currColor) + ';' + 'color:' + currForegroundColor" 
             @click="addCategoryToLog(category._id, category.is_top_level, category.code, category.color != undefined ? category.color.color : currColor)">
             {{ category.code }}: {{ category.description }}
         </div>
