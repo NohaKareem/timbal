@@ -36,6 +36,7 @@
                   // map time spent to each top-level category (at the top of the log hierarchy. hierarchy nesting is delimited by '.')
                   // top level element is always the first element
                   let topLevelCategory = logEntry.full_category[0].code;
+                  let categroyDescription = logEntry.full_category[0].description;
                   let existingCategory = dataToDisplay.find(category => category.code === topLevelCategory);
                   // console.log(!existingCategory)
                   let categoryColor = logEntry.full_category[0].color;//~
@@ -47,7 +48,7 @@
                   // add new duration if category doesn't exist
                   if (!existingCategory) {
                       dataToDisplay.push({
-                        code: topLevelCategory, 
+                        code: topLevelCategory + ": " + categroyDescription, 
                         color: categoryColor, 
                         lightColor: (categoryColor === '5e8b9ee84b8d5674645b32be') ? true : false,
                         cx: Math.floor((Math.random() * 300) + 1),
@@ -78,8 +79,6 @@
                         // 5px 5px 15px 0 transparentize(black, 0.9);`)
                       .data(data);
 
-                  var lightColor = false;
-
                   // Enter loop, creates any new circles/things needed
                   point.enter()
                       .append('circle') 
@@ -106,7 +105,6 @@
                   var label = svg.selectAll('text')
                         .data(data);
                   
-                  console.log(lightColor)
                   label.enter()
                         .append('text')
                         .attr("x", function(d) { return d.cx })
@@ -116,10 +114,8 @@
 
                           // text styling https://stackoverflow.com/a/41452514/1446598
                         .attr("fill", function(d) { return d.lightColor ? "#707070" : "#F0F0F0"})
-
               }
               circles(svg);
-
 
               // setInterval(function() {
               //     circles(svg);
@@ -127,7 +123,6 @@
           }).catch(function(error) {
               console.error(error);
           }); 
-
       }, 
   }
 </script>

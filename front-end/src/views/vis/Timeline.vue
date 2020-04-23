@@ -238,29 +238,28 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/styles/globalStyles.scss';
+    @import '@/styles/globalStyles.scss';
 
-.y.axis line {
-    stroke: rgba(255, 255, 255, 0) !important;
-}
+    .y.axis line {
+        stroke: rgba(255, 255, 255, 0) !important;
+    }
 
-.axis path, .axis line {
-    fill: none;
-    stroke: #000;
-    shape-rendering: crispEdges;
-}
+    .axis path, .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
 
-.axis text {
-    font-size: 12px;
-}
+    .axis text {
+        font-size: 12px;
+    }
 
-.tick line {
-    stroke: #d5d5d5;
-    opacity: 0.7;
-}
+    .tick line {
+        stroke: #d5d5d5;
+        opacity: 0.7;
+    }
 
-.domain {
-    display: none;
-}
-
+    .domain {
+        display: none;
+    }
 </style>
