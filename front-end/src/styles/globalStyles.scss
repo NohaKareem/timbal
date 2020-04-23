@@ -87,6 +87,10 @@ body {
     font-family: 'Quattrocento Sans', sans-serif;
 
     margin: 2vh 3vw;
+
+    overflow: auto;
+    -ms-overflow-x: hidden;
+    overflow-x: hidden;
 }
 
 hr {
@@ -315,8 +319,13 @@ input[type=text], input[type=password], input[type=email] {
     align-content: center;
     justify-items: center;
 
+    .timelineCon {
+        margin-left: $baseMargin;
+        margin-right: $baseMargin;
+    }
+
     .timeline {
-        width: 100vw;
+        width: 90vw;
     
         // horizontal scroll https://stackoverflow.com/a/258393 
         overflow: auto;
