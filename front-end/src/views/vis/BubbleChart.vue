@@ -33,9 +33,6 @@
               // console.log('color link ' + `http://localhost:3000/color/${logEntry.full_category[0].color}`)
                 // axios.get(`http://localhost:3000/color/${logEntry.full_category[0].color}`)
                 // .then(function(response) {
-                  // console.log(response.data)
-                  // console.log('color data')
-                  // ~todo: add to readme
                   // map time spent to each top-level category (at the top of the log hierarchy. hierarchy nesting is delimited by '.')
                   // top level element is always the first element
                   let topLevelCategory = logEntry.full_category[0].code;
@@ -52,6 +49,7 @@
                       dataToDisplay.push({
                         code: topLevelCategory, 
                         color: categoryColor, 
+                        lightColor: (categoryColor === '5e8b9ee84b8d5674645b32be') ? true : false,
                         cx: Math.floor((Math.random() * 300) + 1),
                         cy: Math.floor((Math.random() * 300) + 1),
                         r: duration
@@ -75,11 +73,12 @@
                   var data = dataToDisplay;
 
                   var point = svg.selectAll('circle')
-                      // .attr('class', 'bubbleCircle')
                       // .style('box-shadow', `
                         // -5px -5px 15px 0 white, 
                         // 5px 5px 15px 0 transparentize(black, 0.9);`)
                       .data(data);
+
+                  var lightColor = false;
 
                   // Enter loop, creates any new circles/things needed
                   point.enter()
@@ -87,15 +86,15 @@
                       .attr('cx', function(d){ return d.cx })
                       .attr('cy', function(d){ return d.cy })
                       .attr('r', function(d){ return d.r })
-                      .attr('fill', function(d){ 
+                      .attr('fill', function(d) { 
                         let categoryColorId = d.color;
-                        
+
                         // filter array by attribute value https://stackoverflow.com/a/2722213
                         // get color from vuex store, returned color object (with color property) is an array of 1 object
                         return self.$store.state.colors.filter((color) => {
                           return color._id == categoryColorId;
                         })[0].color;
-                      })
+                      });
                             
                       // // Update loop will loop through any existing shapes, and change their values any time the data changes
                       // point.transition().duration(500)
@@ -107,6 +106,7 @@
                   var label = svg.selectAll('text')
                         .data(data);
                   
+                  console.log(lightColor)
                   label.enter()
                         .append('text')
                         .attr("x", function(d) { return d.cx })
@@ -115,7 +115,8 @@
                         .attr("text-anchor", "middle")
 
                           // text styling https://stackoverflow.com/a/41452514/1446598
-                        .attr("fill", "#F0F0F0");
+                        .attr("fill", function(d) { return d.lightColor ? "#707070" : "#F0F0F0"})
+
               }
               circles(svg);
 
@@ -135,9 +136,6 @@
   @import '@/styles/globalStyles.scss';
   // deep selectors for styling dynamically-generated html  https://vue-loader.vuejs.org/guide/scoped-css.html#deep-selectors
   ::v-deep circle {
-    // fill: red;
-    // stroke: red;
-    // stroke-width: 5px;
     @include softUiShadow_SVG();
   }
 </style>

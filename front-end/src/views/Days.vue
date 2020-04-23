@@ -13,8 +13,10 @@
           </option>
         </select>
         
-        <timeline />  
-        
+       <div class="timelineCon">
+          <timeline />  
+        </div>        
+      
         <button class="circle" ref="addLogButton" @click="startLogInput()">+</button>
       </div>
       
@@ -122,5 +124,10 @@ created() {
   @import '@/styles/globalStyles.scss';
   input[type=time], input[type=date], input[type=text] {
     color: $timbalBlack;
+  }
+
+  .timelineCon {
+    padding: $baseMargin;
+    padding-right: 0;
   }
 </style>
