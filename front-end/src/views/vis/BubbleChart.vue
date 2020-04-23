@@ -40,15 +40,18 @@
                   let existingCategory = dataToDisplay.find(category => category.code === topLevelCategory);
                   // console.log(!existingCategory)
                   let categoryColor = logEntry.full_category[0].color;
+                  
                   // compute duration, in minutes, as difference between start and end time
                   let duration = Math.abs(
                               ((new Date(logEntry.start_time)).getHours() * 60 + (new Date(logEntry.start_time)).getMinutes())
                               - (new Date(logEntry.end_time).getHours() * 60 + new Date(logEntry.end_time).getMinutes())
                               );
+
                   // add new duration if category doesn't exist
                   if (!existingCategory) {
                       dataToDisplay.push({
-                        code: topLevelCategory + ": " + categroyDescription, 
+                        code: topLevelCategory, 
+                        text: topLevelCategory + ": " + categroyDescription, 
                         color: categoryColor, 
                         lightColor: (categoryColor === '5e8b9ee84b8d5674645b32be') ? true : false,
                         cx: Math.floor((Math.random() * 300) + 1),
@@ -109,7 +112,7 @@
                         .append('text')
                         .attr("x", function(d) { return d.cx })
                         .attr("y", function(d) { return d.cy + 6 })
-                        .text(function(d) { return d.code })
+                        .text(function(d) { return d.text })
                         .attr("text-anchor", "middle")
 
                           // text styling https://stackoverflow.com/a/41452514/1446598

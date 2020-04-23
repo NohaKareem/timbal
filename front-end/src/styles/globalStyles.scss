@@ -142,8 +142,6 @@ h3 {
     a {
         margin-right: $baseMargin;
     }
-    // height: 100vh;
-    // width: 20vw;
 }
 
 // profile pic
@@ -207,7 +205,6 @@ button, input[type=submit], input[type=button], .categoryListItem {
     overflow: auto;
     -ms-overflow-x: hidden;
     overflow-x: hidden;
-    // align-items: center;
 }
 
 // .verticalLine {
@@ -399,11 +396,6 @@ input[type=submit], input[type=button] {
         grid-template-columns: repeat(5, minmax(0, 1fr));
         row-gap: $baseMargin * 2;
         column-gap: $baseMargin * 4;
-        // align-content: center;
-        // justify-content: center;
-        // text-align: center;
-        // align-items: center;
-        // margin: 0 auto;
     }
 }
 
@@ -417,17 +409,6 @@ input[type=submit], input[type=button] {
     align-items: center;
     color: $grayWhite;
 }
-
-// .colorSwatch.overlay {
-//     background-color: red;
-//     // position: absolute;
-
-//     // z-index: 0;
-// }
-
-// .colorGrid.overlaySwatches {
-//     margin-top: -14vw;
-// }
 
 .colorSwatch:hover {
     @include softUiInsetShadow();
