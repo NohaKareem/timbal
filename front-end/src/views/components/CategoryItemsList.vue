@@ -1,8 +1,9 @@
 <template>
     <div class="categoryListCon">
         <!-- add category color if top level category, otherwise add current top level category color -->
+        <!-- a check is made on the foreground color to see if it's a light color, or if the previously sest color (from top-level cateogry) is a light color, requiring contrasting foreground  -->
         <div class="categoryListItem" v-for="category in categoriesList" :key="category._id"
-            :style="category.color !== undefined ? 'background-color:'+ category.color.color : 'background-color:'+ currColor"
+            :style="category.color !== undefined ? 'background-color:'+ category.color.color : 'background-color:'+ currColor + ';' + 'color:' + currForegroundColor" 
             @click="addCategoryToLog(category._id, category.is_top_level, category.code, category.color != undefined ? category.color.color : currColor)">
             {{ category.code }}: {{ category.description }}
         </div>
@@ -22,21 +23,33 @@
     props: ["categoriesList"],
     data() {
       return {
-          showNewCategoryWindow: false
+          showNewCategoryWindow: false,
+          foregroundColor: "#F0F0F0"
       }
     },
     computed: {
       currColor() {
         return this.$store.state.currColor;
-      }, 
+      },
       currLogsList() {
         return this.$store.state.logInput;
       }, 
       currLogsStr() {
         return this.$store.state.logStr;
-      }
+      },     
+      currForegroundColor() {
+        // console.log('coleur est ', color)
+        // return ((color != undefined && color === '#96F5F3') || this.currColor === '#96F5F3') ? '#707070' : '#F0F0F0';
+        return (this.currColor === '#96F5F3') ? '#707070' : '#F0F0F0';
+      },
     },
-    methods: {
+    methods: { 
+      // currForegroundColor(color) {
+      //   console.log('coleur est ', color)
+      //   // return ((color != undefined && color === '#96F5F3') || this.currColor === '#96F5F3') ? '#707070' : '#F0F0F0';
+      //   this.foregroundColor = (this.currColor === '#96F5F3') ? '#707070' : '#F0F0F0';
+      // },
+      // currForegroundColor(category.color.color)
       launchNewCategoryWindow() {
         this.showNewCategoryWindow = true;
         console.log('launch new window')
