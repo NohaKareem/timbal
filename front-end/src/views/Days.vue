@@ -3,6 +3,13 @@
     <!-- <signIn v-if="!userLoggedIn"/> -->
 
     <div class="dayCon">
+      <button class="circle tutorialButton" ref="tutorialButton" type="button" @click="showTutorial()"><span class="italic">i</span></button>
+
+      <div class="tutorial hidden" ref="tutorial1">
+        <div class="infoSign"><span class="italic">i</span></div>
+        <p>Here's a timeline view of a day</p>
+      </div>
+
       <div class="timelineHeaderCon">
           <!-- {{userLoggedIn}} -->
           
@@ -22,6 +29,10 @@
       
       <dayInputForm v-if="displayForm" />  
 
+      <div class="tutorial hidden" ref="tutorial2">
+        <div class="infoSign"><span class="italic">i</span></div>
+        <p>Here's a bubble chart of a day, each circle represents the total minutes for that (top-level) category</p>
+      </div>
       <bubbleChart />
     </div>
   </div>
@@ -59,6 +70,12 @@
       }
     },
     methods: {
+      showTutorial() {
+        console.log(this.$refs.tutorialButton.classList)
+        this.$refs.tutorialButton.classList.toggle('selected');
+        this.$refs.tutorial1.classList.toggle('hidden');
+        this.$refs.tutorial2.classList.toggle('hidden');
+      },
       startLogInput() {
         // toggle betweem show/hide display form, and add/cancel buttons
         this.displayForm = !this.displayForm;
@@ -130,4 +147,52 @@ created() {
     padding: $baseMargin;
     padding-right: 0;
   }
+
+  // tutorial 
+  .selected {
+    // @include softUiSelectedInsetShadow_teal();
+    box-shadow:
+        inset -5px -5px 15px 0 white,
+        // inset 5px 5px 15px 0 transparentize(black, 0.9),  
+        inset 5px 5px 10px 0 $teal;
+    color: $teal;
+  }
+
+  .tutorial {
+    margin-top: $baseMargin * 3;
+    margin-bottom: $baseMargin * 3;
+    @include softUiSelectedInsetShadow_teal();
+    border-radius: $baseMargin * 5;
+    display: flex;
+
+    p {
+      // padding-right: $baseMargin * 3;
+      margin-left: $baseMargin * 3;
+      margin-right: $baseMargin * 3;
+      // text-align: center !important;
+    }
+  }
+
+  .italic {
+    font-style: italic;
+  }
+
+  .tutorialButton {
+    margin-left: 91% !important;
+    width: $baseMargin * 3.5 !important;
+    height: $baseMargin * 3.5 !important;
+  }
+
+  .infoSign {
+    margin-left: $baseMargin * 3;
+    margin-top: $baseMargin * 1.75;
+    color: $teal;
+  }
+
+@media screen and (min-width: $desktopWidth) {
+ .tutorialButton {
+    margin-left: 90vw !important;
+ } 
+}
+
 </style>
