@@ -409,8 +409,16 @@ input[type=submit], input[type=button] {
     font-style: italic;
     border-radius: 50%;
 
-    height: $logEntryWidth * .75;
-    width: $logEntryWidth * .75;
+    height: 2vw;
+    width: 2vw;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    // height: $logEntryWidth * .75;
+    // width: $logEntryWidth * .75;
     // font-size: smaller;
 }
 
