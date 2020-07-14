@@ -62,15 +62,15 @@
       },
       launchNewCategoryWindow() {
         this.showNewCategoryWindow = true;
-        console.log('launch new window')
+        console.log('launch new window');
       },
       launchDeleteConfirmation() {
         this.showDeleteConfirmation = true;
-        console.log('launch delete confirmation')
+        console.log('launch delete confirmation');
       },
       getColor(categoryColorId) {
         // if non-top level category, chose a default color
-        if (categoryColorId == undefined ) return "#707070";
+        if (categoryColorId == undefined) return "#707070";
 
         // else return color given color id
         else return this.$store.state.colors.filter((color) => {

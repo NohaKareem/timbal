@@ -369,8 +369,18 @@ input[type=text], input[type=password], input[type=email] {
     }
 }
 
+.deleteConfirmationCon {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    // margin-top: -10%;
+    top: 50%;
+}
+
 .deleteWindow {
-    margin-top: -100%;
+    // margin-top: -100%;
 }
 
 .confirmationOptions {
