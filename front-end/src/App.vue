@@ -8,7 +8,10 @@
           <img src="/logo_gray.svg" alt="timbal logo" class="logo" @click="toggleMenu()">
           
           <!--  check if page is an authentication page -->
-          <div class="profilePic" v-if="!(this.currRoute.substring(0,4) == 'Sign')"></div>
+          <div class="profilePic" v-if="!(this.currRoute.substring(0,4) == 'Sign')">
+              <!-- // image source https://unsplash.com/photos/ohbfKsIEbJQ -->
+            <img src="/profilepic.jpg" alt="profile picture">
+          </div>
           <div :class="hideMenu ? 'hidden menuCon' : 'menuCon'">
             <h2 class="hidden">Nav menu</h2>
             <!-- <router-link to="/queryBuilder">Query Builder</router-link> |  -->

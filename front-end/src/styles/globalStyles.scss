@@ -155,6 +155,13 @@ $mblProfilePicRadius: 5vw;
     border-radius: 50%;
     background-color: $teal;
 
+    img {
+        width: $mblProfilePicRadius;
+        height: $mblProfilePicRadius;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
     @include softUiShadow();
 }
 
@@ -252,6 +259,10 @@ button.circle {
 .circle:hover, input[type=submit]:hover, button:hover, input[type=button]:hover, .categoryListItem:hover {
     @include softUiInsetShadow();//softUiSelectedInsetShadow_teal();
     // color: $teal;
+}
+
+.deleteButton:hover {
+    background-color: red;
 }
 
 input {
@@ -381,6 +392,9 @@ input[type=submit], input[type=button] {
     margin-left: $baseMargin;
     font-style: italic;
     border-radius: 50%;
+
+    height: $logEntryWidth * .75;
+    width: $logEntryWidth * .75;
     // font-size: smaller;
 }
 
@@ -565,6 +579,11 @@ a.imageLink:hover {
         width: $desktopProfilePicRadius;
         height: $desktopProfilePicRadius;
         margin-top: -$desktopProfilePicRadius;
+
+        img {
+            width: $desktopProfilePicRadius;
+            height: $desktopProfilePicRadius;
+        }
     }
 
     // category input 
