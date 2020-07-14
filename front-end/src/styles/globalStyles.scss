@@ -352,7 +352,7 @@ input[type=text], input[type=password], input[type=email] {
     align-content: center;
 } 
 
-.addCategory {
+.addCategory, .deleteWindow {
     z-index: 5;
     position: absolute;
     border-radius: $baseMargin;
@@ -367,6 +367,10 @@ input[type=text], input[type=password], input[type=email] {
         width: 80%;
         margin-bottom: $baseMargin * 2;
     }
+}
+
+.deleteWindow {
+    margin-top: -100%;
 }
 
 .addLogButton, .addCategoryButton, 

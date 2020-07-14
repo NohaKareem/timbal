@@ -8,7 +8,8 @@
         <div  v-for="category in categories.filter(cat => {return cat.variable == variable._id })" :key="category._id">
          <div class="categoryListItem" 
               :style="'background-color:' + getColor(category.color)">{{ category.code }}: {{ category.description }}</div>
-            <button class="smallInfoButton deleteButton" @click="deleteItem(category._id)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+            <!-- <button class="smallInfoButton deleteButton" @click="deleteItem(category._id)"><i class="fa fa-trash" aria-hidden="true"></i></button> -->
+            <button class="smallInfoButton deleteButton" @click="launchDeleteConfirmation()"><i class="fa fa-trash" aria-hidden="true"></i></button>
         </div>
       </div>
         <!-- <div class="categoryListItem" 
@@ -20,6 +21,9 @@
       <div class="addButtonCenter"><button class="circle" type="button" @click="launchNewCategoryWindow()">+</button></div>
       <hr>
     </div>
+    <transition name="appearTransition">
+      <deleteConfirmationWindow v-if="showDeleteConfirmation" />
+    </transition>
     <transition name="appearTransition">
       <newCategoryWindow v-if="showNewCategoryWindow" />
     </transition>
@@ -37,14 +41,16 @@
 <script>
   import axios from "axios";
   import NewCategoryWindow from './components/NewCategoryWindow.vue';
+  import DeleteConfirmationWindow from './components/DeleteConfirmationWindow.vue';
   export default {
     name: "Categories", 
-    components: { 'newCategoryWindow': NewCategoryWindow },
+    components: { 'newCategoryWindow': NewCategoryWindow, 'deleteConfirmationWindow': DeleteConfirmationWindow },
     data() {
       return {
         categories: [], 
         variables: [], 
-        showNewCategoryWindow: false
+        showNewCategoryWindow: false, 
+        showDeleteConfirmation: false
       }
     },
     methods: {  
@@ -57,6 +63,10 @@
       launchNewCategoryWindow() {
         this.showNewCategoryWindow = true;
         console.log('launch new window')
+      },
+      launchDeleteConfirmation() {
+        this.showDeleteConfirmation = true;
+        console.log('launch delete confirmation')
       },
       getColor(categoryColorId) {
         // if non-top level category, chose a default color
