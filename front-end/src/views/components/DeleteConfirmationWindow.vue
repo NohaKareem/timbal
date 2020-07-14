@@ -2,6 +2,12 @@
     <div class="DeleteConfirmationCon">
       <div class="deleteWindow" ref="confirmationWindow">
           <p class="cancelButton" @click="toggleConfirmationWindow()">X</p>
+          Sure you want to delete this category? This can't be undone.
+          <div class="confirmationOptions">
+            <button type="button">Yes</button>
+            <button type="button">No</button>
+          </div>
+          <!-- <button class="smallInfoButton" type="button" @click="showToolTip()">i</button> -->
       </div> 
     </div>
 </template>

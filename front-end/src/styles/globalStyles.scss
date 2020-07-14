@@ -373,6 +373,18 @@ input[type=text], input[type=password], input[type=email] {
     margin-top: -100%;
 }
 
+.confirmationOptions {
+    button {
+        border-radius: 30%;
+        margin: $baseMargin;
+        margin-top: $baseMargin * 3;
+        border-radius: $baseMargin * 5;
+        width: 12vw;
+        height: 4vw;//5vw;
+    }
+    text-align: center;
+}
+
 .addLogButton, .addCategoryButton, 
 input[type=submit], input[type=button] {
     text-align: center;
