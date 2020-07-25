@@ -377,10 +377,14 @@ input[type=text], input[type=password], input[type=email] {
     text-align: center;
     // margin-top: -10%;
     top: 50%;
+    top: -100%;
+    // position: absolute;
+    // position: fixed;
 }
 
 .deleteWindow {
     // margin-top: -100%;
+    // top: -100%;
 }
 
 .confirmationOptions {

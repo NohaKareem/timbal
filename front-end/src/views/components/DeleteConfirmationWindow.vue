@@ -5,7 +5,7 @@
           Sure you want to delete this category? This can't be undone.
           <div class="confirmationOptions">
             <button type="button" @click="cconfirmDeletion()">Yes</button>
-            <button type="button">No</button>
+            <button type="button" @click="toggleConfirmationWindow()">No</button>
           </div>
           <!-- <button class="smallInfoButton" type="button" @click="showToolTip()">i</button> -->
       </div> 
