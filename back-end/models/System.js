@@ -4,19 +4,17 @@ var systemSchema = new mongoose.Schema({
     // user: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     name: String, 
     description: String, 
-    values: [
+    categories: [
+    // values: [
        {
-        system_category_value: String, 
+        // system_category_value: String, 
+        // support further multi-variate systems
+        variable: { type: mongoose.Schema.Types.ObjectId, ref: 'Variable' },
         variable_categories: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }
        }
     ],
-    color: [//~~ change to string
-        {
-            red: Number, 
-            green: Number, 
-            blue: Number
-        }
-    ]
+
+    color: { type: mongoose.Schema.Types.ObjectId, ref: 'Color' }
 }); 
 
 module.exports = mongoose.model('System', systemSchema);

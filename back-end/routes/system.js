@@ -42,6 +42,7 @@ router.post('/', (req, res, next) => { //~
     var newSystem = new System(); 
     newSystem.name = req.body.name;
     newSystem.description = req.body.description;
+    newSystem.color = req.body.color;
 
     newSystem.save((err, data) => { 
         handleErr(err);
