@@ -37,19 +37,55 @@ router.get('/new', function(req, res, next) {
 //     });
 //   });
   
-// POST new system
-router.post('/', (req, res, next) => { //~
-    var newSystem = new System(); 
-    newSystem.name = req.body.name;
-    newSystem.description = req.body.description;
-    newSystem.color = req.body.color;
+// // POST new system
+// router.post('/', (req, res, next) => { //~
+//     var newSystem = new System(); 
+//     newSystem.name = req.body.name;
+//     newSystem.description = req.body.description;
+//     newSystem.color = req.body.color;
 
-    newSystem.save((err, data) => { 
-        handleErr(err);
-        console.log("System saved to data collection", data);
+//     newSystem.save((err, data) => { 
+//         handleErr(err);
+//         console.log("System saved to data collection", data);
+//     });
+
+//     res.redirect('back');
+// });
+
+// POST new system after checking if it already exists
+router.post('/', (req, res, next) => { //~
+  // var newSystem = new System(); 
+  // newSystem.name = req.body.name;
+  // newSystem.description = req.body.description;
+  // newSystem.color = req.body.color;
+
+  // newSystem.save((err, data) => { 
+  //     handleErr(err);
+  //     console.log("System saved to data collection", data);
+  // });
+
+  // set upsert to set up data https://stackoverflow.com/a/33401897/1446598
+  var q = System.findOneAndUpdate(
+    // query
+    { name: req.body.name }, 
+    // update
+    { 
+      description: req.body.description,
+      color: req.body.color,
+      $push: {
+        categories: req.body.variable_category
+      }
+    }, 
+    // options
+    { upsert: true, new: true }
+  );
+    q.exec(function(err, data) {
+      console.log('added system document', data);
+      res.redirect('back');
+      // res.json(data);
     });
 
-    res.redirect('back');
+  // res.redirect('back');
 });
 
 // //~todo: test id routes (except cateogries tested)
