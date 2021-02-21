@@ -12,12 +12,13 @@ var dayRouter = require('./routes/day');
 var daysRouter = require('./routes/days');
 var systemRouter = require('./routes/system');
 var systemsRouter = require('./routes/systems');
+var systemCategoryRouter = require('./routes/systemCategory');
+var systemCategoriesRouter = require('./routes/systemCategories');
 var categoryRouter = require('./routes/category');
 var categoriesRouter = require('./routes/categories');
 var variableRouter = require('./routes/variable');
 var variablesRouter = require('./routes/variables');
 var usersRouter = require('./routes/users');
-
 
 var flash = require('connect-flash');
 var passport = require('passport');
@@ -29,32 +30,34 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 var app = express();
 
 // allow cors
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*"); 
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
 
 mongoose.set('useFindAndModify', false);
-mongoose.set('useUnifiedTopology', true); 
-mongoose.set('useNewUrlParser', true); 
+mongoose.set('useUnifiedTopology', true);
+mongoose.set('useNewUrlParser', true);
 
 mongoose.connect('mongodb+srv://' + dbAuth.DB_AUTH + '@cluster0-y9uwh.mongodb.net/' + dbAuth.DB_NAME + '?retryWrites=true&w=majority',
-{ useNewUrlParser: true },function(err) {
-	if(err) {
-		console.log('error connecting', err);
-	} else {
-		console.log('connected!');
-	}
-});
+  { useNewUrlParser: true }, function (err) {
+    if (err) {
+      console.log('error connecting', err);
+    } else {
+      console.log('connected!');
+    }
+  });
 
 // authentication 
 // sessions resave https://stackoverflow.com/a/51540685
-app.use(expressSession({ secret: 'sessionEncryptionKey', 
+app.use(expressSession({
+  secret: 'sessionEncryptionKey',
   resave: true,//false, 
-  saveUninitialized: true, 
+  saveUninitialized: true,
   // cookie: { secure: true }
-  key: 'sid' }));
+  key: 'sid'
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
@@ -64,9 +67,9 @@ passport.use(new FacebookStrategy({
   clientID: dbAuth.FACEBOOK_APP_ID,
   clientSecret: dbAuth.FACEBOOK_APP_SECRET,
   callbackURL: 'http://localhost:3000/auth/facebook/callback',
-  profileFields: ['id','displayName','photos']
-}, function(accessToken, refreshToken, profile, done) {
-  process.nextTick(function() {
+  profileFields: ['id', 'displayName', 'photos']
+}, function (accessToken, refreshToken, profile, done) {
+  process.nextTick(function () {
     //Assuming user exists
     //console.log(profile.displayName);
     //user = profile.displayName;
@@ -97,17 +100,19 @@ app.use('/category', categoryRouter);
 app.use('/categories', categoriesRouter);
 app.use('/system', systemRouter);
 app.use('/systems', systemsRouter);
+app.use('/systemsCategory', systemCategoryRouter);
+app.use('/systemsCategories', systemCategoriesRouter);
 app.use('/variable', variableRouter);
 app.use('/variables', variablesRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
