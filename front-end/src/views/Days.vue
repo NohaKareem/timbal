@@ -64,6 +64,9 @@ import axios from 'axios'
 import BubbleChart from './vis/BubbleChart.vue'
 import Timeline from './vis/Timeline.vue'
 import DayInputForm from './components/DayInputForm.vue'
+import Vue from 'vue'
+import VueShepherd from 'vue-shepherd'
+Vue.use(VueShepherd)
 
 // import SignIn from "./SignIn.vue";
 export default {
@@ -168,12 +171,57 @@ export default {
 
     // console.log('chcecking if user logged in')
     //  (response.data.msg) ? false : true;
+  },
+  mounted() {
+    // let self = this
+    console.log('mounted')
+
+    this.$nextTick(() => {
+      const tour = this.$shepherd({
+        useModalOverlay: true,
+        classes: 'shepherd-theme-arrows'
+      })
+
+      tour.addSteps([
+        {
+          text: 'Test',
+          attachTo: { element: '.timelineCon', on: 'top' },
+          buttons: [
+            {
+              text: 'next',
+              action: tour.next
+            },
+            {
+              text: 'X',
+              action: tour.cancel
+            }
+          ]
+        },
+        {
+          text: 'Test 2', //~
+          attachTo: { element: '.dayCon', on: 'top' },
+          buttons: [
+            {
+              text: 'prev',
+              action: tour.back
+            },
+            {
+              text: 'X',
+              action: tour.cancel
+            }
+          ]
+        }
+      ])
+      tour.start()
+    })
   }
 }
 </script>
 
 <style lang="scss">
+@import '~shepherd.js/dist/css/shepherd.css';
 @import '@/styles/globalStyles.scss';
+
 input[type='time'],
 input[type='date'],
 input[type='text'] {
@@ -187,10 +235,7 @@ input[type='text'] {
 
 // tutorial
 .selected {
-  // @include softUiSelectedInsetShadow_teal();
-  box-shadow: inset -5px -5px 15px 0 white,
-    // inset 5px 5px 15px 0 transparentize(black, 0.9),
-      inset 5px 5px 10px 0 $teal;
+  box-shadow: inset -5px -5px 15px 0 white, inset 5px 5px 10px 0 $teal;
   color: $teal;
 }
 
@@ -202,10 +247,8 @@ input[type='text'] {
   display: flex;
 
   p {
-    // padding-right: $baseMargin * 3;
     margin-left: $baseMargin * 3;
     margin-right: $baseMargin * 3;
-    // text-align: center !important;
   }
 }
 

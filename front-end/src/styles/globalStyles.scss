@@ -165,7 +165,8 @@ $mblProfilePicRadius: 5vw;
     @include softUiShadow();
 }
 
-button, input[type=submit], input[type=button], .categoryListItem {
+button, input[type=submit], input[type=button], .categoryListItem,
+.shepherd-button {
     @include softUiShadow();
     color: $timbalBlack;
     cursor: pointer;
@@ -256,11 +257,42 @@ button.circle {
     height: $logEntryWidth * 1.25;
 }
 
-.circle:hover, input[type=submit]:hover, button:hover, input[type=button]:hover, .categoryListItem:hover {
+.circle:hover, input[type=submit]:hover, button:hover, input[type=button]:hover, .categoryListItem:hover, .shepherd-button:hover {
     @include softUiInsetShadow();//softUiSelectedInsetShadow_teal();
     // color: $teal;
 }
 
+// onboarding API
+.shepherd-content {
+    background-color: $grayWhite;
+    border-radius: 100px;
+    display: flex;
+    padding: $baseMargin * 2;
+}
+
+.shepherd-element {
+    @include softUiShadow();
+    background-color: $grayWhite;
+    border-radius: 100px;
+}
+
+.shepherd-arrow {
+    background-color: $grayWhite !important;
+}
+
+.shepherd-button {
+    background-color: $grayWhite;
+}
+.shepherd-button:hover {
+    background-color: $grayWhite !important;
+    color: $timbalBlack !important;
+}
+
+.shepherd-target {
+    padding: $baseMargin * 2; //~
+}
+
+// buttons
 .deleteButton:hover {
     background-color: red;
 }

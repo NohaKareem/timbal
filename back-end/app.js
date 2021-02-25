@@ -101,7 +101,7 @@ app.use('/categories', categoriesRouter);
 app.use('/system', systemRouter);
 app.use('/systems', systemsRouter);
 app.use('/systemsCategory', systemCategoryRouter);
-app.use('/systemsCategories', systemCategoriesRouter);
+app.use('/systemCategories', systemCategoriesRouter);
 app.use('/variable', variableRouter);
 app.use('/variables', variablesRouter);
 app.use('/users', usersRouter);
