@@ -173,47 +173,50 @@ export default {
     //  (response.data.msg) ? false : true;
   },
   mounted() {
-    // let self = this
-    console.log('mounted')
+    let self = this
+    let steps = []
 
-    this.$nextTick(() => {
-      const tour = this.$shepherd({
-        useModalOverlay: true,
-        classes: 'shepherd-theme-arrows'
+    // fetch and display onboarding steps
+    axios
+      .get('http://localhost:3000/onboardingSteps')
+      .then(function(response) {
+        steps = response.data
+
+        self.$nextTick(() => {
+          const tour = self.$shepherd({
+            useModalOverlay: true
+            // classes: 'shepherd-theme-arrows'
+          })
+          steps.forEach((step, i) => {
+            let buttons = []
+            if (i > 0)
+              buttons.push({
+                text: '←',
+                action: tour.back
+              })
+            if (i < steps.length - 1)
+              buttons.push({
+                text: steps.button ? steps.button : '→',
+                action: tour.next
+              })
+            buttons.push({
+              text: 'X',
+              action: tour.cancel
+            })
+            tour.addSteps([
+              {
+                text: `${step.heading} <br/><br/> ${step.text}`,
+                attachTo: { element: '.timelineCon', on: 'top' },
+                buttons: buttons
+              }
+            ])
+          })
+          tour.start()
+        })
       })
-
-      tour.addSteps([
-        {
-          text: 'Test',
-          attachTo: { element: '.timelineCon', on: 'top' },
-          buttons: [
-            {
-              text: 'next',
-              action: tour.next
-            },
-            {
-              text: 'X',
-              action: tour.cancel
-            }
-          ]
-        },
-        {
-          text: 'Test 2', //~
-          attachTo: { element: '.dayCon', on: 'top' },
-          buttons: [
-            {
-              text: 'prev',
-              action: tour.back
-            },
-            {
-              text: 'X',
-              action: tour.cancel
-            }
-          ]
-        }
-      ])
-      tour.start()
-    })
+      .catch(function(error) {
+        console.error(error)
+      })
   }
 }
 </script>

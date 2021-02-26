@@ -18,6 +18,7 @@ var categoryRouter = require('./routes/category');
 var categoriesRouter = require('./routes/categories');
 var variableRouter = require('./routes/variable');
 var variablesRouter = require('./routes/variables');
+var onboardingStepsRouter = require('./routes/onboardingSteps');
 var usersRouter = require('./routes/users');
 
 var flash = require('connect-flash');
@@ -104,6 +105,7 @@ app.use('/systemsCategory', systemCategoryRouter);
 app.use('/systemCategories', systemCategoriesRouter);
 app.use('/variable', variableRouter);
 app.use('/variables', variablesRouter);
+app.use('/onboardingSteps', onboardingStepsRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler

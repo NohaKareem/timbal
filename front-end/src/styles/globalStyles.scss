@@ -258,15 +258,14 @@ button.circle {
 }
 
 .circle:hover, input[type=submit]:hover, button:hover, input[type=button]:hover, .categoryListItem:hover, .shepherd-button:hover {
-    @include softUiInsetShadow();//softUiSelectedInsetShadow_teal();
-    // color: $teal;
+    @include softUiInsetShadow();
 }
 
 // onboarding API
 .shepherd-content {
     background-color: $grayWhite;
     border-radius: 100px;
-    display: flex;
+    color: red;
     padding: $baseMargin * 2;
 }
 
@@ -277,19 +276,34 @@ button.circle {
 }
 
 .shepherd-arrow {
-    background-color: $grayWhite !important;
+    background-color: rgba(white, 0);
+}
+
+.shepherd-arrow::before {
+    background-color: $grayWhite;
 }
 
 .shepherd-button {
     background-color: $grayWhite;
 }
+
+.shepherd-text {
+    margin-left: $baseMargin * 2;
+}
+
 .shepherd-button:hover {
-    background-color: $grayWhite !important;
-    color: $timbalBlack !important;
+    background-color: $grayWhite;
+    color: $timbalBlack;
+}
+
+.shepherd-enabled {
+    border-radius: 100px;
 }
 
 .shepherd-target {
-    padding: $baseMargin * 2; //~
+    padding: $baseMargin * 2;
+    @include softUiInsetShadow();
+    border-radius: 100px;
 }
 
 // buttons
@@ -365,8 +379,7 @@ input[type=text], input[type=password], input[type=email] {
 
     .timeline {
         width: 90vw;
-    
-        // horizontal scroll https://stackoverflow.com/a/258393 
+        // horizontal scroll https://stackoverflow.com/a/258393
         overflow: auto;
         -ms-overflow-y: hidden;
         overflow-y: hidden;
@@ -382,7 +395,7 @@ input[type=text], input[type=password], input[type=email] {
     text-align: center;
     align-items: center;
     align-content: center;
-} 
+}
 
 .addCategory, .deleteWindow {
     z-index: 5;
