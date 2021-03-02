@@ -3,13 +3,13 @@
     <!-- <signIn v-if="!userLoggedIn"/> -->
 
     <div class="dayCon">
-      <button
+      <!-- <button
         class="circle tutorialButton"
         ref="tutorialButton"
         type="button"
         @click="showTutorial()"
         ><span class="italic">i</span></button
-      >
+      > -->
 
       <div class="hidden tutorial" ref="tutorial1">
         <div class="infoSign"><span class="italic">i</span></div>
@@ -37,7 +37,7 @@
         </select>
 
         <div class="timelineCon">
-          <timeline />
+          <timeline :key="renderUpdate" />
         </div>
 
         <button class="circle" ref="addLogButton" @click="startLogInput()"
@@ -54,7 +54,7 @@
           minutes for that (top-level) category</p
         >
       </div>
-      <bubbleChart />
+      <bubbleChart :key="renderUpdate" />
     </div>
   </div>
 </template>
@@ -83,7 +83,8 @@ export default {
       currentVariable: 'tasks',
       variables: [],
       unselected: true,
-      displayForm: false
+      displayForm: false,
+      renderUpdate: 0
     }
   },
   computed: {
@@ -108,6 +109,7 @@ export default {
     },
     updateVariable() {
       this.unselected = false
+      this.renderUpdate++
       // let self = this;
       console.log(this.currentVariable)
       this.$store.commit('variable', this.currentVariable)
@@ -211,7 +213,7 @@ export default {
               }
             ])
           })
-          tour.start()
+          // tour.start()
         })
       })
       .catch(function(error) {
