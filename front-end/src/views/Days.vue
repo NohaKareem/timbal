@@ -29,7 +29,7 @@
           <option
             v-for="variable in variables"
             :key="variable._id"
-            :value="unselected ? 'tasks' : variable._id"
+            :value="variable._id"
             ref="currentVariableSelection"
           >
             {{ variable.name }}
@@ -79,10 +79,8 @@ export default {
   },
   data() {
     return {
-      // days: [],
       currentVariable: 'tasks',
       variables: [],
-      unselected: true,
       displayForm: false,
       renderUpdate: 0
     }
@@ -108,15 +106,8 @@ export default {
       this.$refs.addLogButton.innerHTML = this.displayForm ? 'X' : '+'
     },
     updateVariable() {
-      this.unselected = false
-      this.renderUpdate++
-      // let self = this;
-      console.log(this.currentVariable)
+      this.renderUpdate++ // force update render
       this.$store.commit('variable', this.currentVariable)
-      // axios.get(`http://localhost:3000/variable/name/${self.currentVariable}`)
-      // .then(function(response) {
-      //   self.$store.commit('variable', response.data);
-      // }).catch(function(error) { console.error(error);});
     }
   },
 
