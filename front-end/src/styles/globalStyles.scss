@@ -20,11 +20,11 @@ $category_8: #96F5F3;
 $category_9: #C5F566;
 $category_10: #99F596;
 
-$desktopH2FontSize: 3vw;//28px;//30px;
-$desktopPFontSize: 15px;//20px;
+$desktopH2FontSize: 3vw;
+$desktopPFontSize: 15px;
 
-$mblH2FontSize: 3vw;// 25px;
-$mblPFontSize: 15px;//19px;
+$mblH2FontSize: 3vw;
+$mblPFontSize: 15px;
 
 $baseMargin: 10px;
 $logEntryWidth: 7vw; // timeLogGrid.vue
@@ -36,37 +36,54 @@ $mobileLogEntryWidth: 5vw; // timeLogGrid.vue
 // ::-webkit-input-placeholder { @content }
 // :-moz-placeholder           { @content }
 // ::-moz-placeholder          { @content }
-// :-ms-input-placeholder      { @content }  
+// :-ms-input-placeholder      { @content }
 // }
 
 @mixin softUiShadow() {
     box-shadow:
         -5px -5px 15px 0 white,
-        5px 5px 15px 0 transparentize(black, 0.9);  
+        5px 5px 15px 0 transparentize(black, 0.9);
 }
 
 @mixin softUiShadow_SVG() {
     -webkit-filter: drop-shadow(
         -5px -5px 15px 0 white);
     -webkit-filter: drop-shadow(
-        5px 5px 15px 0 transparentize(black, 0.9));  
+        5px 5px 15px 0 transparentize(black, 0.9));
 
     -moz-filter: drop-shadow(
         -5px -5px 15px 0 white);
     -moz-filter: drop-shadow(
-        5px 5px 15px 0 transparentize(black, 0.9));  
-        
+        5px 5px 15px 0 transparentize(black, 0.9));
+
     filter: drop-shadow(
         -5px -5px 15px 0 white);
     filter: drop-shadow(
-        5px 5px 15px 0 transparentize(black, 0.9));  
+        5px 5px 15px 0 transparentize(black, 0.9));
+}
+
+.softUiInsetShadow_SVG {
+    -webkit-filter: drop-shadow(
+        -5px -5px 15px 0 white);
+    -webkit-filter: drop-shadow(
+        5px 5px 15px 0 transparentize(black, 0.9));
+
+    -moz-filter: drop-shadow(
+        -5px -5px 15px 0 white);
+    -moz-filter: drop-shadow(
+        5px 5px 15px 0 transparentize(black, 0.9));
+
+    filter: drop-shadow(
+        -5px -5px 15px 0 white);
+    filter: drop-shadow(
+        5px 5px 15px 0 transparentize(black, 0.9));
 }
 
 @mixin softUiInsetShadow() {
     box-shadow:
         inset -5px -5px 15px 0 white,
-        inset 5px 5px 15px 0 transparentize(black, 0.9);  
-        // inset 5px 5px 15px 0 transparentize($teal, 0.9);  
+        inset 5px 5px 15px 0 transparentize(black, 0.9);
+        // inset 5px 5px 15px 0 transparentize($teal, 0.9);
 }
 
 @mixin softUiSelectedInsetShadow_teal() {
@@ -165,7 +182,8 @@ $mblProfilePicRadius: 5vw;
     @include softUiShadow();
 }
 
-button, input[type=submit], input[type=button], .categoryListItem {
+button, input[type=submit], input[type=button], .categoryListItem,
+.shepherd-button {
     @include softUiShadow();
     color: $timbalBlack;
     cursor: pointer;
@@ -233,7 +251,6 @@ button, input[type=submit], input[type=button], .categoryListItem {
     display: flex;
     justify-content: center;
     align-items: center;
-    // height: 5vw !important;
     margin-top: $baseMargin;
 }
 
@@ -244,7 +261,7 @@ button.dropDown, input[type=submit], input[type=button], .categoryListItem  {
 }
 
 .categoryListItem {
-    width: auto;//
+    width: auto;
     margin-right: $baseMargin;
 }
 
@@ -256,11 +273,56 @@ button.circle {
     height: $logEntryWidth * 1.25;
 }
 
-.circle:hover, input[type=submit]:hover, button:hover, input[type=button]:hover, .categoryListItem:hover {
-    @include softUiInsetShadow();//softUiSelectedInsetShadow_teal();
-    // color: $teal;
+.circle:hover, input[type=submit]:hover, button:hover, input[type=button]:hover, .categoryListItem:hover, .shepherd-button:hover {
+    @include softUiInsetShadow();
 }
 
+// onboarding API
+.shepherd-content {
+    background-color: $grayWhite;
+    border-radius: 100px;
+    color: red;
+    padding: $baseMargin * 2;
+}
+
+.shepherd-element {
+    @include softUiShadow();
+    background-color: $grayWhite;
+    border-radius: 100px;
+}
+
+.shepherd-arrow {
+    background-color: rgba(white, 0);
+}
+
+.shepherd-arrow::before {
+    background-color: $grayWhite;
+}
+
+.shepherd-button {
+    background-color: $grayWhite;
+}
+
+.shepherd-text {
+    margin-left: $baseMargin * 2;
+}
+
+.shepherd-button:hover {
+    background-color: $grayWhite;
+    color: $timbalBlack;
+}
+
+.shepherd-enabled {
+    border-radius: 100px;
+}
+
+.shepherd-target {
+    padding: $baseMargin * 2;
+    @include softUiInsetShadow();
+    border-radius: 100px;
+}
+
+// buttons
 .deleteButton:hover {
     background-color: red;
 }
@@ -290,7 +352,7 @@ input[type=text], input[type=password], input[type=email] {
     @include softUiInsetShadow();
     border-radius: $baseMargin * 5;
     width: 30vw;
-    height: 4vw;//6vw;
+    height: 4vw;
     text-align: center;
 }
 
@@ -333,8 +395,7 @@ input[type=text], input[type=password], input[type=email] {
 
     .timeline {
         width: 90vw;
-    
-        // horizontal scroll https://stackoverflow.com/a/258393 
+        // horizontal scroll https://stackoverflow.com/a/258393
         overflow: auto;
         -ms-overflow-y: hidden;
         overflow-y: hidden;
@@ -350,7 +411,7 @@ input[type=text], input[type=password], input[type=email] {
     text-align: center;
     align-items: center;
     align-content: center;
-} 
+}
 
 .addCategory, .deleteWindow {
     z-index: 5;
@@ -358,8 +419,6 @@ input[type=text], input[type=password], input[type=email] {
     border-radius: $baseMargin;
     padding: $baseMargin * 3;
     margin-top: -50vh;
-    // margin-left: 10%;//22.5%;
-    // margin-top: -30%;//-20
     background-color: $grayWhite;
     @include softUiShadow();
 
@@ -375,16 +434,8 @@ input[type=text], input[type=password], input[type=email] {
     align-items: center;
     justify-content: center;
     text-align: center;
-    // margin-top: -10%;
     top: 50%;
     top: -100%;
-    // position: absolute;
-    // position: fixed;
-}
-
-.deleteWindow {
-    // margin-top: -100%;
-    // top: -100%;
 }
 
 .confirmationOptions {
@@ -394,7 +445,7 @@ input[type=text], input[type=password], input[type=email] {
         margin-top: $baseMargin * 3;
         border-radius: $baseMargin * 5;
         width: 12vw;
-        height: 4vw;//5vw;
+        height: 4vw;
     }
     text-align: center;
 }
@@ -402,8 +453,6 @@ input[type=text], input[type=password], input[type=email] {
 .addLogButton, .addCategoryButton, 
 input[type=submit], input[type=button] {
     text-align: center;
-    // border-radius: $baseMargin * 3;
-    // padding: $baseMargin;
     input[type=submit], button[type=button] {
         border-radius: $baseMargin * 3;
         width: 20vw;
@@ -430,10 +479,6 @@ input[type=submit], input[type=button] {
     align-items: center;
     justify-content: center;
     text-align: center;
-
-    // height: $logEntryWidth * .75;
-    // width: $logEntryWidth * .75;
-    // font-size: smaller;
 }
 
 .colorGridCon {
@@ -442,7 +487,6 @@ input[type=submit], input[type=button] {
     text-align: center;
     display: flex;
     justify-content: center;
-    // margin-right: $baseMargin * 10;
 
     .colorGrid {
         display: grid;
@@ -489,7 +533,7 @@ input[type=submit], input[type=button] {
     text-align: center;
     justify-content: center;
     align-items: center;
-    
+
     input {
         margin-top: $baseMargin;
     }
@@ -530,18 +574,13 @@ a.imageLink:hover {
 // }
 
 @media screen and (min-width: $desktopWidth) {
-    // // testing
-    // body {
-    //     background-color: pink;
-    // }
-
     .logo {
-        width: 15vh;//200px;
+        width: 15vh;
     }
 
     .profilePic {
-        width: 5vh;//3vw;
-        height: 5vh;//3vw;
+        width: 5vh;
+        height: 5vh;
     }
 
     button {
@@ -550,14 +589,23 @@ a.imageLink:hover {
     }
 
     button.dropDown {
-        width: 8vw;//120px
-        height: 3vw;//30px;//~
+        width: 8vw;
+        height: 3vw;
     }
 
     button.circle {
         border-radius: 50%;
         width: $mobileLogEntryWidth;
         height: $mobileLogEntryWidth;
+    }
+
+    .help {
+        // position: absolute;
+        // margin-bottom: -500px;
+        margin-left: 97%;
+        border-radius: 50%;
+        width: $mobileLogEntryWidth / 2;
+        height: $mobileLogEntryWidth / 2;
     }
 
     //  log input
@@ -575,12 +623,9 @@ a.imageLink:hover {
     // add category forms
     .addLogButton, .addCategoryButton, 
     input[type=submit], input[type=button] {
-        // width: 7vw;//9vw;//11.5vw;
-        // height: 3vw;//4vw;
-        // font-size: $desktopPFontSize;
     input[type=submit], input[type=button], button[type=button], .categoryListItem  {
-            width: 7vw;//9vw;//11.5vw;
-            height: 3vw;//4vw;
+            width: 7vw;
+            height: 3vw;
             font-size: $desktopPFontSize;
         }
     }
@@ -627,18 +672,16 @@ a.imageLink:hover {
     // category input 
     .addCategory {
         padding: $baseMargin * 3;
-        // margin-left: 22.5%;
-        // margin-top: -29%;//-20
     }
 
     button.circle {
-        width: $mobileLogEntryWidth;//3vw;
-        height: $mobileLogEntryWidth;//3vw;
+        width: $mobileLogEntryWidth;
+        height: $mobileLogEntryWidth;
         font-size: $desktopPFontSize;
     }
 
     .categoryListItem {
-        width: auto; // 7vw
+        width: auto;
         height: 3vw;
         font-size: $desktopPFontSize;
     }

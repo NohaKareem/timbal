@@ -6,85 +6,75 @@ const APP_NAME = "Timbal";
 
 // check if user is logged in
 function isLoggedIn(req, res, next) {
-	if(req.user) {//isAuthenticated()
-		return next();
+  if (req.user) {//isAuthenticated()
+    return next();
   }
-  return  res.json({ msg: 'need to login' });
+  return res.json({ msg: 'need to login' });
 }
 
 // GET a day's log for a specific variable
 // testing: { dayId: many vars: 5e611877b705711710a1b28d, task only: 5e6aff42d2ff2246345cdb15, 
 //  tasks varId:5e3316671c71657e18823380, energy varId: 5e70f222aba2813dac23b9d8 }
 router.get('/:dayId/var/:varId', (req, res, next) => {
-    Day.findOne({ _id: req.params.dayId, 
-        'variables.variable': req.params.varId }, { 'variables.variable.$': req.params.varId }, (err, day) => {
-      handleErr(err);
-      console.log(day.variables.variable)
-      res.json(day);
-    });
-  });
-  
-// GET a day's categories' details for a particular variable using populate
-// example (eat) http://localhost:3000/day/5e6aff42d2ff2246345cdb15/var/5e3316671c71657e18823380/details
-// example (many categories) http://localhost:3000/day/5e611877b705711710a1b28d/var/5e3316671c71657e18823380/details
-router.get('/:dayId/var/:varId/details', (req, res, next) => {
-  Day.findOne({ _id: req.params.dayId, 
-  'variables.variable' : req.params.varId 
+  Day.findOne({
+    _id: req.params.dayId,
+    'variables.variable': req.params.varId
   }, { 'variables.variable.$': req.params.varId }, (err, day) => {
+    handleErr(err, next);
+    console.log(day.variables.variable)
     res.json(day);
+  });
+});
+
+// GET a day's categories' details for a particular variable using populate
+router.get('/:dayId/var/:varId/details', (req, res, next) => {
+  console.log(req.params.dayId)
+  Day.findOne({
+    _id: req.params.dayId,
+    'variables.variable': req.params.varId
+  }, { 'variables.variable.$': 1, 'variables.log_data': 1 }, (err, day) => {
+    res.json(day);
+    console.log(day)
+    console.error(err)
     // res.render('vis/actualTimeSeries', { day: day });
   }).populate('variables.log_data.full_category');
-}); 
+});
 
 router.get('/:dayId/var/:varId/vis', (req, res, next) => {
-  Day.find({ _id: req.params.dayId, 
-  'variables.variable' : req.params.varId 
+  Day.find({
+    _id: req.params.dayId,
+    'variables.variable': req.params.varId
   }, (err, day) => {
-  // res.json(day);
-  res.render('vis/actualTimeSeries', { day: day });
+    // res.json(day);
+    res.render('vis/actualTimeSeries', { day: day });
   }).populate('variables.log_data.full_category');
-}); 
-
-// testing aggregate https://stackoverflow.com/a/42395156 https://docs.mongodb.com/manual/reference/operator/aggregation/add/
-// https://docs.mongodb.com/manual/reference/operator/aggregation/arrayElemAt/
-router.get('/:dayId/var/:varId/testing', (req, res, next) => {
-  Day.aggregate([
-    { $match: { _id: req.params.dayId, 'variables.variable' : req.params.varId } },
-    { $project: { '$variables.variable': 1, 
-            '$variables.log_data.full_category[0].code' : 1,
-    duration: Math.abs((variables.log_data.start_time.getHours() * 60 + variables.log_data.start_time.getMinutes())
-            - (variables.log_data.end_time.getHours() * 60 + variables.log_data.end_time.getMinutes()))
-    } }
-  ],
-  (err, day) => {
-  res.json(day);
-  // res.render('vis/actualTimeSeries', { day: day });
-  }).populate('variables.log_data.full_category');
-}); 
+});
 
 // ejs test route
-router.get('/new', function(req, res, next) {
+router.get('/new', function (req, res, next) {
   Day.find((err, days) => {
-  handleErr(err);
-  // res.json(days);
-  res.render('day_new', { title: "Add day", days: days });
+    handleErr(err, next);
+    // res.json(days);
+    res.render('day_new', { title: "Add day", days: days });
   }).sort({ date: 'desc' });
 });
 
 // GET day document if exists (check by date)
-router.get('/date/:date', function(req, res, next) {
-  Day.findOne({"date": {
-    "$gte": new Date(req.params.date).setHours(1, 0, 0),
-    "$lte": new Date(req.params.date).setHours(23, 59, 59)
-  }}, (err, day) => {
+router.get('/date/:date', function (req, res, next) {
+  Day.findOne({
+    "date": {
+      "$gte": new Date(req.params.date).setHours(1, 0, 0),
+      "$lte": new Date(req.params.date).setHours(23, 59, 59)
+    }
+  }, (err, day) => {
     // console.log('original', req.params.date)
     // console.log('start', new Date(req.params.date).setHours(1, 0, 0))
     // console.log('end', new Date(req.params.date).setHours(23, 59, 59))
     console.log('day date query result', day)
-  handleErr(err);
-  if (day)
+    handleErr(err, next);
+    if (day)
       res.json(day);
-  else res.json(false);
+    else res.json(false);
   });
 });
 
@@ -101,7 +91,7 @@ router.post('/', (req, res, next) => {
   end_time = temp_end_time;
 
   // saving data
-  var newDay = new Day(); 
+  var newDay = new Day();
   newDay.date = req.body.date; //~ check if exists, format
   newDay.variables = [{
     variable: req.body.variable,
@@ -111,18 +101,18 @@ router.post('/', (req, res, next) => {
       full_category: req.body.full_category //req.body.full_category.split('.') //~ handle if new category
     }]
   }];
-  newDay.save((err, data) => { 
-  // data.populate('variables.log_data.full_category')
-  handleErr(err);
-  console.log("Day saved to data collection", data);
-  res.json(data);
+  newDay.save((err, data) => {
+    // data.populate('variables.log_data.full_category')
+    handleErr(err, next);
+    console.log("Day saved to data collection", data);
+    res.json(data);
   });
 });
 
 // Update day document
 router.post('/:id/variable/:varId', (req, res, next) => {
   // check if variable already exists to modify update query findOne then findOneAndUpdate https://stackoverflow.com/a/43867483
-  
+
   // formatting time input
   let start_time = req.body.start_time;
   let end_time = req.body.end_time;
@@ -136,19 +126,21 @@ router.post('/:id/variable/:varId', (req, res, next) => {
 
   // updating data
   var q = Day.findOneAndUpdate(
-  {  _id: req.params.id,
-      'variables': {"$elemMatch": { "variable": req.params.varId }} 
-  }, { //~var id 
-  $push: {
+    {
+      _id: req.params.id,
+      'variables': { "$elemMatch": { "variable": req.params.varId } }
+    }, { //~var id 
+    $push: {
       // using push https://stackoverflow.com/a/23577266/1446598 https://stackoverflow.com/a/33049923/1446598
-          'variables.$.log_data': { //~if no var => variables.variable
-              start_time: start_time, 
-              end_time: end_time, 
-              full_category: req.body.full_category
-          }
-  }}
+      'variables.$.log_data': { //~if no var => variables.variable
+        start_time: start_time,
+        end_time: end_time,
+        full_category: req.body.full_category
+      }
+    }
+  }
   );
-  q.exec(function(err, data) {
+  q.exec(function (err, data) {
     console.log('updated day document - index', data);
     res.json(data);
   });
@@ -157,17 +149,17 @@ router.post('/:id/variable/:varId', (req, res, next) => {
 // delete a day document
 router.post('/day/:id/delete', (req, res, next) => {
   console.log('in delete')
-    var q = Day.findOneAndDelete({  _id: req.params.id });
-    q.exec(function(err, mydata) {
+  var q = Day.findOneAndDelete({ _id: req.params.id });
+  q.exec(function (err, mydata) {
     console.log('deleted day document');
   });
   res.redirect('/');
 });
-  
-  
+
+
 // helper method
 function handleErr(err) {
-  if(err) return next(err);
+  if (err) return next(err);
 }
 
 module.exports = router;

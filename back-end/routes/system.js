@@ -72,9 +72,7 @@ router.post('/', (req, res, next) => { //~
     { 
       description: req.body.description,
       color: req.body.color,
-      $push: {
-        categories: req.body.variable_category
-      }
+      $push: { categories: req.body.variable_category }
     }, 
     // options
     { upsert: true, new: true }
