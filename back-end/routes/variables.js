@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Variable = require('../models/Variable.js');
+var Category = require('../models/Category.js');
 
 const APP_NAME = "Timbal";
 

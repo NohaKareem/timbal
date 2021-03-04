@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var System = require('../models/System.js');
+var SystemCategory = require('../models/SystemCategory.js');
 
 const APP_NAME = "Timbal";
 
@@ -28,14 +29,13 @@ router.get('/:id', (req, res, next) => {
     });
 });
 
-// todo merge
-// // GET all categories for variable with specific id
-// router.get('/:id/categories', (req, res, next) => {
-//     Category.find({ variable: req.params.id }, (err, categories) => {
-//         handleErr(err);
-//         res.json(categories);
-//     }).sort({ code: 'asc' });
-// });
+// GET all categories for system with specific id
+router.get('/:id/categories', (req, res, next) => {
+    SystemCategory.find({ system: req.params.id }, (err, systemCategories) => {
+        handleErr(err);
+        res.json(systemCategories);
+    }).sort({ name: 'asc' });
+});
 
 // helper method
 function handleErr(err) {

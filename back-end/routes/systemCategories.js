@@ -16,6 +16,8 @@ function isLoggedIn(req, res, next) {
 router.get('/', (req, res, next) => {
     SystemCategory.find((err, systemCategories) => {
         handleErr(err);
+        console.log(err);
+        console.log(systemCategories);
         res.json(systemCategories);
     }).sort({ name: 'asc' });
 });
