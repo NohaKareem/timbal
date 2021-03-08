@@ -93,9 +93,18 @@ $mobileLogEntryWidth: 5vw; // timeLogGrid.vue
         inset 5px 5px 10px 0 $teal;//transparentize($teal, 0.9);  
 }
 
+select:hover {
+    cursor:pointer;
+}
 
 .hidden {
     display: none !important;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 body {
@@ -204,7 +213,6 @@ button, input[type=submit], input[type=button], .categoryListItem,
 
 // category input list
 .formatDataDisplayCon {
-
     // horizontal scroll https://stackoverflow.com/a/258393 
     overflow: auto;
     -ms-overflow-y: hidden;
@@ -526,7 +534,7 @@ input[type=submit], input[type=button] {
     margin-right: $baseMargin * 3;
 }
 
-// authentication forms 
+// authentication forms
 .signUpForm {
     display: flex;
     flex-direction: column;
@@ -569,6 +577,41 @@ a.imageLink:hover {
     margin-top: $baseMargin;
 }
 
+// time portraits
+.center {
+    button {
+        padding: $baseMargin $baseMargin;
+    }
+}
+.portraitCon {
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    height: 30px;
+    justify-content: space-around;
+    align-items: center;
+    margin: 5% 10%;
+    button {
+        height: 100%;
+        padding: $baseMargin;
+        margin-right: $baseMargin;
+    }
+    .timeCon {
+        @include softUiInsetShadow();
+        padding: 0 $baseMargin * 2;
+        border-radius: $baseMargin * 5;
+    }
+    .displayButton:hover {
+        @include softUiShadow();
+        cursor: auto;
+    }
+}
+
+.portraitVisCon {
+    display: flex;
+    justify-content: center;
+}
+
 // .alternativeLinks {
 //     padding-top: $baseMargin * 2;
 // }
@@ -600,8 +643,6 @@ a.imageLink:hover {
     }
 
     .help {
-        // position: absolute;
-        // margin-bottom: -500px;
         margin-left: 97%;
         border-radius: 50%;
         width: $mobileLogEntryWidth / 2;
@@ -618,7 +659,7 @@ a.imageLink:hover {
     input[type=text] {
         width: 15vw;
         height: 4vw;
-    } 
+    }
 
     // add category forms
     .addLogButton, .addCategoryButton, 
@@ -638,7 +679,7 @@ a.imageLink:hover {
             height: 3vw;
         }
     }
-    
+
     .auth {
         input[type=submit] {
             width: 10vw;

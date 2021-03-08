@@ -6,10 +6,10 @@ const APP_NAME = "Timbal";
 
 // check if user is logged in
 function isLoggedIn(req, res, next) {
-	if(req.user) {//isAuthenticated()
-		return next();
+  if (req.user) {//isAuthenticated()
+    return next();
   }
-  return  res.json({ msg: 'need to login' });
+  return res.json({ msg: 'need to login' });
 }
 
 // // GET all systems
@@ -21,10 +21,10 @@ function isLoggedIn(req, res, next) {
 // });
 
 // ejs test route
-router.get('/new', function(req, res, next) {
-    res.render('system_new', { title: "Add system" });
+router.get('/new', function (req, res, next) {
+  res.render('system_new', { title: "Add system" });
 });
-  
+
 // // GET system id by name
 // router.get('/name/:name', function(req, res, next) {
 //     // capitalize input https://stackoverflow.com/a/49003361
@@ -36,7 +36,7 @@ router.get('/new', function(req, res, next) {
 //       else res.json(false);
 //     });
 //   });
-  
+
 // // POST new system
 // router.post('/', (req, res, next) => { //~
 //     var newSystem = new System(); 
@@ -54,34 +54,33 @@ router.get('/new', function(req, res, next) {
 
 // POST new system after checking if it already exists
 router.post('/', (req, res, next) => { //~
-  // var newSystem = new System(); 
-  // newSystem.name = req.body.name;
-  // newSystem.description = req.body.description;
-  // newSystem.color = req.body.color;
+  var newSystem = new System();
+  newSystem.name = req.body.name;
+  newSystem.description = req.body.description;
 
-  // newSystem.save((err, data) => { 
-  //     handleErr(err);
-  //     console.log("System saved to data collection", data);
-  // });
+  newSystem.save((err, data) => {
+    handleErr(err);
+    console.log("System saved to data collection", data);
+  });
 
-  // set upsert to set up data https://stackoverflow.com/a/33401897/1446598
-  var q = System.findOneAndUpdate(
-    // query
-    { name: req.body.name }, 
-    // update
-    { 
-      description: req.body.description,
-      color: req.body.color,
-      $push: { categories: req.body.variable_category }
-    }, 
-    // options
-    { upsert: true, new: true }
-  );
-    q.exec(function(err, data) {
-      console.log('added system document', data);
-      res.redirect('back');
-      // res.json(data);
-    });
+  // // set upsert to set up data https://stackoverflow.com/a/33401897/1446598
+  // var q = System.findOneAndUpdate(
+  //   // query
+  //   { name: req.body.name }, 
+  //   // update
+  //   { 
+  //     description: req.body.description,
+  //     color: req.body.color,
+  //     $push: { categories: req.body.variable_category }
+  //   }, 
+  //   // options
+  //   { upsert: true, new: true }
+  // );
+  //   q.exec(function(err, data) {
+  //     console.log('added system document', data);
+  //     res.redirect('back');
+  //     // res.json(data);
+  //   });
 
   // res.redirect('back');
 });
@@ -96,7 +95,7 @@ router.post('/', (req, res, next) => { //~
 
 // helper method
 function handleErr(err) {
-  if(err) return next(err);
+  if (err) return next(err);
 }
 
 module.exports = router;

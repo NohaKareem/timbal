@@ -3,6 +3,8 @@
     <!-- <signIn v-if="!userLoggedIn"/> -->
 
     <div class="dayCon">
+      <button class="help" @click="launchOnboarding()">?</button>
+
       <!-- <button
         class="circle tutorialButton"
         ref="tutorialButton"
@@ -29,7 +31,8 @@
           <option
             v-for="variable in variables"
             :key="variable._id"
-            :value="variable._id"
+            :value="unselected ? 'tasks' : variable._id"
+            @change="updateVariable()"
             ref="currentVariableSelection"
           >
             {{ variable.name }}
@@ -82,7 +85,9 @@ export default {
       currentVariable: 'tasks',
       variables: [],
       displayForm: false,
-      renderUpdate: 0
+      renderUpdate: 0,
+      unselected: true,
+      tour: {}
     }
   },
   computed: {
@@ -106,8 +111,12 @@ export default {
       this.$refs.addLogButton.innerHTML = this.displayForm ? 'X' : '+'
     },
     updateVariable() {
+      this.unselected = false
       this.renderUpdate++ // force update render
       this.$store.commit('variable', this.currentVariable)
+    },
+    launchOnboarding() {
+      this.tour.start()
     }
   },
 
@@ -176,7 +185,7 @@ export default {
         steps = response.data
 
         self.$nextTick(() => {
-          const tour = self.$shepherd({
+          self.tour = self.$shepherd({
             useModalOverlay: true
             // classes: 'shepherd-theme-arrows'
           })
@@ -185,18 +194,18 @@ export default {
             if (i > 0)
               buttons.push({
                 text: '←',
-                action: tour.back
+                action: self.tour.back
               })
             if (i < steps.length - 1)
               buttons.push({
                 text: steps.button ? steps.button : '→',
-                action: tour.next
+                action: self.tour.next
               })
             buttons.push({
               text: 'X',
-              action: tour.cancel
+              action: self.tour.cancel
             })
-            tour.addSteps([
+            self.tour.addSteps([
               {
                 text: `${step.heading} <br/><br/> ${step.text}`,
                 attachTo: { element: '.timelineCon', on: 'top' },
@@ -204,7 +213,7 @@ export default {
               }
             ])
           })
-          // tour.start()
+          // self.tour.start()
         })
       })
       .catch(function(error) {

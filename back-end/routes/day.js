@@ -60,6 +60,7 @@ router.get('/new', function (req, res, next) {
 });
 
 // GET day document if exists (check by date)
+// test query localhost:3000/day/date/2020-01-30T15:00:00.000Z
 router.get('/date/:date', function (req, res, next) {
   Day.findOne({
     "date": {
@@ -67,9 +68,24 @@ router.get('/date/:date', function (req, res, next) {
       "$lte": new Date(req.params.date).setHours(23, 59, 59)
     }
   }, (err, day) => {
-    // console.log('original', req.params.date)
-    // console.log('start', new Date(req.params.date).setHours(1, 0, 0))
-    // console.log('end', new Date(req.params.date).setHours(23, 59, 59))
+    console.log('day date query result', day)
+    handleErr(err, next);
+    if (day)
+      res.json(day);
+    else res.json(false);
+  });
+});
+
+// GET day document if exists, given a time frame and variable
+// test query localhost:3000/portrait/start/2020-01-30T15:00:00.000Z/end/2020-02-30T15:00:00.000Z/v/5e3316671c71657e18823380
+router.get('/start/:startDate/end/:endDate/variable/:variable', function (req, res, next) {
+  Day.findOne({
+    "date": {
+      "$gte": new Date(req.params.startDate).setHours(1, 0, 0),
+      "$lte": new Date(req.params.endDate).setHours(23, 59, 59)
+    },
+    "variables.variable": req.params.variable
+  }, (err, day) => {
     console.log('day date query result', day)
     handleErr(err, next);
     if (day)

@@ -16,7 +16,7 @@ function isLoggedIn(req, res, next) {
 router.get('/new', function(req, res, next) {
     res.render('variable_new', { title: "Add variable" });
 });
-  
+
 // GET variable id by name
 router.get('/name/:name', function(req, res, next) {
     // capitalize input https://stackoverflow.com/a/49003361
@@ -28,14 +28,14 @@ router.get('/name/:name', function(req, res, next) {
       else res.json(false);
     });
   });
-  
+
 // POST new variable
 router.post('/', (req, res, next) => {
-    var newVariable = new Variable(); 
+    var newVariable = new Variable();
     newVariable.name = req.body.name;
     newVariable.description = req.body.description;
 
-    newVariable.save((err, data) => { 
+    newVariable.save((err, data) => {
         handleErr(err);
         console.log("Variable saved to data collection", data);
     });

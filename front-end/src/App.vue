@@ -25,21 +25,15 @@
             <!-- <router-link to="/queryBuilder">Query Builder</router-link> |  -->
             <router-link to="/">Home</router-link>
             <router-link to="/categories">Category Library</router-link>
+            <router-link to="/systems">Systems Library</router-link>
+            <router-link to="/timePortraits">Time Portraits</router-link>
           </div>
           <br />
-          <footer>
+          <!-- <footer>
             <button class="help">?</button>
-          </footer>
+          </footer> -->
         </nav>
       </header>
-      <!-- <div class="testingNav">
-        <h2 class="hidden">test nav bar</h2>
-        <router-link to="/days">Days</router-link> | 
-        <router-link to="/systems">Systems</router-link> | 
-        <router-link to="/categories">Categories</router-link> | 
-        <router-link to="/variables">Variables</router-link> |
-        <router-link to="/signUp">Sign Up</router-link>
-      </div> -->
       <router-view />
     </div>
   </div>

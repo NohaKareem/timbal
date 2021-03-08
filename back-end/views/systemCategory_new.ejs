@@ -1,27 +1,30 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <% include layout/nav %>
-    
-    <h1><%= title %></h1>
-    <form action="/system" method="POST">
-        <label for="name">name</label>
-        <input type="text" name="name" id="name">
-        <br>
-        <label for="description">description</label>
-        <input type="text" name="description" id="description">
-        <br>
-        <label for="color">color (id)</label>
-        <input type="text" name="color" id="color" value="5e8b9ead4b8d5674645b32ba">
-        <input type="submit" value="add">
-        <br>
-        <label for="variable_category">variable_category</label>
-        <input type="text" name="variable_category" id="variable_category" value="5e61102fb705711710a1b286">
-        <input type="submit" value="add">
-    </form>
-  </body>
+
+<head>
+  <title><%= title %></title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+  <% include layout/nav %>
+
+  <h1><%= title %></h1>
+  <form action="/system" method="POST">
+    <label for="name">name</label>
+    <input type="text" name="name" id="name">
+    <br>
+    <label for="description">description</label>
+    <input type="text" name="description" id="description">
+    <br>
+    <label for="color">color (id)</label>
+    <input type="text" name="color" id="color" value="5e8b9ead4b8d5674645b32ba">
+    <input type="submit" value="add">
+    <br>
+    <label for="system_category">system_category</label>
+    <input type="text" name="system_category" id="system_category" value="5e61102fb705711710a1b286">
+    <input type="submit" value="add">
+  </form>
+</body>
+
 </html>
