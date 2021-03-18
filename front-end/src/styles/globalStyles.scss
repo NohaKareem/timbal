@@ -26,6 +26,8 @@ $desktopPFontSize: 15px;
 $mblH2FontSize: 3vw;
 $mblPFontSize: 15px;
 
+$formElemHt: 3vh; // 3vw
+
 $baseMargin: 10px;
 $logEntryWidth: 7vw; // timeLogGrid.vue
 $mobileLogEntryWidth: 5vw; // timeLogGrid.vue
@@ -84,6 +86,10 @@ $mobileLogEntryWidth: 5vw; // timeLogGrid.vue
         inset -5px -5px 15px 0 white,
         inset 5px 5px 15px 0 transparentize(black, 0.9);
         // inset 5px 5px 15px 0 transparentize($teal, 0.9);
+}
+
+.softUiInsetShadow {
+    @include softUiInsetShadow();
 }
 
 @mixin softUiSelectedInsetShadow_teal() {
@@ -289,7 +295,7 @@ button.circle {
 .shepherd-content {
     background-color: $grayWhite;
     border-radius: 100px;
-    color: red;
+    color: red;//~
     padding: $baseMargin * 2;
 }
 
@@ -419,6 +425,42 @@ input[type=text], input[type=password], input[type=email] {
     text-align: center;
     align-items: center;
     align-content: center;
+    label {
+        margin-bottom: $baseMargin * 4;
+        margin-right: $baseMargin * 4;
+    }
+}
+
+.addSystemCategoryCon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.addSystemCategory {
+    z-index: 5;
+    // position: fixed;
+    // top: 20%;
+    width: 35vw;
+    border-radius: $baseMargin;
+    padding: $baseMargin * 3;
+    background-color: $grayWhite;
+    @include softUiShadow();
+}
+
+.newSystemCatText {
+    display: flex;
+    flex-direction: column;
+    input {
+        margin-bottom: $baseMargin * 2;
+    }
+}
+
+.categoryHr {
+    width: 80%;
+    margin-bottom: $baseMargin * 4;
 }
 
 .addCategory, .deleteWindow {
@@ -429,11 +471,6 @@ input[type=text], input[type=password], input[type=email] {
     margin-top: -50vh;
     background-color: $grayWhite;
     @include softUiShadow();
-
-    .categoryHr {
-        width: 80%;
-        margin-bottom: $baseMargin * 2;
-    }
 }
 
 .deleteConfirmationCon {
@@ -583,6 +620,7 @@ a.imageLink:hover {
         padding: $baseMargin $baseMargin;
     }
 }
+
 .portraitCon {
     text-align: center;
     display: flex;
@@ -662,7 +700,7 @@ a.imageLink:hover {
     }
 
     // add category forms
-    .addLogButton, .addCategoryButton, 
+    .addLogButton, .addCategoryButton,
     input[type=submit], input[type=button] {
     input[type=submit], input[type=button], button[type=button], .categoryListItem  {
             width: 7vw;
@@ -688,7 +726,7 @@ a.imageLink:hover {
     }
 
     input[type=text], input[type=password], input[type=email] {
-        height: 3vw;
+        // height: 3vw;
         height: 4vw;
     }
 
@@ -723,14 +761,24 @@ a.imageLink:hover {
 
     .categoryListItem {
         width: auto;
-        height: 3vw;
+        height: $formElemHt;
         font-size: $desktopPFontSize;
+        height: 3vw;
+        height: 3vw;
     }
+
+    .selectWithLabel {
+        margin-left: $baseMargin * 2;
+    }
+
+    // select {
+    //     height: $formElemHt;
+    // }
 
     .timelineHeaderCon {
         display: flex;
         flex-direction: row;
-    
+
         .timeline {
             width: 70vw;
         }

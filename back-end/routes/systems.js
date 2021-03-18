@@ -37,6 +37,15 @@ router.get('/:id/categories', (req, res, next) => {
     }).sort({ name: 'asc' });
 });
 
+// delete a system document
+router.post('/day/:id/delete', (req, res, next) => {
+    var q = System.findOneAndDelete({ _id: req.params.id });
+    q.exec(function (err, mydata) {
+        console.log('deleted system document');
+    });
+    res.redirect('/');
+});
+
 // helper method
 function handleErr(err) {
     if (err) return next(err);

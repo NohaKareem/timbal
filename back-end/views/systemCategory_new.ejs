@@ -10,18 +10,20 @@
   <% include layout/nav %>
 
   <h1><%= title %></h1>
-  <form action="/system" method="POST">
+  <form action="/systemCategory" method="POST">
     <label for="name">name</label>
-    <input type="text" name="name" id="name">
+    <input type="text" name="name" id="name" value="make">
     <br>
     <label for="description">description</label>
-    <input type="text" name="description" id="description">
+    <input type="text" name="description" id="description" value="make in make:consume ratio">
     <br>
     <label for="color">color (id)</label>
     <input type="text" name="color" id="color" value="5e8b9ead4b8d5674645b32ba">
-    <input type="submit" value="add">
     <br>
-    <label for="system_category">system_category</label>
+    <label for="system">system (id)</label>
+    <input type="text" name="system" id="system" value="5e3b9fb45a7109031886fee5">
+    <br>
+    <label for="system_category">system category</label>
     <input type="text" name="system_category" id="system_category" value="5e61102fb705711710a1b286">
     <input type="submit" value="add">
   </form>

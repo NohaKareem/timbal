@@ -34,7 +34,7 @@ router.get('/color/:id', (req, res, next) => {
   }).sort({ date: 'desc' });
 });
 
-// authentication 
+// authentication
 router.post('/signin', passport.authenticate('local'), function(req, res, next) {
 	if(!req.user) {
     console.log('user not logged in')

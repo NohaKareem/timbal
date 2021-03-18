@@ -28,7 +28,6 @@ router.get('/:dayId/var/:varId', (req, res, next) => {
 
 // GET a day's categories' details for a particular variable using populate
 router.get('/:dayId/var/:varId/details', (req, res, next) => {
-  console.log(req.params.dayId)
   Day.findOne({
     _id: req.params.dayId,
     'variables.variable': req.params.varId
@@ -76,16 +75,16 @@ router.get('/date/:date', function (req, res, next) {
   });
 });
 
-// GET day document if exists, given a time frame and variable
-// test query localhost:3000/portrait/start/2020-01-30T15:00:00.000Z/end/2020-02-30T15:00:00.000Z/v/5e3316671c71657e18823380
+// GET day document's specified variable log data if exists, within a time frame
+// test query localhost:3000/day/start/2020-01-30T15:00:00.000Z/end/2020-02-30T15:00:00.000Z/variable/5e3316671c71657e18823380
 router.get('/start/:startDate/end/:endDate/variable/:variable', function (req, res, next) {
-  Day.findOne({
+  Day.find({
     "date": {
       "$gte": new Date(req.params.startDate).setHours(1, 0, 0),
       "$lte": new Date(req.params.endDate).setHours(23, 59, 59)
     },
     "variables.variable": req.params.variable
-  }, (err, day) => {
+  }, { 'variables.variable.$': 1, 'variables.log_data': 1 }, (err, day) => {
     console.log('day date query result', day)
     handleErr(err, next);
     if (day)
@@ -93,6 +92,78 @@ router.get('/start/:startDate/end/:endDate/variable/:variable', function (req, r
     else res.json(false);
   });
 });
+
+// test query localhost:3000/day/start/2020-01-30T15:00:00.000Z/end/2020-02-30T15:00:00.000Z/variable/5e3316671c71657e18823380/hourly
+router.get('/start/:startDate/end/:endDate/variable/:variable/hourly', function (req, res, next) {
+  Day.find({
+    "date": {
+      "$gte": new Date(req.params.startDate).setHours(1, 0, 0),
+      "$lte": new Date(req.params.endDate).setHours(23, 59, 59)
+    },
+    "variables.variable": req.params.variable
+  }, { 'variables.variable.$': 1, 'variables.log_data': 1 }, (err, day) => {
+    // console.log('day date query result', day)
+    handleErr(err, next);
+    if (day)
+      res.json(day);
+    else res.json(false);
+  });
+});
+
+// // GET day document's specified variable log data if exists, within a time frame
+// // test query localhost:3000/day/start/2020-01-30T15:00:00.000Z/end/2020-02-30T15:00:00.000Z/variable/5e3316671c71657e18823380/hourly
+// router.get('/start/:startDate/end/:endDate/variable/:variable/hourly', function (req, res, next) {
+//   let days = [];
+//   Day.find({
+//     "date": {
+//       $or: [{
+//         "$gte": new Date(req.params.startDate).setHours(1, 0, 0),
+//         "$lte": new Date(req.params.endDate).setHours(2, 0, 0)
+//       },
+//       {
+//         "$gte": new Date(req.params.startDate).setHours(1, 0, 0),
+//         "$lte": new Date(req.params.endDate).setHours(23, 59, 59)
+//       }]
+//     },
+//     "variables.variable": req.params.variable
+//   }, { 'variables.variable.$': 1, 'variables.log_data': 1 }, (err, day) => {
+//     console.log('day date query result', day)
+//     handleErr(err, next);
+//     console.log(day)
+//     if (day)
+//       days.push(day);
+//     console.log(days)
+//     console.log('days')
+//     // res.json(day);
+//     // else res.json(false);
+//   });
+//   console.log('days2')
+//   console.log(...days)
+
+//   res.json(...days);
+// });
+
+// GET total time spent per logged variable, for specified variable log data if exists, within a time frame
+// test query localhost:3000/day/start/2020-01-30T15:00:00.000Z/end/2020-02-30T15:00:00.000Z/variable/5e3316671c71657e18823380
+// router.get('/start/:startDate/end/:endDate/variable/:variable/sum', function (req, res, next) {
+//   Day.aggregate([
+//     {
+//       $match: {
+//         "date": {
+//           "$gte": new Date(req.params.startDate).setHours(1, 0, 0),
+//           "$lte": new Date(req.params.endDate).setHours(23, 59, 59)
+//         },
+//         "variables.variable": req.params.variable
+//       },
+//       $group: {
+//         _id: { $arrayElemAt: ["$variables.variable.log_data.full_category", 0] },
+//         // count: {
+//         // $count: "$variables",
+//         total_hours: { $sum: { $subtract: ["$variables.variable.log_data.end_time", "$variables.variable.log_data.start_time"] } }
+//         // }
+//       }
+//   ])
+// });
 
 // POST new day document
 router.post('/', (req, res, next) => {
@@ -163,7 +234,7 @@ router.post('/:id/variable/:varId', (req, res, next) => {
 });
 
 // delete a day document
-router.post('/day/:id/delete', (req, res, next) => {
+router.post('/day/:id/delete', (req, res, next) => {//~
   console.log('in delete')
   var q = Day.findOneAndDelete({ _id: req.params.id });
   q.exec(function (err, mydata) {

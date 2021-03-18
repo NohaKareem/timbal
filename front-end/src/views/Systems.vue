@@ -2,19 +2,34 @@
   <div id="systemCon">
     <h1>Systems Library</h1>
     <div v-for="system in systems" :key="system._id">
-      <h2>{{ system.name }} Categories</h2>
+      <h2
+        >{{ system.name }} Categories
+        <!-- <button
+            class="smallInfoButton deleteButton"
+            @click="launchDeleteConfirmation()"
+            ><i class="fa fa-trash" aria-hidden="true"></i
+          ></button> -->
+      </h2>
       <div class="categoryListItemEditable"
         ><div
           v-for="category in systemCategories.filter((cat) => {
             return cat.system == system._id
           })"
           :key="category._id"
-          ><div
+        >
+          <div
             class="categoryListItem"
             :style="'background-color:' + getColor(category.color)"
-            >{{ category.name }}
-          </div></div
-        >
+          >
+            {{ category.name }}
+          </div>
+          <button
+            class="smallInfoButton deleteButton"
+            @click="launchDeleteConfirmation()"
+          >
+            <i class="fa fa-trash" aria-hidden="true"></i
+          ></button>
+        </div>
       </div>
       <div class="addButtonCenter"
         ><button class="circle" type="button" @click="launchNewCategoryWindow()"
@@ -63,6 +78,20 @@ export default {
     },
     launchNewCategoryWindow() {
       this.showNewCategoryWindow = true
+      console.log(this.showNewCategoryWindow + ' is set')
+    },
+    launchDeleteConfirmation() {
+      this.showDeleteConfirmation = true
+    },
+    deleteItem(itemId) {
+      axios
+        .post(`http://localhost:3000/systems/system/${itemId}/delete`)
+        .then(function(response) {
+          console.log('deleted', response.data)
+        })
+        .catch(function(error) {
+          console.error(error)
+        })
     }
   },
   created() {

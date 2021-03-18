@@ -2,9 +2,9 @@ var mongoose = require('mongoose');
 var plm = require('passport-local-mongoose');
 
 var userSchema = new mongoose.Schema({
-	firstName: {type: String, required: [true, 'need to proide a first name']}, 
-	lastName: {type: String, required: [true, 'need to proide a last name']}, 
-	username: {type: String, required: [true, 'need to proide a username']}, 
+	firstName: {type: String, required: [true, 'need to provide a first name']}, 
+	lastName: {type: String, required: [true, 'need to provide a last name']}, 
+	username: {type: String, required: [true, 'need to provide a username']}, 
 	email: {type: String, required: [true, 'need to provide a valid email']}
 });
 

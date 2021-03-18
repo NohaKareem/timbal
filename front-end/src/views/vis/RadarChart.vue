@@ -423,12 +423,11 @@ export default {
       )
 
     // Data
-
     var data = [
       [
         //iPhone
         {
-          axis: 'Battery Life',
+          axis: '12PM',
           value: 0.22
         },
         {
@@ -453,6 +452,11 @@ export default {
         },
         {
           axis: 'Price Of Device',
+          value: 0.21
+        },
+
+        {
+          axis: 'Price Of Device 2',
           value: 0.21
         },
         {

@@ -14,8 +14,9 @@
           <div
             class="categoryListItem"
             :style="'background-color:' + getColor(category.color)"
-            >{{ category.code }}: {{ category.description }}</div
           >
+            {{ category.code }}: {{ category.description }}
+          </div>
           <!-- <button class="smallInfoButton deleteButton" @click="deleteItem(category._id)"><i class="fa fa-trash" aria-hidden="true"></i></button> -->
           <button
             class="smallInfoButton deleteButton"

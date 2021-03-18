@@ -1,37 +1,28 @@
 <template>
-  <div class="addCategoryCon">
-    <div class="addCategory" ref="addCategoryWindow">
+  <div class="addSystemCategoryCon">
+    <div class="addSystemCategory">
       <p class="cancelButton" @click="toggleAddCategoryWindow()">X</p>
-      <form action="http://localhost:3000/category" method="POST">
-        <h2>Add new category</h2>
+      <form action="http://localhost:3000/systemCategory" method="POST">
+        <h2>Add new system category</h2>
         <hr class="categoryHr" />
         <div class="newCategoryForm">
           <div class="newCategoryTextInput">
-            <div class="codeInput">
+            <div class="newSystemCatText">
               <input
                 type="text"
-                name="code"
-                ref="catCode"
-                value="m"
-                id="categoryCode"
-                placeholder="code"
+                name="name"
+                value="name, eg. wellness"
+                class="sm"
+                placeholder="category name"
               />
-              <button
-                class="smallInfoButton"
-                type="button"
-                @click="showToolTip()"
-                >i</button
-              >
+              <input
+                type="text"
+                name="description"
+                value="description, eg. tasks related to wellness"
+                class="lg"
+                placeholder="category description"
+              />
             </div>
-            <input
-              type="text"
-              name="description"
-              value="make"
-              ref="catDescription"
-              id="categoryName"
-              placeholder="descriptive name"
-            />
-
             <!-- pass variable fieldss to form -->
             <input
               type="text"
@@ -60,6 +51,38 @@
               class="hidden"
             />
           </div>
+          <label for="portrait_varSystmeOptions">Variable</label>
+          <select
+            class="selectWithLabel"
+            name="portrait_varSystemOptions"
+            id="portrait_varSystemOptions"
+            v-model="variable"
+            @change="resetCurrCategories()"
+          >
+            <option
+              v-for="variable in variables"
+              :key="variable._id"
+              :value="variable._id"
+            >
+              {{ variable.name }}
+            </option>
+          </select>
+          <div v-if="variable" class="categoryListItemEditable">
+            <div
+              v-for="(varCategory, n) in categories.filter((cat) => {
+                return cat.variable == variable
+              })"
+              class="categoryListItem"
+              :class="currCategories[n] ? softUiInsetShadow : ''"
+              :style="'background-color:' + getColor(varCategory.color)"
+              :key="varCategory._id"
+              @click="selectCategory(n)"
+            >
+              {{ varCategory.code }}:
+              {{ varCategory.description }}
+            </div>
+          </div>
+
           <p class="codeInfo hidden" ref="codeInfo"
             >initial(s) to represent the category</p
           >
@@ -107,14 +130,28 @@ export default {
       colors: [],
       selectedColor: '',
       usedColors: [],
+      variables: [],
+      categories: [],
+      variable: '',
+      varCategories: [],
+      currCategories: [],
       formIncomplete: true,
-      is_top_level: true //~
+      is_top_level: true //~e
     }
   },
   computed: {
     variableId() {
       return this.$store.state.variable
     }
+
+    // // init array with length, of currently selected cateogries, to false
+    // currCategories() {
+    //   return new Array(
+    //     this.categories.filter((cat) => {
+    //       return cat.variable == this.variable
+    //     }).length
+    //   ).fill(false)
+    // }
   },
   created() {
     let self = this
@@ -124,6 +161,36 @@ export default {
       .then(function(response) {
         // console.log(response)
         self.colors = response.data
+      })
+      .catch(function(error) {
+        console.error(error)
+      })
+
+    // get all categories
+    axios
+      .get('http://localhost:3000/categories')
+      .then(function(response) {
+        self.categories = response.data
+      })
+      .catch(function(error) {
+        console.error(error)
+      })
+
+    // get all variables
+    axios
+      .get(`http://localhost:3000/variables`)
+      .then(function(response) {
+        self.variables = response.data
+      })
+      .catch(function(error) {
+        console.error(error)
+      })
+
+    // get all colors
+    axios
+      .get('http://localhost:3000/colors')
+      .then(function(response) {
+        self.$store.commit('colors', response.data)
       })
       .catch(function(error) {
         console.error(error)
@@ -160,13 +227,35 @@ export default {
       this.$refs.codeInfo.classList.toggle('hidden')
     },
 
-    // showFormCompletionNote() {
-    //     this.$refs.formNote.classList.toggle('hidden');
-    // },
-
     // display window
     toggleAddCategoryWindow() {
       this.$refs.addCategoryWindow.classList.toggle('hidden')
+    },
+
+    getColor(categoryColorId) {
+      // if non-top level category, chose a default color
+      if (categoryColorId == undefined) return '#707070'
+      // else return color given color id
+      else
+        return this.$store.state.colors.filter((color) => {
+          return color._id == categoryColorId
+        })[0].color
+    },
+
+    selectCategory(varCategoryIndex) {
+      this.currCategories[varCategoryIndex] = !this.currCategories[
+        varCategoryIndex
+      ]
+      console.log(this.currCategories, ' updated')
+    },
+
+    // init array with length, of currently selected cateogries, to false
+    resetCurrCategories() {
+      this.currCategories = new Array(
+        this.categories.filter((cat) => {
+          return cat.variable == this.variable
+        }).length
+      ).fill(false)
     }
   }
 }

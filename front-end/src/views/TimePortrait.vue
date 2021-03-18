@@ -11,6 +11,12 @@
         <option value="variable">Variable </option>
         <option value="system"> System </option>
       </select>
+      <select name="vis_type" id="vis_type" v-model="vis_type">
+        <option value="raw_data">raw data</option>
+        <option value="overview">overview</option>
+        <option value="patterns">patterns</option>
+        <option value="relationships">relationships</option>
+      </select>
       <select name="portrait_varSystemOptions" id="portrait_varSystemOptions">
         <option
           v-for="item in portraitType === 'variable' ? variables : systems"
@@ -35,7 +41,7 @@
       </div>
     </div>
     <div class="center">
-      <button>generate</button>
+      <button @click="generatePortrait()">generate</button>
     </div>
     <div class="portraitVisCon">
       <RadarChart />
@@ -54,14 +60,20 @@ export default {
       portraitType: 'variable',
       variables: [],
       systems: [],
-      items: []
+      items: [],
+      vis_type: ''
     }
   },
   methods: {
+    generatePortrait() {
+      console.log('vis_type', this.vis_type)
+      console.log('portraitType', this.portraitType)
+      console.log('portraitType', this.portraitType)
+    },
     updateType() {},
     updateItem() {
       if (this.portraitType === 'variable') {
-        console.log('portrait')
+        // console.log('portrait')
         this.items = this.variables
       } else {
         this.items = this.systems

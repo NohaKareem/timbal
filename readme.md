@@ -37,4 +37,7 @@ A time logging platform to facilitate personal research, to help cultivate effic
 
 - temporarily disable es-lint 'no-unused-vars' https://stackoverflow.com/a/41604210/1446598
 
-- [reloading](https://stackoverflow.com/questions/47683728/vue-reload-child-component) [components](https://michaelnthiessen.com/force-re-render/)
+- [reloading](https://stackoverflow.com/questions/47683728/vue-reload-child-component) [components](https://michaelnthiessen.com/force-re-render/
+
+- [set upsert to set up data (for system category post)](https://stackoverflow.com/a/33401897/1446598)
+)

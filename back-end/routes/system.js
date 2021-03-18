@@ -12,14 +12,6 @@ function isLoggedIn(req, res, next) {
   return res.json({ msg: 'need to login' });
 }
 
-// // GET all systems
-// router.get('/', (req, res, next) => {
-//     System.find((err, systems) => {
-//         handleErr(err);
-//         res.json(systems);
-//     }).sort({ name: 'asc' });
-// });
-
 // ejs test route
 router.get('/new', function (req, res, next) {
   res.render('system_new', { title: "Add system" });
@@ -84,14 +76,6 @@ router.post('/', (req, res, next) => { //~
 
   // res.redirect('back');
 });
-
-// //~todo: test id routes (except cateogries tested)
-// router.get('/:id', (req, res, next) => { 
-//     System.find({ _id: req.params.id }, (err, systems) => {
-//         handleErr(err);
-//         res.json(systems);
-//     }).sort({ name: 'asc' });
-// });
 
 // helper method
 function handleErr(err) {

@@ -33,19 +33,16 @@ router.get('/new', function (req, res, next) {
 //     // res.redirect('/');
 // });
 
-// POST new system after checking if it already exists
+// POST new system after checking if it already exists (by name)
 router.post('/', (req, res, next) => { //~
-    // set upsert to set up data https://stackoverflow.com/a/33401897/1446598
     var q = SystemCategory.findOneAndUpdate(
-        // query
         { name: req.body.name },
-        // update
         {
+            system: req.body.system,
             description: req.body.description,
             color: req.body.color,
             $push: { values: req.body.system_category }
         },
-        // options
         { upsert: true, new: true }
     );
     q.exec(function (err, data) {
@@ -53,7 +50,6 @@ router.post('/', (req, res, next) => { //~
         res.redirect('back');
         // res.json(data);
     });
-
     // res.redirect('back');
 });
 
