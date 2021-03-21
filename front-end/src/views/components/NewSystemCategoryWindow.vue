@@ -117,7 +117,7 @@ export default {
     }
   },
   props: {
-    systemId: { type: String, default: '' }
+    systemId: { type: String }
   },
   computed: {
     variableId() {
@@ -140,6 +140,7 @@ export default {
       .get('http://localhost:3000/colors')
       .then(function(response) {
         self.colors = response.data
+        // self.$store.commit('colors', response.data)
       })
       .catch(function(error) {
         console.error(error)
@@ -176,6 +177,7 @@ export default {
       })
 
     // get all used colors
+    console.log('self.systemId', self.systemId)
     let GET_CATEGORIES_LINK = `http://localhost:3000/categories/variable/${this.variableId}/top-level`
     axios.get(GET_CATEGORIES_LINK + '/true').then(function(response) {
       response.data.forEach((category) => {

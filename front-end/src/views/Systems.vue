@@ -32,7 +32,10 @@
         </div>
       </div>
       <div class="addButtonCenter"
-        ><button class="circle" type="button" @click="launchNewCategoryWindow()"
+        ><button
+          class="circle"
+          type="button"
+          @click="launchNewCategoryWindow(system._id)"
           >+</button
         ></div
       >
@@ -43,7 +46,10 @@
     </transition>
     <transition name="appearTransition">
       <div class="launchedWindowCon">
-        <newSystemCategoryWindow v-if="showNewCategoryWindow" />
+        <newSystemCategoryWindow
+          v-if="showNewCategoryWindow"
+          :systemId="chosenSystem"
+        />
       </div>
     </transition>
     <br />
@@ -64,6 +70,7 @@ export default {
     return {
       systemCategories: [],
       systems: [],
+      chosenSystem: '',
       showNewCategoryWindow: false,
       showDeleteConfirmation: false
     }
@@ -78,7 +85,9 @@ export default {
           return color._id == categoryColorId
         })[0].color
     },
-    launchNewCategoryWindow() {
+    launchNewCategoryWindow(systemId) {
+      this.chosenSystem = systemId
+      console.log(this.chosenSystem)
       this.showNewCategoryWindow = true
     },
     launchDeleteConfirmation() {

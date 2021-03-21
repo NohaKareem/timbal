@@ -55,6 +55,10 @@
     <div class="portraitVisCon" v-if="displaySelectedVis[2]">
       <RadarChart />
     </div>
+
+    <div class="portraitVisCon" v-if="displaySelectedVis[3]">
+      <Sankey />
+    </div>
   </div>
 </template>
 
@@ -62,8 +66,9 @@
 import axios from 'axios'
 import Timeline from './vis/Timeline.vue'
 import RadarChart from './vis/RadarChart.vue'
+import Sankey from './vis/Sankey.vue'
 export default {
-  components: { RadarChart, Timeline },
+  components: { Timeline, RadarChart, Sankey },
   name: 'TimePortrait',
   data() {
     return {
