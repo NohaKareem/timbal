@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 import * as d3 from 'd3'
 import moment from 'moment'
 import * as _ from 'lodash'
@@ -17,6 +17,11 @@ export default {
       return this.$store.state.colors
     }
   },
+  props: ['logs'],
+  // : {
+  //   type: Array,
+  //   default: []
+  // }
   methods: {
     // render timeseries
     timeseries(spaced, data) {
@@ -27,19 +32,6 @@ export default {
        */
       let classd = spaced.replace(new RegExp(' '), '.')
       render(classd, spaced, data, this.colors)
-
-      // /* Use this function, in conjunction to setting a time element to 'selected', to highlight the
-      // data point on the timeseries. */
-      // function redraw() {
-      //     d3.selectAll(".circ")
-      //         .transition(10)
-      //         .style("opacity", function(d) {
-      //             return d.selected ? 1 : 0.6;
-      //         })
-      //         .attr("r", function(d) {
-      //             return d.selected ? 15 : 7;
-      //         });
-      // }
 
       function lessThanDay(d) {
         return d === 'hours' || d === 'minutes' || d === 'seconds'
@@ -175,14 +167,10 @@ export default {
           .append('rect')
           .attr('class', 'circ')
           .attr('x', function(d) {
-            // .attr("cx", function(d) {
-            // return x(d.value);
             return lessThanDay(padding.pad) ? x(d.value) : x(getDate(d.value))
           })
           .attr('y', function(d) {
-            // .attr("cy", function(d, i) {
             return y(getDate(d.value))
-            // return (this.lessThanDay(padding.pad)) ? y(d.value) : y(this.getDate(d.value)); //~~ replace .value with start and end time
             // return (this.lessThanDay(padding.pad)) ? y(this.getDate(d.value)) : y(getTime(d.value)); //~~ replace .value with date from start time
           })
           .attr('width', function(d) {
@@ -226,45 +214,47 @@ export default {
     }
   },
   mounted() {
-    //reading in CSV which contains data
-    let logs = []
+    // let logs = []
     let self = this
+    console.log('in timeline')
+    self.$forceUpdate()
+    console.log(self.logs)
 
-    // axios.get(`http://localhost:3000/day/${this.$store.state.day}/var/${this.$store.state.variable}/details`)
-    // sampple day id
-    axios
-      .get(
-        `http://localhost:3000/day/5e611877b705711710a1b28d/var/${this.$store.state.variable}/details`
-      )
-      .then(function(response) {
-        let data = response.data
-        data.variables[0].log_data.forEach((logEntry) => {
-          let durationInMinutes = Math.abs(
-            new Date(logEntry.start_time).getHours() * 60 +
-              new Date(logEntry.start_time).getMinutes() -
-              new Date(logEntry.end_time).getHours() * 60 +
-              new Date(logEntry.end_time).getMinutes()
-          )
-          let fullCategoryStr = ''
-          let color = ''
+    // // axios.get(`http://localhost:3000/day/${this.$store.state.day}/var/${this.$store.state.variable}/details`)
+    // // sampple day id
+    // axios
+    //   .get(
+    //     `http://localhost:3000/day/5e611877b705711710a1b28d/var/${this.$store.state.variable}/details`
+    //   )
+    //   .then(function(response) {
+    //     let data = response.data
+    //     data.variables[0].log_data.forEach((logEntry) => {
+    //       let durationInMinutes = Math.abs(
+    //         new Date(logEntry.start_time).getHours() * 60 +
+    //           new Date(logEntry.start_time).getMinutes() -
+    //           new Date(logEntry.end_time).getHours() * 60 +
+    //           new Date(logEntry.end_time).getMinutes()
+    //       )
+    //       let fullCategoryStr = ''
+    //       let color = ''
 
-          // delinate nested categories by '.' and save top-level category's color id
-          logEntry.full_category.forEach((category, i) => {
-            if (i == 0) color = category.color
-            fullCategoryStr +=
-              category.code +
-              (i === logEntry.full_category.length - 1 ? '' : '.')
-          })
+    //       // delinate nested categories by '.' and save top-level category's color id
+    //       logEntry.full_category.forEach((category, i) => {
+    //         if (i == 0) color = category.color
+    //         fullCategoryStr +=
+    //           category.code +
+    //           (i === logEntry.full_category.length - 1 ? '' : '.')
+    //       })
 
-          logs.push({
-            value: new Date(logEntry.start_time).valueOf(),
-            duration: durationInMinutes,
-            logCode: fullCategoryStr,
-            color: color
-          })
-        })
-        self.timeseries('timeline', logs)
-      })
+    //       logs.push({
+    //         value: new Date(logEntry.start_time).valueOf(),
+    //         duration: durationInMinutes,
+    //         logCode: fullCategoryStr,
+    //         color: color
+    //       })
+    //     })
+    self.timeseries('timeline', this.logs)
+    // })
   }
 }
 </script>

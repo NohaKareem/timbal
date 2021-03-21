@@ -42,7 +42,9 @@
       <deleteConfirmationWindow v-if="showDeleteConfirmation" />
     </transition>
     <transition name="appearTransition">
-      <newCategoryWindow v-if="showNewCategoryWindow" />
+      <div class="launchedWindowCon">
+        <newSystemCategoryWindow v-if="showNewCategoryWindow" />
+      </div>
     </transition>
     <br />
   </div>
@@ -50,12 +52,12 @@
 
 <script>
 import axios from 'axios'
-import NewCategoryWindow from './components/NewCategoryWindow.vue'
+import NewSystemCategoryWindow from './components/NewSystemCategoryWindow.vue'
 import DeleteConfirmationWindow from './components/DeleteConfirmationWindow.vue'
 export default {
   name: 'Systems',
   components: {
-    newCategoryWindow: NewCategoryWindow,
+    newSystemCategoryWindow: NewSystemCategoryWindow,
     deleteConfirmationWindow: DeleteConfirmationWindow
   },
   data() {
@@ -78,7 +80,6 @@ export default {
     },
     launchNewCategoryWindow() {
       this.showNewCategoryWindow = true
-      console.log(this.showNewCategoryWindow + ' is set')
     },
     launchDeleteConfirmation() {
       this.showDeleteConfirmation = true

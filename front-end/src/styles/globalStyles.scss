@@ -431,7 +431,19 @@ input[type=text], input[type=password], input[type=email] {
     }
 }
 
+.systemCon {
+    position: relative;
+}
+
+.launchedWindowCon {
+    margin-top: -100%;
+    top: -85vh;
+    z-index: 4;
+    position: relative;
+}
+
 .addSystemCategoryCon {
+    // position: fixed;
     display: flex;
     flex-direction: column;
     justify-content: center;

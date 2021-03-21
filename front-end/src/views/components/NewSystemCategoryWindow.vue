@@ -2,7 +2,8 @@
   <div class="addSystemCategoryCon">
     <div class="addSystemCategory">
       <p class="cancelButton" @click="toggleAddCategoryWindow()">X</p>
-      <form action="http://localhost:3000/systemCategory" method="POST">
+      <form>
+        <!-- </form> action="http://localhost:3000/systemCategory" method="POST"> -->
         <h2>Add new system category</h2>
         <hr class="categoryHr" />
         <div class="newCategoryForm">
@@ -11,47 +12,22 @@
               <input
                 type="text"
                 name="name"
-                value="name, eg. wellness"
+                ref="name"
+                value="wellness"
                 class="sm"
                 placeholder="category name"
               />
               <input
                 type="text"
                 name="description"
-                value="description, eg. tasks related to wellness"
+                ref="description"
+                value="tasks related to wellness"
                 class="lg"
                 placeholder="category description"
               />
             </div>
-            <!-- pass variable fieldss to form -->
-            <input
-              type="text"
-              name="is_top_level"
-              ref="is_top_level"
-              :value="is_top_level"
-              id="is_top_level"
-              placeholder="true"
-              class="hidden"
-            />
-            <input
-              type="text"
-              name="variable"
-              ref="catVariable"
-              :value="variableId"
-              id="variableName"
-              placeholder="code"
-              class="hidden"
-            />
-            <input
-              type="text"
-              name="color"
-              ref="catColor"
-              :value="selectedColor"
-              id="colorId"
-              class="hidden"
-            />
           </div>
-          <label for="portrait_varSystmeOptions">Variable</label>
+          <label for="portrait_varSystemOptions">Variable</label>
           <select
             class="selectWithLabel"
             name="portrait_varSystemOptions"
@@ -83,7 +59,7 @@
             </div>
           </div>
 
-          <p class="codeInfo hidden" ref="codeInfo"
+          <p class="hidden codeInfo" ref="codeInfo"
             >initial(s) to represent the category</p
           >
 
@@ -103,17 +79,18 @@
               </div>
             </div>
           </div>
-          <p class="codeInfo hidden" ref="colorNote"
+          <p class="hidden codeInfo" ref="colorNote"
             >this color's already taken! try another one</p
           >
-          <p class="codeInfo hidden" ref="formNote"
+          <p class="hidden codeInfo" ref="formNote"
             >don't forget to fill all form fields!</p
           >
           <div class="addCategoryButton">
-            <!-- <input type="submit" value="add category" v-if="formIncomplete" disabled @click="showFormCompletionNote()"> -->
-            <!-- <input type="submit" value="add category" v-else> -->
-            <input type="submit" value="add category" />
-            <!-- <button type="button" @click="uploadColor()">add category</button> -->
+            <input
+              type="button"
+              value="add category"
+              @click="postSystemCategory()"
+            />
           </div>
         </div>
       </form>
@@ -136,8 +113,11 @@ export default {
       varCategories: [],
       currCategories: [],
       formIncomplete: true,
-      is_top_level: true //~e
+      is_top_level: true //~
     }
+  },
+  props: {
+    systemId: { type: String, default: '' }
   },
   computed: {
     variableId() {
@@ -159,7 +139,6 @@ export default {
     axios
       .get('http://localhost:3000/colors')
       .then(function(response) {
-        // console.log(response)
         self.colors = response.data
       })
       .catch(function(error) {
@@ -199,7 +178,6 @@ export default {
     // get all used colors
     let GET_CATEGORIES_LINK = `http://localhost:3000/categories/variable/${this.variableId}/top-level`
     axios.get(GET_CATEGORIES_LINK + '/true').then(function(response) {
-      console.log('used colors', response.data)
       response.data.forEach((category) => {
         self.usedColors.push(category.color._id)
       })
@@ -212,18 +190,15 @@ export default {
 
       // update form feedback to indicate if color is already used
       if (this.usedColors.includes(colorId)) {
-        console.log('this color is already taken')
         colorNote.classList.remove('hidden')
         this.selectedColor = ''
       } else {
         this.selectedColor = colorId
-        colorNote.classList.add('hidden')
       }
     },
 
     // display info tooltip
     showToolTip() {
-      console.log('in tool tip')
       this.$refs.codeInfo.classList.toggle('hidden')
     },
 
@@ -256,6 +231,33 @@ export default {
           return cat.variable == this.variable
         }).length
       ).fill(false)
+    },
+
+    // post system category
+    postSystemCategory() {
+      // save variable values
+      let varVals = []
+      this.currCategories.forEach((category, i) => {
+        if (category) {
+          varVals.push(this.categories[i]._id)
+        }
+      })
+
+      let systemCategory = {
+        name: this.$refs.name,
+        description: this.$refs.description,
+        system: this.systemId,
+        values: varVals,
+        color: this.selectedColor
+      }
+      axios
+        .post('http://localhost:3000/systemCategory/', systemCategory)
+        .then(function(response) {
+          console.log(response)
+        })
+        .catch(function(error) {
+          console.error(error)
+        })
     }
   }
 }

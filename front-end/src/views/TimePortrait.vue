@@ -12,10 +12,12 @@
         <option value="system"> System </option>
       </select>
       <select name="vis_type" id="vis_type" v-model="vis_type">
-        <option value="raw_data">raw data</option>
-        <option value="overview">overview</option>
-        <option value="patterns">patterns</option>
-        <option value="relationships">relationships</option>
+        <option
+          v-for="currVisType in visTypes"
+          :key="currVisType"
+          :value="currVisType"
+          >{{ currVisType }}</option
+        >
       </select>
       <select name="portrait_varSystemOptions" id="portrait_varSystemOptions">
         <option
@@ -43,7 +45,14 @@
     <div class="center">
       <button @click="generatePortrait()">generate</button>
     </div>
-    <div class="portraitVisCon">
+
+    <div class="timelineCon" v-if="displaySelectedVis[0]">
+      <Timeline :key="renderUpdate" />
+      <!-- <Timeline :key="renderUpdate" /> -->
+      <!-- <Timeline :key="renderUpdate" /> -->
+    </div>
+
+    <div class="portraitVisCon" v-if="displaySelectedVis[2]">
       <RadarChart />
     </div>
   </div>
@@ -51,9 +60,10 @@
 
 <script>
 import axios from 'axios'
+import Timeline from './vis/Timeline.vue'
 import RadarChart from './vis/RadarChart.vue'
 export default {
-  components: { RadarChart },
+  components: { RadarChart, Timeline },
   name: 'TimePortrait',
   data() {
     return {
@@ -61,19 +71,29 @@ export default {
       variables: [],
       systems: [],
       items: [],
-      vis_type: ''
+      vis_type: '',
+      displayVis: false,
+      visTypes: ['raw data', 'overview', 'patterns', 'relationships'],
+      displaySelectedVis: [false, false, false, false],
+      renderUpdate: 0
     }
   },
   methods: {
     generatePortrait() {
-      console.log('vis_type', this.vis_type)
-      console.log('portraitType', this.portraitType)
-      console.log('portraitType', this.portraitType)
+      this.renderUpdate++ // force update
+      this.visTypes.forEach((v, i) => {
+        if (v == this.vis_type) {
+          this.displaySelectedVis[i] = true
+        } else {
+          this.displaySelectedVis[i] = false
+        }
+      })
+      // update render
+      this.$forceUpdate()
     },
     updateType() {},
     updateItem() {
       if (this.portraitType === 'variable') {
-        // console.log('portrait')
         this.items = this.variables
       } else {
         this.items = this.systems
@@ -98,9 +118,7 @@ export default {
       .catch(function(error) {
         console.error(error)
       })
-    console.log('this.items')
     this.items = this.variables
-    console.log('this.items2', this.variables)
   }
 }
 </script>

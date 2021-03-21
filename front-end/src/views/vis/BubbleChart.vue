@@ -27,7 +27,7 @@ export default {
         self.day_data = response.data
         if (response.data === null || response.data == '') {
           self.$refs.bubbleChart.innerHTML =
-            'Nothing logged in this day to visualize yet!'
+            'Nothing logged in here to visualize yet!'
           return
         }
         // details route passes only needed variable, at index 0

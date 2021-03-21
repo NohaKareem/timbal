@@ -6,7 +6,7 @@ var systemCategorySchema = new mongoose.Schema({
     description: String,
     system: { type: mongoose.Schema.Types.ObjectId, ref: 'System', required: [true, 'need a system for category'] },
     values: [
-        { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }
+        { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }//var
     ],
     color: { type: mongoose.Schema.Types.ObjectId, ref: 'Color' }
 }, { collection: 'systemCategories' });
