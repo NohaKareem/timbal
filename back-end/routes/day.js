@@ -90,7 +90,7 @@ router.get('/start/:startDate/end/:endDate/variable/:variable', function (req, r
     if (day)
       res.json(day);
     else res.json(false);
-  });
+  }).populate('variables.log_data.full_category');
 });
 
 // // GET day document's specified variable log data if exists, within a time frame

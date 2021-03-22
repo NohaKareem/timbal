@@ -111,7 +111,8 @@ export default {
         }
       })
       // update render
-      this.$forceUpdate()
+      this.renderUpdate++
+      this.$forceUpdate() //~method
     },
     loadData(visType) {
       // variable vis data
@@ -119,13 +120,6 @@ export default {
         switch (visType) {
           // raw data
           case 0:
-            console.log(
-              `http://localhost:3000/day/start/${new Date(
-                this.$refs.startDate.value
-              ).toISOString()}/end/${new Date(
-                this.$refs.endDate.value
-              ).toISOString()}/variable/${this.currItemId}`
-            )
             axios
               .get(
                 `http://localhost:3000/day/start/${new Date(
@@ -136,13 +130,12 @@ export default {
               )
               .then(function(response) {
                 self.logs = response.data
-
-                // force update render
-                self.$forceUpdate()
-                self.renderUpdate++
               })
             break
         }
+        this.logs = self.logs
+        this.$forceUpdate()
+        this.renderUpdate++
       }
       // // system vis data
       // else {
@@ -172,6 +165,14 @@ export default {
       .get(`http://localhost:3000/systems`)
       .then(function(response) {
         self.systems = response.data
+      })
+      .catch(function(error) {
+        console.error(error)
+      })
+    axios //~
+      .get('http://localhost:3000/colors')
+      .then(function(response) {
+        self.$store.commit('colors', response.data)
       })
       .catch(function(error) {
         console.error(error)

@@ -18,10 +18,6 @@ export default {
     }
   },
   props: ['logs'],
-  // : {
-  //   type: Array,
-  //   default: []
-  // }
   methods: {
     // render timeseries
     timeseries(spaced, data) {
@@ -215,7 +211,7 @@ export default {
   },
   mounted() {
     let visLogs = []
-    if (this.logs) {
+    if (this.logs && this.logs.variables[0]) {
       this.logs.variables[0].log_data.forEach((logEntry) => {
         let durationInMinutes = Math.abs(
           new Date(logEntry.start_time).getHours() * 60 +
