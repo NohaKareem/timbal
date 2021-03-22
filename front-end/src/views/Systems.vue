@@ -45,11 +45,8 @@
       <deleteConfirmationWindow v-if="showDeleteConfirmation" />
     </transition>
     <transition name="appearTransition">
-      <div class="launchedWindowCon">
-        <newSystemCategoryWindow
-          v-if="showNewCategoryWindow"
-          :systemId="chosenSystem"
-        />
+      <div class="launchedWindowCon" v-if="showNewCategoryWindow">
+        <newSystemCategoryWindow :systemId="chosenSystem" />
       </div>
     </transition>
     <br />
