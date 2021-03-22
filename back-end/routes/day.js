@@ -80,7 +80,7 @@ router.get('/date/:date', function (req, res, next) {
 router.get('/start/:startDate/end/:endDate/variable/:variable', function (req, res, next) {
   Day.find({
     "date": {
-      "$gte": new Date(req.params.startDate).setHours(1, 0, 0),
+      "$gte": new Date(req.params.startDate).setHours(00, 00, 00, 00),
       "$lte": new Date(req.params.endDate).setHours(23, 59, 59)
     },
     "variables.variable": req.params.variable
@@ -93,16 +93,40 @@ router.get('/start/:startDate/end/:endDate/variable/:variable', function (req, r
   });
 });
 
+// // GET day document's specified variable log data if exists, within a time frame
+// // test query localhost:3000/day/start/2020-01-30T15:00:00.000Z/end/2020-02-30T15:00:00.000Z/system/5e3b9fb45a7109031886fee5
+// router.get('/start/:startDate/end/:endDate/system/:system', function (req, res, next) {
+//   Day.find({
+//     "date": {
+//       "$gte": new Date(req.params.startDate).setHours(00, 00, 00, 00),
+//       "$lte": new Date(req.params.endDate).setHours(23, 59, 59)
+//     },
+//     "variables.variable": req.params.variable
+//   }, { 'variables.variable.$': 1, 'variables.log_data': 1 }, (err, day) => {
+//     console.log('day date query result', day)
+//     handleErr(err, next);
+//     if (day)
+//       res.json(day);
+//     else res.json(false);
+//   });
+// });
+
 // test query localhost:3000/day/start/2020-01-30T15:00:00.000Z/end/2020-02-30T15:00:00.000Z/variable/5e3316671c71657e18823380/hourly
 router.get('/start/:startDate/end/:endDate/variable/:variable/hourly', function (req, res, next) {
   Day.find({
     "date": {
-      "$gte": new Date(req.params.startDate).setHours(1, 0, 0),
-      "$lte": new Date(req.params.endDate).setHours(23, 59, 59)
+      "$gte": new Date(req.params.startDate).setHours(00, 00, 00, 00),
+      "$lte": new Date(req.params.endDate).setHours(23, 59, 59),
     },
+    // "variables.$.log_data.start_time": {
+    //   "$gte": new Date(req.params.startDate).setHours(15, 00, 00, 00),
+    // },
+    // "variables.variable.log_data.start_time": {
+    //   "$gte": new Date(req.params.startDate).setHours(15, 00, 00, 00),
+    //   // "$lte": new Date(req.params.endDate).setHours(23, 59, 59),
+    // },
     "variables.variable": req.params.variable
   }, { 'variables.variable.$': 1, 'variables.log_data': 1 }, (err, day) => {
-    // console.log('day date query result', day)
     handleErr(err, next);
     if (day)
       res.json(day);

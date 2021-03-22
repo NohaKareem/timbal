@@ -214,8 +214,37 @@ export default {
     }
   },
   mounted() {
-    this.$forceUpdate()
-    this.timeseries('timeline', this.logs)
+    let visLogs = []
+    if (this.logs) {
+      this.logs.variables[0].log_data.forEach((logEntry) => {
+        let durationInMinutes = Math.abs(
+          new Date(logEntry.start_time).getHours() * 60 +
+            new Date(logEntry.start_time).getMinutes() -
+            new Date(logEntry.end_time).getHours() * 60 +
+            new Date(logEntry.end_time).getMinutes()
+        )
+        let fullCategoryStr = ''
+        let color = ''
+
+        // delinate nested categories by '.' and save top-level category's color id
+        logEntry.full_category.forEach((category, i) => {
+          if (i == 0) color = category.color
+          fullCategoryStr +=
+            category.code + (i === logEntry.full_category.length - 1 ? '' : '.')
+        })
+
+        visLogs.push({
+          value: new Date(logEntry.start_time).valueOf(),
+          duration: durationInMinutes,
+          logCode: fullCategoryStr,
+          color: color
+        })
+      })
+      // force update render
+      this.$forceUpdate()
+      this.renderUpdate++
+    }
+    this.timeseries('timeline', visLogs)
   }
 }
 </script>
