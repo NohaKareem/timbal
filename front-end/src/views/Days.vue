@@ -231,7 +231,7 @@ export default {
               }
             ])
           })
-          // self.tour.start()
+          self.tour.start()//~
         })
       })
       .catch(function(error) {

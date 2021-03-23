@@ -297,6 +297,7 @@ button.circle {
     border-radius: 100px;
     color: red;//~
     padding: $baseMargin * 2;
+    padding-top: $baseMargin * 4;
 }
 
 .shepherd-element {
@@ -315,6 +316,12 @@ button.circle {
 
 .shepherd-button {
     background-color: $grayWhite;
+    border-radius: $baseMargin * 4;
+}
+
+.shepherd-button:hover {
+    background-color: $timbalBlack !important;
+    color: $grayWhite !important;
 }
 
 .shepherd-text {
