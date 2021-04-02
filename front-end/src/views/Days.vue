@@ -1,6 +1,7 @@
 <template>
   <div class="dayPageCon">
     <!-- <signIn v-if="!userLoggedIn"/> -->
+    <nestedDonut />
 
     <div class="dayCon">
       <button class="help" @click="launchOnboarding()">?</button>
@@ -17,12 +18,35 @@
         <div class="infoSign"><span class="italic">i</span></div>
         <p>Here's a timeline view of a day</p>
       </div>
-
       <div class="timelineHeaderCon">
         <!-- {{userLoggedIn}} -->
 
-        <!-- dropdown menu -->
         <select
+          name="portrait_varSystem"
+          id="portrait_varSystem"
+          v-model="portraitType"
+        >
+          <option value="variable">Variable </option>
+          <option value="system"> System </option>
+        </select>
+        <select
+          name="portrait_varSystemOptions"
+          id="portrait_varSystemOptions"
+          @change="updateVariable()"
+          v-model="currentVariable"
+        >
+          <option
+            v-for="item in portraitType === 'variable' ? variables : systems"
+            :key="item._id"
+            :value="item._id"
+            @change="updateItem()"
+          >
+            {{ item.name }}
+          </option>
+        </select>
+
+        <!-- dropdown menu -->
+        <!-- <select
           name="variableSelect"
           id="variableSelect"
           @change="updateVariable()"
@@ -37,7 +61,7 @@
           >
             {{ variable.name }}
           </option>
-        </select>
+        </select> -->
 
         <div class="timelineCon">
           <timeline :key="renderUpdate" :logs="logs" />
@@ -69,6 +93,7 @@ import Timeline from './vis/Timeline.vue'
 import DayInputForm from './components/DayInputForm.vue'
 import Vue from 'vue'
 import VueShepherd from 'vue-shepherd'
+import NestedDonut from './vis/NestedDonut.vue'
 Vue.use(VueShepherd)
 
 // import SignIn from "./SignIn.vue";
@@ -77,13 +102,17 @@ export default {
   components: {
     bubbleChart: BubbleChart,
     dayInputForm: DayInputForm,
-    timeline: Timeline
+    timeline: Timeline,
+    nestedDonut: NestedDonut
     // 'signIn': SignIn
   },
   data() {
     return {
+      portraitType: 'variable',
       currentVariable: 'tasks',
       variables: [],
+      items: [],
+      systems: [],
       displayForm: false,
       renderUpdate: 0,
       unselected: true,
@@ -101,7 +130,6 @@ export default {
   },
   methods: {
     showTutorial() {
-      console.log(this.$refs.tutorialButton.classList)
       this.$refs.tutorialButton.classList.toggle('selected')
       this.$refs.tutorial1.classList.toggle('hidden')
       this.$refs.tutorial2.classList.toggle('hidden')
@@ -135,6 +163,30 @@ export default {
           self.$forceUpdate()
           self.renderUpdate++
         })
+      axios
+        .get(`http://localhost:3000/systems`)
+        .then(function(response) {
+          self.systems = response.data
+        })
+        .catch(function(error) {
+          console.error(error)
+        })
+      axios
+        .get(`http://localhost:3000/variables`)
+        .then(function(response) {
+          self.variables = response.data
+        })
+        .catch(function(error) {
+          console.error(error)
+        })
+    },
+    updateItem() {
+      // this.currItemId = itemId
+      if (this.portraitType === 'variable') {
+        this.items = this.variables
+      } else {
+        this.items = this.systems
+      }
     }
   },
 
@@ -231,7 +283,7 @@ export default {
               }
             ])
           })
-          self.tour.start()//~
+          // self.tour.start()
         })
       })
       .catch(function(error) {

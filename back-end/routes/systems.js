@@ -38,7 +38,7 @@ router.get('/:id/categories', (req, res, next) => {
 });
 
 // delete a system document
-router.post('/day/:id/delete', (req, res, next) => {
+router.post('/:id/delete', (req, res, next) => {
     var q = System.findOneAndDelete({ _id: req.params.id });
     q.exec(function (err, mydata) {
         console.log('deleted system document');

@@ -114,25 +114,64 @@ router.get('/start/:startDate/end/:endDate/variable/:variable', function (req, r
 // test query localhost:3000/day/start/2020-01-30T15:00:00.000Z/end/2020-02-30T15:00:00.000Z/variable/5e3316671c71657e18823380/hourly
 router.get('/start/:startDate/end/:endDate/variable/:variable/hourly', function (req, res, next) {
   Day.find({
-    "date": {
-      "$gte": new Date(req.params.startDate).setHours(00, 00, 00, 00),
-      "$lte": new Date(req.params.endDate).setHours(23, 59, 59),
+    "variables.log_data.start_time": {
+      "$gte": new Date("Thu, 30 Jan 2020 15:00:00 GMT"),
+      "$lte": new Date("Fri, 28 Feb 2020 00:00:00 GMT")
     },
-    // "variables.$.log_data.start_time": {
-    //   "$gte": new Date(req.params.startDate).setHours(15, 00, 00, 00),
-    // },
-    // "variables.variable.log_data.start_time": {
-    //   "$gte": new Date(req.params.startDate).setHours(15, 00, 00, 00),
-    //   // "$lte": new Date(req.params.endDate).setHours(23, 59, 59),
-    // },
+    // groupby categorical var (val) and hour
+    // aggregate all start times by hr (every line), then by var val (every color)
     "variables.variable": req.params.variable
-  }, { 'variables.variable.$': 1, 'variables.log_data': 1 }, (err, day) => {
+  }, { 'variables.variable.$': 1, 'variables.log_data.start_time': 1, 'date': 1 }, (err, day) => {
     handleErr(err, next);
-    if (day)
+    if (day) {
+      console.log(day)
       res.json(day);
+    }
     else res.json(false);
   });
 });
+
+
+// test query 
+// localhost:3000/day/start/2020-01-30T15:00:00.000Z/end/2020-02-30T15:00:00.000Z/variable/5e3316671c71657e18823380/aggregate
+router.get('/aggregate', function (req, res, next) {
+  Day.aggregate(
+    [
+      {
+        "$group": {
+          "_id": { "$hour": "$variables" }
+        }
+      }
+    ], (err, day) => {
+      handleErr(err, next);
+      if (day) {
+        console.log(day)
+        res.json(day);
+      }
+      else res.json(false);
+    });
+});
+
+// computed time per task
+// ~ needs testing
+router.get('/taskTimes', function (req, res, next) {
+  Day.aggregate(
+    [
+      {
+        "$group": {
+          "_id": { "$sum": [{ "$subtract": ["$variables.log_data.end_time", "$variables.log_data.start_time"] }] }
+        }
+      }
+    ], (err, day) => {
+      handleErr(err, next);
+      if (day) {
+        console.log(day)
+        res.json(day);
+      }
+      else res.json(false);
+    });
+});
+
 
 // // GET day document's specified variable log data if exists, within a time frame
 // // test query localhost:3000/day/start/2020-01-30T15:00:00.000Z/end/2020-02-30T15:00:00.000Z/variable/5e3316671c71657e18823380/hourly
@@ -269,7 +308,8 @@ router.post('/day/:id/delete', (req, res, next) => {//~
 
 
 // helper method
-function handleErr(err) {
+function handleErr(err, next) {
+  console.log(err)
   if (err) return next(err);
 }
 

@@ -6,6 +6,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
+var cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var dayRouter = require('./routes/day');
@@ -29,6 +30,11 @@ var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 
 var app = express();
+
+// app.use(cors());
+app.use(cors({
+  credentials: true,
+}));
 
 // allow cors
 app.use(function (req, res, next) {

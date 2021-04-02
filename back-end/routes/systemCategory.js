@@ -15,24 +15,6 @@ router.get('/new', function (req, res, next) {
     res.render('systemCategory_new', { title: "Add system category" });
 });
 
-// // POST new system category
-// router.post('/', (req, res, next) => {
-//     var newCategory = new SystemCategory();
-//     // newCategory.variable = req.body.variable;
-//     newCategory.name = req.body.name;
-//     newCategory.description = req.body.description;
-//     newCategory.color = req.body.color;
-
-//     newCategory.save((err, category) => {
-//         handleErr(err);
-//         console.log("System Category saved to data collection", category);
-//         // res.json(category);
-//         // next();
-//         res.redirect('back');
-//     });
-//     // res.redirect('/');
-// });
-
 // POST new system after checking if it already exists (by name)
 router.post('/', (req, res, next) => { //~
     var q = SystemCategory.findOneAndUpdate(
@@ -51,6 +33,17 @@ router.post('/', (req, res, next) => { //~
         // res.json(data);
     });
     // res.redirect('back');
+});
+
+// delete a system category document
+router.post('/:id/delete', (req, res, next) => {
+    var q = System.findOneAndDelete({ _id: req.params.id });
+    q.exec(function (err, mydata) {
+        res.json(true)
+        console.log('deleted system category document');
+    });
+    res.json(false)
+    // res.redirect('/');
 });
 
 

@@ -38,8 +38,13 @@
       >
       <hr />
     </div>
-    <transition name="appearTransition">
+    <!-- <transition name="appearTransition">
       <deleteConfirmationWindow v-if="showDeleteConfirmation" />
+    </transition> -->
+    <transition name="appearTransition">
+      <div class="launchedWindowCon" v-if="showDeleteConfirmation">
+        <deleteConfirmationWindow />
+      </div>
     </transition>
     <transition name="appearTransition">
       <newCategoryWindow v-if="showNewCategoryWindow" />

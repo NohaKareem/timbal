@@ -42,7 +42,9 @@
       <hr />
     </div>
     <transition name="appearTransition">
-      <deleteConfirmationWindow v-if="showDeleteConfirmation" />
+      <div class="launchedWindowCon" v-if="showDeleteConfirmation">
+        <deleteConfirmationWindow />
+      </div>
     </transition>
     <transition name="appearTransition">
       <div class="launchedWindowCon" v-if="showNewCategoryWindow">
@@ -89,17 +91,17 @@ export default {
     },
     launchDeleteConfirmation() {
       this.showDeleteConfirmation = true
-    },
-    deleteItem(itemId) {
-      axios
-        .post(`http://localhost:3000/systems/system/${itemId}/delete`)
-        .then(function(response) {
-          console.log('deleted', response.data)
-        })
-        .catch(function(error) {
-          console.error(error)
-        })
     }
+    // deleteItem(itemId) {
+    //   axios
+    //     .post(`http://localhost:3000/systems/systemCategory/${itemId}/delete`)
+    //     .then(function(response) {
+    //       console.log('deleted', response.data)
+    //     })
+    //     .catch(function(error) {
+    //       console.error(error)
+    //     })
+    // }
   },
   created() {
     var self = this

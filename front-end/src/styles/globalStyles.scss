@@ -487,7 +487,7 @@ input[type=text], input[type=password], input[type=email] {
     position: absolute;
     border-radius: $baseMargin;
     padding: $baseMargin * 3;
-    margin-top: -50vh;
+    // margin-top: -50vh;
     background-color: $grayWhite;
     @include softUiShadow();
 }
@@ -498,8 +498,11 @@ input[type=text], input[type=password], input[type=email] {
     align-items: center;
     justify-content: center;
     text-align: center;
-    top: 50%;
-    top: -100%;
+    // top: 50%;
+    // top: -100%;
+    top: 0;
+    bottom: 0;
+    margin-top: 15vh;
 }
 
 .confirmationOptions {

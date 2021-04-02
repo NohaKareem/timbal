@@ -1,9 +1,9 @@
 <template>
   <div class="addSystemCategoryCon">
-    <div class="addSystemCategory">
+    <div class="addSystemCategory" ref="addSystemCategoryWindow">
       <p class="cancelButton" @click="toggleAddCategoryWindow()">X</p>
-      <form>
-        <!-- </form> action="http://localhost:3000/systemCategory" method="POST"> -->
+      <!-- <form> -->
+      <form action="http://localhost:3000/systemCategory" method="POST">
         <h2>Add new system category</h2>
         <hr class="categoryHr" />
         <div class="newCategoryForm">
@@ -43,6 +43,19 @@
               {{ variable.name }}
             </option>
           </select>
+
+          <input
+            type="text"
+            name="color"
+            :value="selectedColor"
+            class="hidden"
+          />
+          <input type="text" name="system" :value="systemId" class="hidden" />
+          <!-- <input type="text" name="values[]" :value="varVals" /> -->
+          <div v-for="(varVal, n) in varVals" :key="varVal">
+            <input type="text" :name="`values[${n}]`" :value="varVal" />
+          </div>
+
           <div v-if="variable" class="categoryListItemEditable">
             <div
               v-for="(varCategory, n) in categories.filter((cat) => {
@@ -58,10 +71,6 @@
               {{ varCategory.description }}
             </div>
           </div>
-
-          <p class="hidden codeInfo" ref="codeInfo"
-            >initial(s) to represent the category</p
-          >
 
           <!-- display category color palette -->
           <h3>category color</h3>
@@ -86,11 +95,8 @@
             >don't forget to fill all form fields!</p
           >
           <div class="addCategoryButton">
-            <input
-              type="button"
-              value="add category"
-              @click="postSystemCategory()"
-            />
+            <input type="submit" value="add category" />
+            <!-- @click="postSystemCategory()" -->
           </div>
         </div>
       </form>
@@ -110,6 +116,7 @@ export default {
       variables: [],
       categories: [],
       variable: '',
+      varVals: [],
       varCategories: [],
       currCategories: [],
       formIncomplete: true,
@@ -177,7 +184,6 @@ export default {
       })
 
     // get all used colors
-    console.log('self.systemId', self.systemId)
     let GET_CATEGORIES_LINK = `http://localhost:3000/categories/variable/${this.variableId}/top-level`
     axios.get(GET_CATEGORIES_LINK + '/true').then(function(response) {
       response.data.forEach((category) => {
@@ -199,14 +205,9 @@ export default {
       }
     },
 
-    // display info tooltip
-    showToolTip() {
-      this.$refs.codeInfo.classList.toggle('hidden')
-    },
-
     // display window
     toggleAddCategoryWindow() {
-      this.$refs.addCategoryWindow.classList.toggle('hidden')
+      this.$refs.addSystemCategoryWindow.classList.toggle('hidden')
     },
 
     getColor(categoryColorId) {
@@ -223,7 +224,12 @@ export default {
       this.currCategories[varCategoryIndex] = !this.currCategories[
         varCategoryIndex
       ]
-      console.log(this.currCategories, ' updated')
+      this.varVals = []
+      this.currCategories.forEach((category, i) => {
+        if (category) {
+          this.varVals.push(this.categories[i]._id)
+        }
+      })
     },
 
     // init array with length, of currently selected cateogries, to false
@@ -238,28 +244,36 @@ export default {
     // post system category
     postSystemCategory() {
       // save variable values
-      let varVals = []
+      this.varVals = []
       this.currCategories.forEach((category, i) => {
         if (category) {
-          varVals.push(this.categories[i]._id)
+          this.varVals.push(this.categories[i]._id)
         }
       })
-
       let systemCategory = {
-        name: this.$refs.name,
-        description: this.$refs.description,
-        system: this.systemId,
-        values: varVals,
-        color: this.selectedColor
+        name: this.$refs.name.value,
+        description: this.$refs.description.value,
+        system: this.systemId, //~
+        values: this.varVals, //~
+        color: this.selectedColor //~
       }
-      axios
-        .post('http://localhost:3000/systemCategory/', systemCategory)
-        .then(function(response) {
-          console.log(response)
-        })
-        .catch(function(error) {
-          console.error(error)
-        })
+      // https://stackoverflow.com/a/60458100/1446598
+      const options = {
+        method: 'POST',
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data: JSON.stringify(systemCategory),
+        url: 'http://localhost:3000/systemCategory/'
+      }
+
+      axios(options)
+      // axios
+      //   .post('http://localhost:3000/systemCategory/', systemCategory)
+      //   .then(function(response) {
+      //     console.log(response)
+      //   })
+      //   .catch(function(error) {
+      //     console.error(error)
+      //   })
     }
   }
 }
