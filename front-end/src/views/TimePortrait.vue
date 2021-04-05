@@ -71,7 +71,11 @@
     </div> -->
 
     <div class="portraitVisCon" v-if="displaySelectedVis[2]">
-      <RadarChart :data="patternData" :visColors="patternColors" />
+      <RadarChart
+        :data="patternData"
+        :visColors="patternColors"
+        v-if="renderRadarChart"
+      />
     </div>
 
     <div class="portraitVisCon" v-if="displaySelectedVis[3]">
@@ -102,6 +106,7 @@ export default {
       currItemId: '',
       logs: [], // for raw data
       patternColors: ['#ff0000', '#CC33fF', '#00A0B0'],
+      renderRadarChart: false,
       patternData: [
         [
           //iPhone
@@ -358,58 +363,129 @@ export default {
       this.renderUpdate++
       this.$forceUpdate() //~method
     },
-    // loadRadarData() {
-    //   let tempLogs
-    //   console.log(this.$refs.startDate)
-
-    //   axios
-    //     .get(
-    //       `http://localhost:3000/day/start/${new Date(
-    //         this.$refs.startDate.value
-    //       ).toISOString()}/end/${new Date(
-    //         this.$refs.endDate.value
-    //       ).toISOString()}/variable/5e3316671c71657e18823380` //${this.currItemId}//~
-    //     )
-    //     .then(function(response) {
-    //       tempLogs = response.data
-
-    //       if (tempLogs) {
-    //         console.log(tempLogs)
-    //       } else {
-    //         console.log('no')
-    //       }
-    //     })
-    // },
-    parsePatternData(logs) {
-      // let selectedVarLogs = logs.filter((l) => {
-      //   return l.variables.variable == this.currItemId
-      // })
-      // let patternVarVals = []
-      let varValSet = new Set()
+    // updates passed set with unique var values, and updates patternColors with their colors
+    getVarValData(logs, varValSet) {
       logs.forEach((d) => {
+        // get unique var vals
         d.variables.forEach((v) => {
           // if selected var, iterate through all vals to add to chart
           if (v.variable == this.currItemId) {
             v.log_data.forEach((l) => {
               let currVal = l.full_category[0]
-              let varTitle = `${currVal.code}: ${currVal.description}`
-              //// add if entry doesn't exist
-              // let itemExists = false
-              // itemExists = patternVarVals.find((d) => {
-              //   return d == varTitle
-              // })
-              // if (!itemExists) patternVarVals.push(varTitle)
-              varValSet.add(varTitle)
-              console.log(varValSet)
+              // let varTitle = `${currVal.code}: ${currVal.description}`
+              if (!varValSet.has(currVal._id)) {
+                varValSet.add(currVal._id)
+                this.patternColors.push(this.getColor(currVal.color))
+              }
             })
           }
         })
       })
-      // console.log(selectedVarLogs)
-      // let varVals = [
-      //   ...new Set(selectedVarLogs.map((d) => d.log_data.full_category[0]))
-      // ]
-      // console.log(varVals)
+    },
+    parsePatternData(logs) {
+      this.patternColors = []
+      let patternVarVals = []
+      let varValSet = new Set()
+
+      // get colors + data
+      this.getVarValData(logs, varValSet)
+
+      // compute time
+      let n = 0
+      varValSet.forEach((val) => {
+        // populate every hour with an initial value of 0 for curr. var val
+        patternVarVals[n] = []
+        for (let i = 0; i < 24; i++) {
+          patternVarVals[n].push({ axis: i, value: 0 })
+        }
+        console.log('for val @n,', n, ' init @', patternVarVals[n])
+        logs.forEach((d) => {
+          d.variables.forEach((v) => {
+            if (v.variable == this.currItemId) {
+              v.log_data.forEach((l) => {
+                // increment time for every log entry with current var val
+                if (l.full_category[0]._id == val) {
+                  let startTime = new Date(l.start_time)
+                  let endTime = new Date(l.end_time)
+                  for (
+                    let i = startTime.getHours();
+                    i <= endTime.getHours();
+                    i++
+                  ) {
+                    // // start entry for var val at given hour if doesn't exist already
+                    // if (
+                    //   (patternVarVals.length > 0 &&
+                    //     !patternVarVals.find((e) => e.axis == i)) ||
+                    //   patternVarVals.length == 0
+                    // ) {
+                    //   // patternVarVals[n] = {}
+                    //   // patternVarVals[n].axis = i
+                    //   // patternVarVals[n].value = 0
+                    //   patternVarVals[n].push({ axis: i, value: 0 })
+                    //   console.log(
+                    //     'starting new at index ',
+                    //     i,
+                    //     ' with val  ',
+                    //     typeof patternVarVals[n][0].value,
+                    //     ' at axis ',
+                    //     patternVarVals[n][0].axis,
+                    //     ' for var val ',
+                    //     val
+                    //   )
+                    // }
+                    // increment time within current hour, for curr var val
+                    if (i == startTime.getHours()) {
+                      patternVarVals[n][i].value += 60 - startTime.getMinutes()
+                    } else if (i == endTime.getHours()) {
+                      patternVarVals[n][i].value += endTime.getMinutes()
+                    } else {
+                      patternVarVals[n][i].value += 60
+                    }
+                  }
+                }
+              })
+            }
+          })
+        })
+        n++
+      })
+
+      // normalize minutes (divide by max value)
+      // get max
+      let maxVals = []
+      patternVarVals.forEach((v) => {
+        console.log('var val', v)
+        // v.forEach((val) => {
+        // console.log('val', val)
+        maxVals.push(
+          Math.max.apply(
+            Math,
+            v.map((val) => val.value)
+          )
+        )
+        // maxVals.push(Math.max(...v.value))
+        console.log('v', maxVals)
+        // })
+      })
+      let maxVal = Math.max(...maxVals)
+      console.log('maxVal', maxVal)
+
+      // divide by max val
+      let tempVals = []
+      patternVarVals.forEach((v) => {
+        let updatedVals = []
+        v.forEach((val) => {
+          updatedVals.push({ axis: val.axis, value: val.value / maxVal })
+        })
+        tempVals.push(updatedVals) //~
+      })
+
+      patternVarVals = tempVals
+      console.log('updated', patternVarVals)
+      this.patternData = patternVarVals
+      this.$forceUpdate()
+      this.renderUpdate++
+      this.renderRadarChart = true
     },
     loadData(visType) {
       let self = this
@@ -487,6 +563,16 @@ export default {
       } else {
         this.items = this.systems
       }
+    },
+
+    getColor(categoryColorId) {
+      // if non-top level category, chose a default color
+      if (categoryColorId == undefined) return '#707070'
+      // else return color given color id
+      else
+        return this.$store.state.colors.filter((color) => {
+          return color._id == categoryColorId
+        })[0].color
     }
   },
   created() {

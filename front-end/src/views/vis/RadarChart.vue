@@ -415,7 +415,7 @@ export default {
     }
   },
   mounted() {
-    console.log('mounted rc')
+    console.log('mounted data', this.data)
 
     var margin = {
         top: 100,
@@ -434,6 +434,8 @@ export default {
     // var color = d3.scaleOrdinal().range(['#EDC951', '#CC333F', '#00A0B0'])
     // var color = d3.scaleOrdinal().range(['#ff0000', '#CC33fF', '#00A0B0'])
     var color = d3.scaleOrdinal().range(this.visColors)
+    console.log('vis colors', this.visColors)
+    console.log('vis data', this.data)
 
     var radarChartOptions = {
       w: width,
