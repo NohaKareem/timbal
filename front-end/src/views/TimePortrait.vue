@@ -398,7 +398,6 @@ export default {
         for (let i = 0; i < 24; i++) {
           patternVarVals[n].push({ axis: i, value: 0 })
         }
-        console.log('for val @n,', n, ' init @', patternVarVals[n])
         logs.forEach((d) => {
           d.variables.forEach((v) => {
             if (v.variable == this.currItemId) {
@@ -412,29 +411,9 @@ export default {
                     i <= endTime.getHours();
                     i++
                   ) {
-                    // // start entry for var val at given hour if doesn't exist already
-                    // if (
-                    //   (patternVarVals.length > 0 &&
-                    //     !patternVarVals.find((e) => e.axis == i)) ||
-                    //   patternVarVals.length == 0
-                    // ) {
-                    //   // patternVarVals[n] = {}
-                    //   // patternVarVals[n].axis = i
-                    //   // patternVarVals[n].value = 0
-                    //   patternVarVals[n].push({ axis: i, value: 0 })
-                    //   console.log(
-                    //     'starting new at index ',
-                    //     i,
-                    //     ' with val  ',
-                    //     typeof patternVarVals[n][0].value,
-                    //     ' at axis ',
-                    //     patternVarVals[n][0].axis,
-                    //     ' for var val ',
-                    //     val
-                    //   )
-                    // }
                     // increment time within current hour, for curr var val
                     if (i == startTime.getHours()) {
+                      console.log('start t', i, 'at log ', d)
                       patternVarVals[n][i].value += 60 - startTime.getMinutes()
                     } else if (i == endTime.getHours()) {
                       patternVarVals[n][i].value += endTime.getMinutes()
@@ -455,20 +434,14 @@ export default {
       let maxVals = []
       patternVarVals.forEach((v) => {
         console.log('var val', v)
-        // v.forEach((val) => {
-        // console.log('val', val)
         maxVals.push(
           Math.max.apply(
             Math,
             v.map((val) => val.value)
           )
         )
-        // maxVals.push(Math.max(...v.value))
-        console.log('v', maxVals)
-        // })
       })
       let maxVal = Math.max(...maxVals)
-      console.log('maxVal', maxVal)
 
       // divide by max val
       let tempVals = []
@@ -477,12 +450,12 @@ export default {
         v.forEach((val) => {
           updatedVals.push({ axis: val.axis, value: val.value / maxVal })
         })
-        tempVals.push(updatedVals) //~
+        tempVals.push(updatedVals)
       })
 
       patternVarVals = tempVals
-      console.log('updated', patternVarVals)
       this.patternData = patternVarVals
+      // re-render
       this.$forceUpdate()
       this.renderUpdate++
       this.renderRadarChart = true
@@ -522,28 +495,6 @@ export default {
               .then(function(response) {
                 self.logs = response.data
                 self.parsePatternData(self.logs)
-                // console.log(self.logs)
-                // self.logs.forEach((day) => {
-                //   day.variables.forEach((variable) => {
-                //     variable.log_data.forEach((log) => {
-                //       console.log(log.full_category[0].color)
-                //       console.log(
-                //         `${log.full_category[0].code}:${log.full_category[0].description}`
-                //       )
-                //       let ms = new Date(log.end_time) - new Date(log.start_time)
-                //       ms = ms / 1000 / 60 / 60 // ms to hrs`
-                //       console.log(ms)
-                //       // accumulate by var val
-                //       // bin by start date
-                //       // if hour(end date) != hour(start date), iterate from start to end date, increment counter
-                //       self.patternData.push({
-                //         axis: new Date(log.start_time).getHours(),
-                //         value: 1 //~
-                //       })
-                //       console.table(self.patternData)
-                //     })
-                //   })
-                // })
               })
             break
         }

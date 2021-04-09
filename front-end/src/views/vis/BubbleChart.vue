@@ -1,5 +1,5 @@
 <template>
-  <div class="bubbleChartCon">
+  <div class=" Con">
     <div class="bubbleChart" ref="bubbleChart"></div>
   </div>
 </template>
@@ -61,8 +61,13 @@ export default {
               code: topLevelCategory,
               text: topLevelCategory + ': ' + categroyDescription,
               color: categoryColor,
+              // update text colors for higher contrast with light backgrounds
               lightColor:
-                categoryColor === '5e8b9ee84b8d5674645b32be' ? true : false,
+                categoryColor === '5e8b9ee84b8d5674645b32be' ||
+                categoryColor === '5e8b9f134b8d5674645b32bf' ||
+                categoryColor === '5e8b9ead4b8d5674645b32ba'
+                  ? true
+                  : false,
               cx: Math.floor(Math.random() * 300 + 1),
               cy: Math.floor(Math.random() * 300 + 1),
               r: duration

@@ -39,6 +39,21 @@ router.get('/:dayId/var/:varId/details', (req, res, next) => {
   }).populate('variables.log_data.full_category');
 });
 
+
+// GET a day's system categories' details for a particular system using populate
+router.get('/:dayId/system/:systemId/details', (req, res, next) => {
+  Day.findOne({
+    _id: req.params.dayId,
+    'variables.variable': req.params.systemId
+  }, { 'variables.variable.$': 1, 'variables.log_data': 1 }, (err, day) => {
+    res.json(day);
+    console.log(day)
+    console.error(err)
+    // res.render('vis/actualTimeSeries', { day: day });
+  }).populate('variables.log_data.full_category');
+});
+
+
 router.get('/:dayId/var/:varId/vis', (req, res, next) => {
   Day.find({
     _id: req.params.dayId,
