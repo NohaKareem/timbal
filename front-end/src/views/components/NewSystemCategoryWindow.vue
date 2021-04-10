@@ -53,7 +53,8 @@
           <input type="text" name="system" :value="systemId" class="hidden" />
           <!-- <input type="text" name="values[]" :value="varVals" /> -->
           <div v-for="(varVal, n) in varVals" :key="varVal">
-            <input type="text" :name="`values[${n}]`" :value="varVal" />
+            {{ n }}
+            <input type="text" :name="`values`" :value="varVal" />
           </div>
 
           <div v-if="variable" class="categoryListItemEditable">

@@ -23,13 +23,13 @@ router.post('/', (req, res, next) => { //~
             system: req.body.system,
             description: req.body.description,
             color: req.body.color,
-            $push: { values: req.body.system_category }
+            $push: { values: req.body.values }
         },
         { upsert: true, new: true }
     );
     q.exec(function (err, data) {
         console.log('added system category document', data);
-        res.redirect('back');
+        // res.redirect('back');
         // res.json(data);
     });
     // res.redirect('back');
