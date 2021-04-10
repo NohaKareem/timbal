@@ -1,7 +1,12 @@
 <template>
   <div class="sankeyCon">
     <div class="sankey">
-      <GChart type="ColumnChart" :data="logs" :options="chartOptions" />
+      <GChart
+        :settings="{ packages: ['corechart', 'table', 'map'] }"
+        type="ColumnChart"
+        :data="logs"
+        :options="chartOptions"
+      />
     </div>
   </div>
 </template>

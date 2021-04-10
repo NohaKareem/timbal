@@ -261,7 +261,7 @@ router.post('/', (req, res, next) => {
   newDay.variables = [{
     variable: req.body.variable,
     log_data: [{//[0]
-      start_time: start_time, //~ parse input, discenr am and pm
+      start_time: start_time, //~ parse input, discern am and pm
       end_time: end_time, //~
       full_category: req.body.full_category //req.body.full_category.split('.') //~ handle if new category
     }]

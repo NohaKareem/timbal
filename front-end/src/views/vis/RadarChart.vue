@@ -111,8 +111,6 @@ export default {
             ')'
         )
 
-      //  Glow filter for some extra pizzazz
-
       /* eslint-disable no-unused-vars */
       //Filter for the outside glow
       var filter = g

@@ -66,9 +66,11 @@
       <Timeline v-for="log in logs" :key="log" :logs="log" />
     </div>
 
-    <!-- <div class="radarCon">
-      <div class="radar"><RadarChart :data="patternData"/></div>
-    </div> -->
+    <div class="portraitVisCon">
+      <p v-if="displaySelectedVis[1]">hi</p>
+      <NestedDonut />
+      bye
+    </div>
 
     <div class="portraitVisCon" v-if="displaySelectedVis[2]">
       <RadarChart
@@ -89,8 +91,9 @@ import axios from 'axios'
 import Timeline from './vis/Timeline.vue'
 import RadarChart from './vis/RadarChart.vue'
 import Sankey from './vis/Sankey.vue'
+import NestedDonut from './vis/NestedDonut.vue'
 export default {
-  components: { Timeline, RadarChart, Sankey },
+  components: { Timeline, RadarChart, Sankey, NestedDonut },
   name: 'TimePortrait',
   data() {
     return {
@@ -106,246 +109,7 @@ export default {
       currItemId: '',
       logs: [], // for raw data
       patternColors: ['#ff0000', '#CC33fF', '#00A0B0'],
-      renderRadarChart: false,
-      patternData: [
-        [
-          //iPhone
-          {
-            axis: '12',
-            value: 0.22
-          },
-          {
-            axis: '1',
-            value: 0.28
-          },
-          {
-            axis: '2',
-            value: 0.29
-          },
-          {
-            axis: '3',
-            value: 0.17
-          },
-          {
-            axis: '4',
-            value: 0.22
-          },
-          {
-            axis: '5',
-            value: 0.02
-          },
-          {
-            axis: '6',
-            value: 0.09
-          },
-          {
-            axis: '7',
-            value: 0.21
-          },
-          {
-            axis: '8',
-            value: 0.5
-          },
-          {
-            axis: '9',
-            value: 0.09
-          },
-          {
-            axis: '10',
-            value: 0.21
-          },
-          {
-            axis: '11',
-            value: 0.5
-          },
-          {
-            axis: '12',
-            value: 0.5
-          },
-          {
-            axis: '1',
-            value: 0.09
-          },
-          {
-            axis: '2',
-            value: 0.29
-          },
-          {
-            axis: '3',
-            value: 0.17
-          },
-          {
-            axis: '4',
-            value: 0.22
-          },
-          {
-            axis: '5',
-            value: 0.02
-          },
-          {
-            axis: '6',
-            value: 0.09
-          },
-          {
-            axis: '7',
-            value: 0.21
-          },
-          {
-            axis: '8',
-            value: 0.5
-          },
-          {
-            axis: '9',
-            value: 0.09
-          },
-          {
-            axis: '10',
-            value: 0.21
-          },
-          {
-            axis: '11',
-            value: 0.5
-          }
-        ],
-        [
-          //Samsung
-          {
-            axis: '1',
-            value: 0.16
-          },
-          {
-            axis: '2',
-            value: 0.35
-          },
-          {
-            axis: '3',
-            value: 0.13
-          },
-          {
-            axis: '4',
-            value: 0.2
-          },
-          {
-            axis: '5',
-            value: 0.13
-          },
-          {
-            axis: '6',
-            value: 0.09
-          },
-          {
-            axis: 'Price Of Device',
-            value: 0.35
-          },
-          {
-            axis: '8',
-            value: 0.38
-          },
-          {
-            axis: '9',
-            value: 0.09
-          },
-          {
-            axis: '10',
-            value: 0.21
-          },
-          {
-            axis: '11',
-            value: 0.5
-          },
-          {
-            axis: '1',
-            value: 0.09
-          },
-          {
-            axis: '2',
-            value: 0.29
-          },
-          {
-            axis: '3',
-            value: 0.17
-          },
-          {
-            axis: '4',
-            value: 0.22
-          },
-          {
-            axis: '5',
-            value: 0.02
-          },
-          {
-            axis: '6',
-            value: 0.09
-          },
-          {
-            axis: '7',
-            value: 0.21
-          },
-          {
-            axis: '8',
-            value: 0.5
-          },
-          {
-            axis: '9',
-            value: 0.09
-          },
-          {
-            axis: '10',
-            value: 0.21
-          },
-          {
-            axis: '11',
-            value: 0.5
-          }
-        ],
-        [
-          //Nokia Smartphone
-          {
-            axis: '1',
-            value: 0.1
-          },
-          {
-            axis: '2',
-            value: 0.3
-          },
-          {
-            axis: '3',
-            value: 0.14
-          },
-          {
-            axis: '4',
-            value: 0.22
-          },
-          {
-            axis: '5',
-            value: 0.04
-          },
-          {
-            axis: '6',
-            value: 0.09
-          },
-          {
-            axis: '7',
-            value: 0.41
-          },
-          {
-            axis: '8',
-            value: 0.3
-          },
-          {
-            axis: '9',
-            value: 0.09
-          },
-          {
-            axis: '10',
-            value: 0.21
-          },
-          {
-            axis: '11',
-            value: 0.5
-          }
-        ]
-      ]
+      renderRadarChart: false
     }
   },
   methods: {
@@ -359,6 +123,7 @@ export default {
           this.displaySelectedVis[i] = false
         }
       })
+      console.log(this.displaySelectedVis)
       // update render
       this.renderUpdate++
       this.$forceUpdate() //~method
@@ -461,8 +226,12 @@ export default {
       this.renderRadarChart = true
     },
     loadData(visType) {
+      console.log('load data')
       let self = this
-
+      // this.displaySelectedVis.forEach((d, i) => {
+      //   if (i != visType) this.displaySelectedVis[visType] = false
+      //   else this.displaySelectedVis[visType] = true
+      // })
       // variable vis data
       if (this.portraitType == 'variable') {
         switch (visType) {
@@ -479,6 +248,11 @@ export default {
               .then(function(response) {
                 self.logs = response.data
               })
+            break
+          // overview
+          case 1:
+            this.$forceUpdate()
+            this.renderUpdate++
             break
           // patterns
           case 2:

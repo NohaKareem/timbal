@@ -17,35 +17,8 @@ router.get('/new', function (req, res, next) {
   res.render('system_new', { title: "Add system" });
 });
 
-// // GET system id by name
-// router.get('/name/:name', function(req, res, next) {
-//     // capitalize input https://stackoverflow.com/a/49003361
-//     let taskName = req.params.name.charAt(0).toUpperCase() + req.params.name.slice(1);
-//     System.findOne({ name: taskName }, (err, system) => {
-//       handleErr(err);
-//       if (system)
-//           res.json(system._id);
-//       else res.json(false);
-//     });
-//   });
-
-// // POST new system
-// router.post('/', (req, res, next) => { //~
-//     var newSystem = new System(); 
-//     newSystem.name = req.body.name;
-//     newSystem.description = req.body.description;
-//     newSystem.color = req.body.color;
-
-//     newSystem.save((err, data) => { 
-//         handleErr(err);
-//         console.log("System saved to data collection", data);
-//     });
-
-//     res.redirect('back');
-// });
-
 // POST new system after checking if it already exists
-router.post('/', (req, res, next) => { //~
+router.post('/', (req, res, next) => {
   var newSystem = new System();
   newSystem.name = req.body.name;
   newSystem.description = req.body.description;
@@ -54,27 +27,6 @@ router.post('/', (req, res, next) => { //~
     handleErr(err);
     console.log("System saved to data collection", data);
   });
-
-  // // set upsert to set up data https://stackoverflow.com/a/33401897/1446598
-  // var q = System.findOneAndUpdate(
-  //   // query
-  //   { name: req.body.name }, 
-  //   // update
-  //   { 
-  //     description: req.body.description,
-  //     color: req.body.color,
-  //     $push: { categories: req.body.variable_category }
-  //   }, 
-  //   // options
-  //   { upsert: true, new: true }
-  // );
-  //   q.exec(function(err, data) {
-  //     console.log('added system document', data);
-  //     res.redirect('back');
-  //     // res.json(data);
-  //   });
-
-  // res.redirect('back');
 });
 
 // helper method

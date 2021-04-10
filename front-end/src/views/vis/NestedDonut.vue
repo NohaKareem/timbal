@@ -1,6 +1,6 @@
 <template>
   <div class="donutCon">
-    <div id="donut"> </div>
+    <div id="donut"></div>
   </div>
 </template>
 
@@ -18,6 +18,7 @@ export default {
   methods: {
     // nested donut method https://embed.plnkr.co/plunk/2p0zmp
     renderNestedDonut() {
+      console.log('in donut')
       var dataset1 = [
         { count: 10 },
         { count: 20 },
@@ -39,8 +40,13 @@ export default {
       var radius2 = radius1 - donutWidth
 
       //   var color1 = d3.scale.category20()
-      var color1 = d3.scaleOrdinal(d3.schemeCategory10)
-      var color2 = d3.scaleOrdinal(d3.schemeCategory10)
+
+      // var color1 = d3.scaleOrdinal().range(['#ff0000', '#00ff00', '#ffff00'])//~
+
+      // var color1 = d3.scaleOrdinal(d3.schemeCategory10)
+
+      // var color2 = d3.scaleOrdinal().range(['#ff0000', '#00ff00', '#ffff00'])//~
+
       //   var color2 = d3.scale.category20c()
 
       var svg = d3
@@ -59,6 +65,7 @@ export default {
         .arc()
         .innerRadius(radius1 - donutWidth)
         .outerRadius(radius1)
+
       var arc2 = d3
         .arc()
         .innerRadius(radius2 - donutWidth)
@@ -72,15 +79,17 @@ export default {
         .sort(null)
 
       //   var path1 = svg1
+      // outer
       svg1
         .selectAll('path')
         .data(pie(dataset1))
         .enter()
         .append('path')
         .attr('d', arc1)
-        .attr('fill', function(d, i) {
-          return color1(i)
-        })
+        // .attr('fill', function(d, i) {
+        //   return color1(i)
+        // })
+        .attr('fill', '#ffff00')
       //   var path2 = svg2
       svg2
         .selectAll('path')
@@ -88,14 +97,17 @@ export default {
         .enter()
         .append('path')
         .attr('d', arc2)
-        .attr('fill', function(d, i) {
-          return color2(i)
-        })
+        // .attr('fill', function(d, i) {
+        //   return color2(i)
+        // })
+        .attr('fill', '#ff0000')
+      console.log('d', arc2)
     }
   },
   created() {
     this.renderNestedDonut()
-  }
+  },
+  mounted() {}
 }
 </script>
 

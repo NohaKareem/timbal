@@ -52,6 +52,18 @@
       </div>
     </transition>
     <br />
+    <div class="addVar">
+      <form action="http://localhost:3000/system" method="post">
+        <input type="text" name="name" value="name" placeholder="system name" />
+        <input
+          type="text"
+          name="description"
+          value="description"
+          placeholder="description"
+        />
+        <input type="submit" value="add system" />
+      </form>
+    </div>
   </div>
 </template>
 
