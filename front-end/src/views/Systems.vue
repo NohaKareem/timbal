@@ -10,8 +10,8 @@
             ><i class="fa fa-trash" aria-hidden="true"></i
           ></button> -->
       </h2>
-      <div class="categoryListItemEditable"
-        ><div
+      <div class="categoryListItemEditable">
+        <div
           v-for="category in systemCategories.filter((cat) => {
             return cat.system == system._id
           })"
@@ -25,10 +25,10 @@
           </div>
           <button
             class="smallInfoButton deleteButton"
-            @click="launchDeleteConfirmation()"
+            @click="launchDeleteConfirmation(category._id)"
           >
-            <i class="fa fa-trash" aria-hidden="true"></i
-          ></button>
+            <i class="fa fa-trash" aria-hidden="true"></i>
+          </button>
         </div>
       </div>
       <div class="addButtonCenter"
@@ -43,7 +43,10 @@
     </div>
     <transition name="appearTransition">
       <div class="launchedWindowCon" v-if="showDeleteConfirmation">
-        <deleteConfirmationWindow />
+        <deleteConfirmationWindow
+          itemType="systemCategory"
+          :itemId="deleteItemId"
+        />
       </div>
     </transition>
     <transition name="appearTransition">
@@ -83,7 +86,8 @@ export default {
       systems: [],
       chosenSystem: '',
       showNewCategoryWindow: false,
-      showDeleteConfirmation: false
+      showDeleteConfirmation: false,
+      deleteItemId: ''
     }
   },
   methods: {
@@ -101,7 +105,8 @@ export default {
       console.log(this.chosenSystem)
       this.showNewCategoryWindow = true
     },
-    launchDeleteConfirmation() {
+    launchDeleteConfirmation(itemId) {
+      this.deleteItemId = itemId
       this.showDeleteConfirmation = true
     }
     // deleteItem(itemId) {

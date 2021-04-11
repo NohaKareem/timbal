@@ -13,10 +13,12 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'DeleteConfirmationWindow',
-  data() {
-    return {}
+  props: {
+    itemType: String,
+    itemId: String
   },
   computed: {},
   created() {
@@ -28,7 +30,17 @@ export default {
       this.$refs.confirmationWindow.classList.toggle('hidden')
     },
     confirmDeletion() {
-      console.log('delete away!')
+      console.log(
+        `http://localhost:3000/${this.itemType}/${this.itemId}/delete`
+      )
+      axios
+        .post(`http://localhost:3000/${this.itemType}/${this.itemId}/delete`)
+        .then(function(response) {
+          console.log('deleted', response.data)
+        })
+        .catch(function(error) {
+          console.error(error)
+        })
     }
   }
 }

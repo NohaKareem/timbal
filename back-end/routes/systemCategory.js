@@ -16,7 +16,7 @@ router.get('/new', function (req, res, next) {
 });
 
 // POST new system after checking if it already exists (by name)
-router.post('/', (req, res, next) => { //~
+router.post('/', (req, res, next) => {
     var q = SystemCategory.findOneAndUpdate(
         { name: req.body.name },
         {
@@ -42,7 +42,7 @@ router.post('/:id/delete', (req, res, next) => {
         res.json(true)
         console.log('deleted system category document');
     });
-    res.json(false)
+    // res.json(false)
     // res.redirect('/');
 });
 

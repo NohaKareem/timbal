@@ -69,7 +69,7 @@
     <div class="portraitVisCon">
       <p v-if="displaySelectedVis[1]">hi</p>
       <NestedDonut />
-      bye
+      <Donut />
     </div>
 
     <div class="portraitVisCon" v-if="displaySelectedVis[2]">
@@ -92,8 +92,9 @@ import Timeline from './vis/Timeline.vue'
 import RadarChart from './vis/RadarChart.vue'
 import Sankey from './vis/Sankey.vue'
 import NestedDonut from './vis/NestedDonut.vue'
+import Donut from './vis/Donut.vue'
 export default {
-  components: { Timeline, RadarChart, Sankey, NestedDonut },
+  components: { Timeline, RadarChart, Sankey, NestedDonut, Donut },
   name: 'TimePortrait',
   data() {
     return {
