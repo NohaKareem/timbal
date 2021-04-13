@@ -53,14 +53,11 @@
           <input type="text" name="system" :value="systemId" class="hidden" />
           <!-- <input type="text" name="values[]" :value="varVals" /> -->
           <div v-for="varVal in varVals" :key="varVal">
-            <input
-              type="text"
-              class="hidden"
-              :name="`values`"
-              :value="varVal"
-            />
+            {{ varVal }}
+            <input type="text" class="hidden" name="values" :value="varVal" />
           </div>
 
+          <!-- display var values for selected variable -->
           <div v-if="variable" class="categoryListItemEditable">
             <div
               v-for="(varCategory, n) in categories.filter((cat) => {
@@ -189,12 +186,14 @@ export default {
       })
 
     // get all used colors
-    let GET_CATEGORIES_LINK = `http://localhost:3000/categories/variable/${this.variableId}/top-level`
-    axios.get(GET_CATEGORIES_LINK + '/true').then(function(response) {
-      response.data.forEach((category) => {
-        self.usedColors.push(category.color._id)
+    axios
+      .get(`http://localhost:3000/systems/${this.systemId}/categories`)
+      .then(function(response) {
+        response.data.forEach((category) => {
+          if (!self.usedColors.includes(category.color))
+            self.usedColors.push(category.color)
+        })
       })
-    })
   },
   methods: {
     // update data to be passed to form
@@ -244,41 +243,6 @@ export default {
           return cat.variable == this.variable
         }).length
       ).fill(false)
-    },
-
-    // post system category
-    postSystemCategory() {
-      // save variable values
-      this.varVals = []
-      this.currCategories.forEach((category, i) => {
-        if (category) {
-          this.varVals.push(this.categories[i]._id)
-        }
-      })
-      let systemCategory = {
-        name: this.$refs.name.value,
-        description: this.$refs.description.value,
-        system: this.systemId, //~
-        values: this.varVals, //~
-        color: this.selectedColor //~
-      }
-      // https://stackoverflow.com/a/60458100/1446598
-      const options = {
-        method: 'POST',
-        headers: { 'content-type': 'application/x-www-form-urlencoded' },
-        data: JSON.stringify(systemCategory),
-        url: 'http://localhost:3000/systemCategory/'
-      }
-
-      axios(options)
-      // axios
-      //   .post('http://localhost:3000/systemCategory/', systemCategory)
-      //   .then(function(response) {
-      //     console.log(response)
-      //   })
-      //   .catch(function(error) {
-      //     console.error(error)
-      //   })
     }
   }
 }
