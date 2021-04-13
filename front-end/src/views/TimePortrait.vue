@@ -66,10 +66,17 @@
       <Timeline v-for="log in logs" :key="log" :logs="log" />
     </div>
 
-    <div class="portraitVisCon">
-      <p v-if="displaySelectedVis[1]">hi</p>
-      <NestedDonut />
-      <Donut />
+    <div
+      class="portraitVisCon"
+      v-if="displaySelectedVis[1]"
+      :key="donutRerender"
+    >
+      <!-- <NestedDonut /> -->
+      <Donut
+        :visColors="patternColors"
+        :logs="overviewData"
+        v-if="renderDonutChart"
+      />
     </div>
 
     <div class="portraitVisCon" v-if="displaySelectedVis[2]">
@@ -91,10 +98,10 @@ import axios from 'axios'
 import Timeline from './vis/Timeline.vue'
 import RadarChart from './vis/RadarChart.vue'
 import Sankey from './vis/Sankey.vue'
-import NestedDonut from './vis/NestedDonut.vue'
+// import NestedDonut from './vis/NestedDonut.vue'
 import Donut from './vis/Donut.vue'
 export default {
-  components: { Timeline, RadarChart, Sankey, NestedDonut, Donut },
+  components: { Timeline, RadarChart, Sankey, Donut },
   name: 'TimePortrait',
   data() {
     return {
@@ -107,13 +114,20 @@ export default {
       visTypes: ['raw data', 'overview', 'patterns', 'relationships'],
       displaySelectedVis: [false, false, false, false],
       renderUpdate: 0,
+      donutRerender: 0,
       currItemId: '',
       logs: [], // for raw data
       patternColors: ['#ff0000', '#CC33fF', '#00A0B0'],
-      renderRadarChart: false
+      renderRadarChart: false,
+      renderDonutChart: false,
+      overviewData: []
     }
   },
   methods: {
+    updateRender(cntxt) {
+      cntxt.renderUpdate++
+      cntxt.$forceUpdate()
+    },
     generatePortrait() {
       this.renderUpdate++ // force update
       this.visTypes.forEach((v, i) => {
@@ -124,12 +138,10 @@ export default {
           this.displaySelectedVis[i] = false
         }
       })
-      console.log(this.displaySelectedVis)
-      // update render
-      this.renderUpdate++
-      this.$forceUpdate() //~method
+      this.updateRender(this)
     },
-    // updates passed set with unique var values, and updates patternColors with their colors
+
+    // gets unique var values, and their colors (updates varValSet, and patternColors)
     getVarValData(logs, varValSet) {
       logs.forEach((d) => {
         // get unique var vals
@@ -147,6 +159,74 @@ export default {
           }
         })
       })
+    },
+    parseOverviewData(logs) {
+      this.patternColors = []
+      let patternVarVals = []
+      let varValSet = new Set()
+
+      // get colors + data
+      this.getVarValData(logs, varValSet)
+
+      // compute time
+      // n iterates ea. var val
+      let n = 0
+      varValSet.forEach((val) => {
+        patternVarVals[n] = 0 //~
+        logs.forEach((d) => {
+          d.variables.forEach((v) => {
+            if (v.variable == this.currItemId) {
+              v.log_data.forEach((l) => {
+                // increment time for every log entry with current var val
+                if (l.full_category[0]._id == val) {
+                  let startTime = new Date(l.start_time)
+                  let endTime = new Date(l.end_time)
+                  // i iterates ea. logged hour
+                  for (
+                    let i = startTime.getHours();
+                    i <= endTime.getHours();
+                    i++
+                  ) {
+                    // increment time within current hour, for curr var val
+                    if (i == startTime.getHours()) {
+                      patternVarVals[n] += 60 - startTime.getMinutes()
+                    } else if (i == endTime.getHours()) {
+                      patternVarVals[n] += endTime.getMinutes()
+                    } else {
+                      patternVarVals[n] += 60
+                    }
+                  }
+                }
+              })
+            }
+          })
+        })
+        n++
+      })
+      // normalize minutes (divide by max value)
+      // get max
+      // patternVarVals.forEach((v) => {
+      //   console.log('var val', v)
+      //   maxVals.push(
+      //     Math.max.apply(
+      //       Math,
+      //       v.map((val) => val.value)
+      //     )
+      //   )
+      // })
+      // get sum of all vals
+      let maxVal = patternVarVals.reduce((a, b) => a + b, 0)
+      //  Math.max(...patternVarVals)
+      // divide by max val
+      // let tempVals = []
+      // compute percentage
+      patternVarVals.forEach((val) => {
+        this.overviewData.push((val / maxVal) * 100)
+      })
+      // re-render
+      this.$forceUpdate()
+      this.renderUpdate++
+      this.renderDonutChart = true
     },
     parsePatternData(logs) {
       this.patternColors = []
@@ -179,7 +259,6 @@ export default {
                   ) {
                     // increment time within current hour, for curr var val
                     if (i == startTime.getHours()) {
-                      console.log('start t', i, 'at log ', d)
                       patternVarVals[n][i].value += 60 - startTime.getMinutes()
                     } else if (i == endTime.getHours()) {
                       patternVarVals[n][i].value += endTime.getMinutes()
@@ -199,7 +278,6 @@ export default {
       // get max
       let maxVals = []
       patternVarVals.forEach((v) => {
-        console.log('var val', v)
         maxVals.push(
           Math.max.apply(
             Math,
@@ -227,12 +305,7 @@ export default {
       this.renderRadarChart = true
     },
     loadData(visType) {
-      console.log('load data')
       let self = this
-      // this.displaySelectedVis.forEach((d, i) => {
-      //   if (i != visType) this.displaySelectedVis[visType] = false
-      //   else this.displaySelectedVis[visType] = true
-      // })
       // variable vis data
       if (this.portraitType == 'variable') {
         switch (visType) {
@@ -252,13 +325,24 @@ export default {
             break
           // overview
           case 1:
+            axios
+              .get(
+                `http://localhost:3000/day/start/${new Date(
+                  this.$refs.startDate.value
+                ).toISOString()}/end/${new Date(
+                  this.$refs.endDate.value
+                ).toISOString()}/variable/${this.currItemId}`
+              )
+              .then(function(response) {
+                self.logs = response.data
+                self.parseOverviewData(self.logs)
+              })
+            this.donutRerender++
             this.$forceUpdate()
             this.renderUpdate++
             break
           // patterns
           case 2:
-            // let patternData = {}
-            // self.patternData = []
             axios
               .get(
                 `http://localhost:3000/day/start/${new Date(
@@ -277,20 +361,14 @@ export default {
         this.$forceUpdate()
         this.renderUpdate++
       }
-      // // system vis data
-      // else {
-      // }
     },
-    updateType() {},
     updateItem() {
-      // this.currItemId = itemId
       if (this.portraitType === 'variable') {
         this.items = this.variables
       } else {
         this.items = this.systems
       }
     },
-
     getColor(categoryColorId) {
       // if non-top level category, chose a default color
       if (categoryColorId == undefined) return '#707070'
@@ -328,8 +406,6 @@ export default {
         console.error(error)
       })
     this.items = this.variables
-
-    // this.loadRadarData() //~
   }
 }
 </script>

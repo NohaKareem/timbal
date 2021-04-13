@@ -29,7 +29,7 @@ router.get('/:id', (req, res, next) => {
     });
 });
 
-// GET all categories for system with specific id
+// GET all system categories for system with specific id
 router.get('/:id/categories', (req, res, next) => {
     SystemCategory.find({ system: req.params.id }, (err, systemCategories) => {
         handleErr(err);

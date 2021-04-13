@@ -213,4 +213,8 @@ select {
   background-position: right 20px center, right bottom, right bottom,
     right bottom;
 }
+
+// select:after {
+//   content: '▼';
+// }
 </style>

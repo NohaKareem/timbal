@@ -15,7 +15,7 @@ function isLoggedIn(req, res, next) {
 // GET all system categories
 router.get('/', (req, res, next) => {
     SystemCategory.find((err, systemCategories) => {
-        handleErr(err);
+        handleErr(err, next);
         console.log(err);
         console.log(systemCategories);
         res.json(systemCategories);
@@ -24,14 +24,14 @@ router.get('/', (req, res, next) => {
 
 // GET a system category, given id
 router.get('/:id', (req, res, next) => {
-    SystemCategory.find({ _id: req.params.id }, (err, systemCategories) => {
-        handleErr(err);
+    SystemCategory.findOne({ _id: req.params.id }, (err, systemCategories) => {
+        handleErr(err, next);
         res.json(systemCategories);
-    });
+    }).populate('values');
 });
 
 // helper method
-function handleErr(err) {
+function handleErr(err, next) {
     if (err) return next(err);
 }
 

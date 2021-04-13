@@ -20,6 +20,7 @@
           <div
             class="categoryListItem"
             :style="'background-color:' + getColor(category.color)"
+            @click="launchViewCategoryWindow(category._id)"
           >
             {{ category.name }}
           </div>
@@ -50,6 +51,11 @@
       </div>
     </transition>
     <transition name="appearTransition">
+      <div class="launchedWindowCon" v-if="showViewCategoryWindow">
+        <viewSystemCategoryWindow :systemCategoryId="showItemId" />
+      </div>
+    </transition>
+    <transition name="appearTransition">
       <div class="launchedWindowCon" v-if="showNewCategoryWindow">
         <newSystemCategoryWindow :systemId="chosenSystem" />
       </div>
@@ -74,11 +80,13 @@
 import axios from 'axios'
 import NewSystemCategoryWindow from './components/NewSystemCategoryWindow.vue'
 import DeleteConfirmationWindow from './components/DeleteConfirmationWindow.vue'
+import ViewSystemCategoryWindow from './components/ViewSystemCategoryWindow.vue'
 export default {
   name: 'Systems',
   components: {
     newSystemCategoryWindow: NewSystemCategoryWindow,
-    deleteConfirmationWindow: DeleteConfirmationWindow
+    deleteConfirmationWindow: DeleteConfirmationWindow,
+    viewSystemCategoryWindow: ViewSystemCategoryWindow
   },
   data() {
     return {
@@ -86,8 +94,10 @@ export default {
       systems: [],
       chosenSystem: '',
       showNewCategoryWindow: false,
+      showViewCategoryWindow: false,
       showDeleteConfirmation: false,
-      deleteItemId: ''
+      deleteItemId: '',
+      showItemId: ''
     }
   },
   methods: {
@@ -102,8 +112,11 @@ export default {
     },
     launchNewCategoryWindow(systemId) {
       this.chosenSystem = systemId
-      console.log(this.chosenSystem)
       this.showNewCategoryWindow = true
+    },
+    launchViewCategoryWindow(itemId) {
+      this.showViewCategoryWindow = true
+      this.showItemId = itemId
     },
     launchDeleteConfirmation(itemId) {
       this.deleteItemId = itemId
