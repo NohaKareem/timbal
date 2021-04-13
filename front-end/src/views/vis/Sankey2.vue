@@ -2,8 +2,8 @@
   <div class="sankeyCon">
     <div class="sankey">
       <GChart
-        :settings="{ packages: ['sankey'] }"
-        type="Sankey"
+        :settings="{ packages: ['corechart', 'table', 'map'] }"
+        type="ColumnChart"
         :data="logs"
         :options="chartOptions"
       />
@@ -30,19 +30,15 @@ export default {
     return {
       logs: [
         ['Category', 'SubCategory', 'Hours', 'tooltip'],
-        ['2014', '1000', 400, 200],
-        ['2014', '1170', 400, 200],
-        ['2015', '1170', 460, 250],
-        ['2016', '1170', 1120, 300],
-        ['2016', '1030', 1120, 300],
-        ['2016', '660', 1120, 300],
-        ['2017', '1030', 540, 350]
+        ['2014', 1000, 400, 200],
+        ['2015', 1170, 460, 250],
+        ['2016', 660, 1120, 300],
+        ['2017', 1030, 540, 350]
       ],
       chartOptions: {
         chart: {
           title: 'Company Performance',
           subtitle: 'Sales, Expenses, and Profit: 2014-2017'
-          // width: '600'
         }
       }
     }

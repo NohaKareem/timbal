@@ -121,8 +121,7 @@ export default {
       varVals: [],
       varCategories: [],
       currCategories: [],
-      formIncomplete: true,
-      is_top_level: true //~
+      formIncomplete: true
     }
   },
   props: {
@@ -132,15 +131,6 @@ export default {
     variableId() {
       return this.$store.state.variable
     }
-
-    // // init array with length, of currently selected cateogries, to false
-    // currCategories() {
-    //   return new Array(
-    //     this.categories.filter((cat) => {
-    //       return cat.variable == this.variable
-    //     }).length
-    //   ).fill(false)
-    // }
   },
   created() {
     let self = this
