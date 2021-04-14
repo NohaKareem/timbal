@@ -1,6 +1,7 @@
 <template>
   <div id="systemCon">
-    <h1>Systems Library</h1>
+    <pageHeading h1="System Library" h2="Your systems at a glance" />
+
     <div v-for="system in systems" :key="system._id">
       <h2
         >{{ system.name }} Categories
@@ -81,12 +82,14 @@ import axios from 'axios'
 import NewSystemCategoryWindow from './components/NewSystemCategoryWindow.vue'
 import DeleteConfirmationWindow from './components/DeleteConfirmationWindow.vue'
 import ViewSystemCategoryWindow from './components/ViewSystemCategoryWindow.vue'
+import PageHeading from './components/PageHeading.vue'
 export default {
   name: 'Systems',
   components: {
     newSystemCategoryWindow: NewSystemCategoryWindow,
     deleteConfirmationWindow: DeleteConfirmationWindow,
-    viewSystemCategoryWindow: ViewSystemCategoryWindow
+    viewSystemCategoryWindow: ViewSystemCategoryWindow,
+    pageHeading: PageHeading
   },
   data() {
     return {

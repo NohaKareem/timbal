@@ -1,6 +1,7 @@
 <template>
   <div id="categoryCon">
-    <h1>Categories Library</h1>
+    <pageHeading h1="Variable Library" h2="Your variables at a glance" />
+
     <div v-for="variable in variables" :key="variable._id">
       <h2>{{ variable.name }} Categories</h2>
       <!-- {{categories.filter(cat => {return cat.variable == variable._id })[0]}} -->
@@ -74,11 +75,13 @@
 import axios from 'axios'
 import NewCategoryWindow from './components/NewCategoryWindow.vue'
 import DeleteConfirmationWindow from './components/DeleteConfirmationWindow.vue'
+import PageHeading from './components/PageHeading.vue'
 export default {
   name: 'Categories',
   components: {
     newCategoryWindow: NewCategoryWindow,
-    deleteConfirmationWindow: DeleteConfirmationWindow
+    deleteConfirmationWindow: DeleteConfirmationWindow,
+    pageHeading: PageHeading
   },
   data() {
     return {

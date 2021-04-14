@@ -24,8 +24,8 @@
             <h2 class="hidden">Nav menu</h2>
             <!-- <router-link to="/queryBuilder">Query Builder</router-link> |  -->
             <router-link to="/">Home</router-link>
-            <router-link to="/categories">Category Library</router-link>
-            <router-link to="/systems">Systems Library</router-link>
+            <router-link to="/categories">Variable Library</router-link>
+            <router-link to="/systems">System Library</router-link>
             <router-link to="/timePortraits">Time Portraits</router-link>
           </div>
           <br />

@@ -1,6 +1,10 @@
 <template>
   <div id="portraitsCon">
-    <h1>Time Portraits</h1>
+    <pageHeading
+      h1="Time Portraits"
+      h2="A query generator to view snapshots of your time from different perspectives."
+    />
+
     <div class="portraitCon">
       <select
         name="portrait_varSystem"
@@ -98,10 +102,11 @@ import axios from 'axios'
 import Timeline from './vis/Timeline.vue'
 import RadarChart from './vis/RadarChart.vue'
 import Sankey from './vis/Sankey.vue'
+import PageHeading from './components/PageHeading.vue'
 // import NestedDonut from './vis/NestedDonut.vue'
 import Donut from './vis/Donut.vue'
 export default {
-  components: { Timeline, RadarChart, Sankey, Donut },
+  components: { Timeline, RadarChart, Sankey, Donut, pageHeading: PageHeading },
   name: 'TimePortrait',
   data() {
     return {
@@ -148,6 +153,7 @@ export default {
         d.variables.forEach((v) => {
           // if selected var, iterate through all vals to add to chart
           if (v.variable == this.currItemId) {
+            //~~~~~
             v.log_data.forEach((l) => {
               let currVal = l.full_category[0]
               // let varTitle = `${currVal.code}: ${currVal.description}`

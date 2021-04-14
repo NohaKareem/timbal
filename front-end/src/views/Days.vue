@@ -1,7 +1,7 @@
 <template>
   <div class="dayPageCon">
+    <pageHeading h1="Dashboard" h2="Your day at a glance" />
     <!-- <signIn v-if="!userLoggedIn"/> -->
-    <nestedDonut />
 
     <div class="dayCon">
       <button class="help" @click="launchOnboarding()">?</button>
@@ -93,7 +93,8 @@ import Timeline from './vis/Timeline.vue'
 import DayInputForm from './components/DayInputForm.vue'
 import Vue from 'vue'
 import VueShepherd from 'vue-shepherd'
-import NestedDonut from './vis/NestedDonut.vue'
+import PageHeading from './components/PageHeading.vue'
+// import NestedDonut from './vis/NestedDonut.vue'
 Vue.use(VueShepherd)
 
 // import SignIn from "./SignIn.vue";
@@ -103,7 +104,8 @@ export default {
     bubbleChart: BubbleChart,
     dayInputForm: DayInputForm,
     timeline: Timeline,
-    nestedDonut: NestedDonut
+    pageHeading: PageHeading
+    // nestedDonut: NestedDonut
     // 'signIn': SignIn
   },
   data() {
@@ -254,10 +256,10 @@ export default {
       .then(function(response) {
         steps = response.data
 
+        // add navigation
         self.$nextTick(() => {
           self.tour = self.$shepherd({
             useModalOverlay: true
-            // classes: 'shepherd-theme-arrows'
           })
           steps.forEach((step, i) => {
             let buttons = []

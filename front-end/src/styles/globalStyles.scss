@@ -672,9 +672,32 @@ a.imageLink:hover {
     justify-content: center;
 }
 
-// .alternativeLinks {
-//     padding-top: $baseMargin * 2;
-// }
+// transitions
+.appearTransition-enter-active,
+.appearTransition-leave-active {
+  transition: all 0.75s ease-in-out; //steps(3,start);
+}
+.appearTransition-enter,
+.appearTransition-leave-to {
+  opacity: 0;
+}
+.appearTransition-enter-to,
+.appearTransition-leave {
+  opacity: 1;
+}
+.appearTransitionStaggered-enter-active,
+.appearTransitionStaggered-leave-active {
+  transition: all 1.5s ease-in-out; //steps(3,start);
+}
+.appearTransitionStaggered-enter,
+.appearTransitionStaggered-leave-to {
+  opacity: 0;
+}
+.appearTransitionStaggered-enter-to,
+.appearTransitionStaggered-leave {
+  opacity: 1;
+}
+
 
 @media screen and (min-width: $desktopWidth) {
     .logo {
