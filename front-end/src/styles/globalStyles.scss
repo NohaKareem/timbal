@@ -133,8 +133,14 @@ hr {
     height: $baseMargin;
 }
 
+hr.short {
+    margin: $baseMargin * 4 auto;
+    width: 30% !important;
+}
+
 h2 {
-    font-size: 3vw;
+    font-size: 2.1vw;
+    margin-top: $baseMargin * 3.5;
 }
 
 h1 {

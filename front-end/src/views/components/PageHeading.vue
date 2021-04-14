@@ -9,6 +9,7 @@
         </transition>
       </div>
     </transition>
+    <hr class="short" />
   </div>
 </template>
 
