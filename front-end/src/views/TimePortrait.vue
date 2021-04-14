@@ -92,7 +92,7 @@
     </div>
 
     <div class="portraitVisCon" v-if="displaySelectedVis[3]">
-      <Sankey />
+      <Sankey :logs="sankeyVals" />
     </div>
   </div>
 </template>
@@ -125,7 +125,8 @@ export default {
       patternColors: ['#ff0000', '#CC33fF', '#00A0B0'],
       renderRadarChart: false,
       renderDonutChart: false,
-      overviewData: []
+      overviewData: [],
+      sankeyVals: [['Category', 'included variable value', 'Hours']]
     }
   },
   methods: {
@@ -297,7 +298,6 @@ export default {
     parseRelData(logs) {
       this.patternColors = []
       let patternVarVals = []
-      let sankeyVals = []
       let varValSet = new Set()
 
       // get colors + data
@@ -315,11 +315,10 @@ export default {
               v.log_data.forEach((l) => {
                 // increment time for every log entry with current var val
                 let parent = true
-                let prevVal = val //~
+                let prevVal = val
                 l.full_category.forEach((varCat, m) => {
                   // if curr val is first, then it's the top parent val
                   if (m > 0) parent = false
-                  // if (l.full_category[0]._id == val) {
                   let startTime = new Date(l.start_time)
                   let endTime = new Date(l.end_time)
                   // i iterates ea. logged hour
@@ -343,11 +342,16 @@ export default {
                   }
                   // why redundant~~~~~~~
                   if (!parent) {
-                    sankeyVals.push({
-                      src: prevVal,
-                      dst: `${varCat.code}: ${varCat.description}`,
-                      wt: sumMins
-                    })
+                    // sankeyVals.push({
+                    //   src: prevVal,
+                    //   dst: `${varCat.code}: ${varCat.description}`,
+                    //   wt: sumMins
+                    // })
+                    this.sankeyVals.push([
+                      prevVal,
+                      `${varCat.code}: ${varCat.description}`,
+                      sumMins
+                    ])
                   }
                   // update src node for next node
                   prevVal = `${varCat.code}: ${varCat.description}`
@@ -358,7 +362,7 @@ export default {
         })
         n++
       })
-      console.log('sankeyVals', sankeyVals)
+      console.log('this.sankeyVals', this.sankeyVals)
       // get sum of all vals
       let maxVal = patternVarVals.reduce((a, b) => a + b, 0)
       patternVarVals.forEach((val) => {
