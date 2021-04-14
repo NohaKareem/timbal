@@ -315,7 +315,7 @@ export default {
               v.log_data.forEach((l) => {
                 // increment time for every log entry with current var val
                 let parent = true
-                let prevVal = ''
+                let prevVal = val //~
                 l.full_category.forEach((varCat, m) => {
                   // if curr val is first, then it's the top parent val
                   if (m > 0) parent = false
