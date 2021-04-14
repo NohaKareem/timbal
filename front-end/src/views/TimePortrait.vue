@@ -203,23 +203,7 @@ export default {
         })
         n++
       })
-      // normalize minutes (divide by max value)
-      // get max
-      // patternVarVals.forEach((v) => {
-      //   console.log('var val', v)
-      //   maxVals.push(
-      //     Math.max.apply(
-      //       Math,
-      //       v.map((val) => val.value)
-      //     )
-      //   )
-      // })
-      // get sum of all vals
       let maxVal = patternVarVals.reduce((a, b) => a + b, 0)
-      //  Math.max(...patternVarVals)
-      // divide by max val
-      // let tempVals = []
-      // compute percentage
       patternVarVals.forEach((val) => {
         this.overviewData.push((val / maxVal) * 100)
       })
@@ -304,6 +288,59 @@ export default {
       this.renderUpdate++
       this.renderRadarChart = true
     },
+    parseRelData(logs) {
+      this.patternColors = []
+      let patternVarVals = []
+      let varValSet = new Set()
+
+      // get colors + data
+      this.getVarValData(logs, varValSet)
+
+      // compute time
+      // n iterates ea. var val
+      let n = 0
+      varValSet.forEach((val) => {
+        patternVarVals[n] = 0 //~
+        logs.forEach((d) => {
+          d.variables.forEach((v) => {
+            if (v.variable == this.currItemId) {
+              v.log_data.forEach((l) => {
+                // increment time for every log entry with current var val
+                if (l.full_category[0]._id == val) {
+                  let startTime = new Date(l.start_time)
+                  let endTime = new Date(l.end_time)
+                  // i iterates ea. logged hour
+                  for (
+                    let i = startTime.getHours();
+                    i <= endTime.getHours();
+                    i++
+                  ) {
+                    // increment time within current hour, for curr var val
+                    if (i == startTime.getHours()) {
+                      patternVarVals[n] += 60 - startTime.getMinutes()
+                    } else if (i == endTime.getHours()) {
+                      patternVarVals[n] += endTime.getMinutes()
+                    } else {
+                      patternVarVals[n] += 60
+                    }
+                  }
+                }
+              })
+            }
+          })
+        })
+        n++
+      })
+      // get sum of all vals
+      let maxVal = patternVarVals.reduce((a, b) => a + b, 0)
+      patternVarVals.forEach((val) => {
+        this.overviewData.push((val / maxVal) * 100)
+      })
+      // re-render
+      this.$forceUpdate()
+      this.renderUpdate++
+      this.renderDonutChart = true
+    },
     loadData(visType) {
       let self = this
       // variable vis data
@@ -354,6 +391,21 @@ export default {
               .then(function(response) {
                 self.logs = response.data
                 self.parsePatternData(self.logs)
+              })
+            break
+          //relationships
+          case 3:
+            axios
+              .get(
+                `http://localhost:3000/day/start/${new Date(
+                  this.$refs.startDate.value
+                ).toISOString()}/end/${new Date(
+                  this.$refs.endDate.value
+                ).toISOString()}/variable/${this.currItemId}`
+              )
+              .then(function(response) {
+                self.logs = response.data
+                self.parseRelData(self.logs)
               })
             break
         }

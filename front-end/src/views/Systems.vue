@@ -37,9 +37,9 @@
           class="circle"
           type="button"
           @click="launchNewCategoryWindow(system._id)"
-          >+</button
-        ></div
-      >
+          >+
+        </button>
+      </div>
       <hr />
     </div>
     <transition name="appearTransition">
