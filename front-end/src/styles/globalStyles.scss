@@ -681,7 +681,7 @@ a.imageLink:hover {
 // transitions
 .appearTransition-enter-active,
 .appearTransition-leave-active {
-  transition: all 0.75s ease-in-out; //steps(3,start);
+  transition: all 0.75s ease-in-out; 
 }
 .appearTransition-enter,
 .appearTransition-leave-to {
@@ -693,7 +693,7 @@ a.imageLink:hover {
 }
 .appearTransitionStaggered-enter-active,
 .appearTransitionStaggered-leave-active {
-  transition: all 1.5s ease-in-out; //steps(3,start);
+  transition: all 1.5s ease-in-out; 
 }
 .appearTransitionStaggered-enter,
 .appearTransitionStaggered-leave-to {
@@ -701,6 +701,18 @@ a.imageLink:hover {
 }
 .appearTransitionStaggered-enter-to,
 .appearTransitionStaggered-leave {
+  opacity: 1;
+}
+.appearTransitionContent-enter-active,
+.appearTransitionContent-leave-active {
+  transition: all 1.5s ease-out;
+}
+.appearTransitionContent-enter,
+.appearTransitionContent-leave-to {
+  opacity: 0.5;
+}
+.appearTransitionContent-enter-to,
+.appearTransitionContent-leave {
   opacity: 1;
 }
 

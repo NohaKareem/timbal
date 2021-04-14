@@ -34,7 +34,9 @@
           </footer> -->
         </nav>
       </header>
+      <!-- <transition name="appearTransitionContent" appear> -->
       <router-view />
+      <!-- </transition> -->
     </div>
   </div>
 </template>

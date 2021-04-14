@@ -2,7 +2,7 @@
   <div id="portraitsCon">
     <pageHeading
       h1="Time Portraits"
-      h2="A query generator to view snapshots of your time from different perspectives."
+      h2="A query generator to view snapshots of your time from different perspectives"
     />
 
     <div class="portraitCon">
@@ -297,6 +297,7 @@ export default {
     parseRelData(logs) {
       this.patternColors = []
       let patternVarVals = []
+      let sankeyVals = []
       let varValSet = new Set()
 
       // get colors + data
@@ -307,15 +308,22 @@ export default {
       let n = 0
       varValSet.forEach((val) => {
         patternVarVals[n] = 0 //~
+        // sankeyVals.push({ src: val, dst: '', wt: 0 })
         logs.forEach((d) => {
           d.variables.forEach((v) => {
             if (v.variable == this.currItemId) {
               v.log_data.forEach((l) => {
                 // increment time for every log entry with current var val
-                if (l.full_category[0]._id == val) {
+                let parent = true
+                let prevVal = ''
+                l.full_category.forEach((varCat, m) => {
+                  // if curr val is first, then it's the top parent val
+                  if (m > 0) parent = false
+                  // if (l.full_category[0]._id == val) {
                   let startTime = new Date(l.start_time)
                   let endTime = new Date(l.end_time)
                   // i iterates ea. logged hour
+                  let sumMins = 0
                   for (
                     let i = startTime.getHours();
                     i <= endTime.getHours();
@@ -324,19 +332,33 @@ export default {
                     // increment time within current hour, for curr var val
                     if (i == startTime.getHours()) {
                       patternVarVals[n] += 60 - startTime.getMinutes()
+                      sumMins += 60 - startTime.getMinutes()
                     } else if (i == endTime.getHours()) {
                       patternVarVals[n] += endTime.getMinutes()
+                      sumMins += endTime.getMinutes()
                     } else {
                       patternVarVals[n] += 60
+                      sumMins += 60
                     }
                   }
-                }
+                  // why redundant~~~~~~~
+                  if (!parent) {
+                    sankeyVals.push({
+                      src: prevVal,
+                      dst: `${varCat.code}: ${varCat.description}`,
+                      wt: sumMins
+                    })
+                  }
+                  // update src node for next node
+                  prevVal = `${varCat.code}: ${varCat.description}`
+                })
               })
             }
           })
         })
         n++
       })
+      console.log('sankeyVals', sankeyVals)
       // get sum of all vals
       let maxVal = patternVarVals.reduce((a, b) => a + b, 0)
       patternVarVals.forEach((val) => {
