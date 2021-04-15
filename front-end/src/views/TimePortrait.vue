@@ -92,7 +92,8 @@
     </div>
 
     <div class="portraitVisCon" v-if="displaySelectedVis[3]">
-      <Sankey :logs="sankeyVals" />
+      <!-- {{ temp[0].variables[0].log_data }} -->
+      <Sankey :logs="sankeyVals" :sankeyColors="sankeyColors" />
     </div>
   </div>
 </template>
@@ -126,7 +127,9 @@ export default {
       renderRadarChart: false,
       renderDonutChart: false,
       overviewData: [],
-      sankeyVals: [['Category', 'included variable value', 'Hours']]
+      sankeyVals: [['Category', 'included variable value', 'Hours']],
+      temp: [],
+      sankeyColors: []
     }
   },
   methods: {
@@ -297,18 +300,13 @@ export default {
     },
     parseRelData(logs) {
       this.patternColors = []
-      let patternVarVals = []
       let varValSet = new Set()
 
       // get colors + data
       this.getVarValData(logs, varValSet)
-
+      this.temp = logs //~
       // compute time
-      // n iterates ea. var val
-      let n = 0
       varValSet.forEach((val) => {
-        patternVarVals[n] = 0 //~
-        // sankeyVals.push({ src: val, dst: '', wt: 0 })
         logs.forEach((d) => {
           d.variables.forEach((v) => {
             if (v.variable == this.currItemId) {
@@ -316,9 +314,11 @@ export default {
                 // increment time for every log entry with current var val
                 let parent = true
                 let prevVal = val
+                let baseColor = ''
                 l.full_category.forEach((varCat, m) => {
                   // if curr val is first, then it's the top parent val
                   if (m > 0) parent = false
+                  else baseColor = this.getColor(varCat.color)
                   let startTime = new Date(l.start_time)
                   let endTime = new Date(l.end_time)
                   // i iterates ea. logged hour
@@ -330,28 +330,21 @@ export default {
                   ) {
                     // increment time within current hour, for curr var val
                     if (i == startTime.getHours()) {
-                      patternVarVals[n] += 60 - startTime.getMinutes()
                       sumMins += 60 - startTime.getMinutes()
                     } else if (i == endTime.getHours()) {
-                      patternVarVals[n] += endTime.getMinutes()
                       sumMins += endTime.getMinutes()
                     } else {
-                      patternVarVals[n] += 60
                       sumMins += 60
                     }
                   }
                   // why redundant~~~~~~~
                   if (!parent) {
-                    // sankeyVals.push({
-                    //   src: prevVal,
-                    //   dst: `${varCat.code}: ${varCat.description}`,
-                    //   wt: sumMins
-                    // })
                     this.sankeyVals.push([
                       prevVal,
                       `${varCat.code}: ${varCat.description}`,
-                      sumMins
+                      parseFloat((sumMins / 60).toFixed(1))
                     ])
+                    this.sankeyColors.push(baseColor)
                   }
                   // update src node for next node
                   prevVal = `${varCat.code}: ${varCat.description}`
@@ -360,18 +353,10 @@ export default {
             }
           })
         })
-        n++
-      })
-      console.log('this.sankeyVals', this.sankeyVals)
-      // get sum of all vals
-      let maxVal = patternVarVals.reduce((a, b) => a + b, 0)
-      patternVarVals.forEach((val) => {
-        this.overviewData.push((val / maxVal) * 100)
       })
       // re-render
       this.$forceUpdate()
       this.renderUpdate++
-      this.renderDonutChart = true
     },
     loadData(visType) {
       let self = this

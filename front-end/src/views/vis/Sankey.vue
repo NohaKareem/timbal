@@ -28,49 +28,32 @@ export default {
   },
   props: {
     isSystem: { type: Boolean, default: false },
-    logs: { type: Array }
+    logs: { type: Array },
+    sankeyColors: { type: Array }
   },
   data() {
     return {
-      // logs: [
-      //   [
-      //     // this.isSystem ? 'System Category' : 'Variable value',
-      //     'Category',
-      //     'included variable value',
-      //     'Hours',
-      //     'tooltips'
-      //   ],
-      //   // ['Category', 'SubCategory', 'Hours', 'tooltip'],
-      //   ['2014', '1000', 400, 1000],
-      //   ['2014', '1170', 400, 200],
-      //   ['2015', '1170', 460, 250],
-      //   ['2016', '1170', 1120, 300],
-      //   ['2016', '1030', 1120, 300],
-      //   ['2016', '660', 1120, 300],
-      //   ['2014', '660', 1120, 300],
-      //   ['2017', '1030', 540, 350],
-      //   ['1030', '100', 540, 350],
-      //   ['660', '215', 1120, 300],
-      //   ['660', '230', 1120, 300]
-      // ],
       chartOptions: {
-        chart: {
-          title: 'Company Performance',
-          subtitle: 'Sales, Expenses, and Profit: 2014-2017',
-          // width: '600'
-          barCornerRadius: 15,
-          labelStyle: {
-            fontName: 'Quattrocento Sans',
-            fontSize: 70
+        width: '700',
+        sankey: {
+          // title: 'Category Relationships',
+          link: {
+            // color: { fill: 'red' },
+            color: {
+              colorMode: 'gradient',
+              fill: '#e6e6e6'
+              // fillOpacity: 0.19
+            }
+          },
+          node: {
+            colors: this.sankeyColors,
+            label: {
+              fontName: 'Quattrocento Sans',
+              fontSize: 20,
+              color: '#707070'
+            }
           }
         }
-        // palette: [
-        //   {
-        //     color: '#FFF',
-        //     dark: '#F00',
-        //     light: '#0FF'
-        //   }
-        // ],
       }
     }
   },
