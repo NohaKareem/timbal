@@ -104,7 +104,7 @@ export default {
           point
             .enter()
             .append('circle')
-            .attr('class', 'softUiInsetShadow_SVG')
+            .attr('class', 'circ')
             .attr('cx', function(d) {
               return d.cx
             })
@@ -168,8 +168,13 @@ export default {
 <style lang="scss" scoped>
 @import '@/styles/globalStyles.scss';
 // deep selectors for styling dynamically-generated html  https://vue-loader.vuejs.org/guide/scoped-css.html#deep-selectors
-::v-deep circle {
-  @include softUiShadow_SVG();
-  // @extend .softUiShadow;
+// ::v-deep circle {
+//   @include softUiShadow_SVG();
+//   // @extend .softUiShadow;
+// }
+
+.circ {
+  filter: drop-shadow(-5px -5px 3px white)
+    drop-shadow(5px 5px 3px transparentize(black, 0.9));
 }
 </style>
