@@ -16,6 +16,7 @@ export default {
     }
   },
   mounted() {
+    console.log('mounted')
     let self = this
     let dataToDisplay = []
     axios
@@ -34,10 +35,6 @@ export default {
         let logEntries = response.data.variables[0].log_data
 
         logEntries.forEach((logEntry) => {
-          // get color
-          // console.log('color link ' + `http://localhost:3000/color/${logEntry.full_category[0].color}`)
-          // axios.get(`http://localhost:3000/color/${logEntry.full_category[0].color}`)
-          // .then(function(response) {
           // map time spent to each top-level category (at the top of the log hierarchy. hierarchy nesting is delimited by '.')
           // top level element is always the first element
           let topLevelCategory = logEntry.full_category[0].code
@@ -48,13 +45,79 @@ export default {
           let categoryColor = logEntry.full_category[0].color
 
           // compute duration, in minutes, as difference between start and end time
-          let duration = Math.abs(
-            new Date(logEntry.start_time).getHours() * 60 +
-              new Date(logEntry.start_time).getMinutes() -
-              (new Date(logEntry.end_time).getHours() * 60 +
-                new Date(logEntry.end_time).getMinutes())
-          )
+          // let duration = Math.abs(
+          //   new Date(logEntry.start_time).getHours() * 60 +
+          //     new Date(logEntry.start_time).getMinutes() -
+          //     (new Date(logEntry.end_time).getHours() * 60 +
+          //       new Date(logEntry.end_time).getMinutes())
+          // )
 
+          // time calculations https://stackoverflow.com/a/7709819/1446598
+          // let hours = Math.floor(
+          //   (new Date(logEntry.end_time) -
+          //     (new Date(logEntry.start_time) % 86400000)) /
+          //     3600000
+          // )
+
+          // let mins = Math.round(
+          //   (Math.abs(
+          //     new Date(logEntry.end_time) -
+          //       (new Date(logEntry.start_time) % 86400000)
+          //   ) %
+          //     3600000) /
+          //     60000
+          // )
+
+          // let mins = Math.round(
+          //   Math.abs(
+          //     new Date(logEntry.end_time).getTime() -
+          //       new Date(logEntry.start_time).getTime()
+          //   ) / 6000
+          // )
+
+          let mins =
+            Math.abs(
+              new Date(logEntry.end_time).getHours() -
+                new Date(logEntry.start_time).getHours()
+            ) *
+              60 +
+            new Date(logEntry.end_time).getMinutes() +
+            (60 - new Date(logEntry.start_time).getMinutes())
+
+          let duration = mins / 2 // reduce visual surface area
+          // if (categroyDescription === 'build') {
+          console.log('_____________________________')
+          console.log(categroyDescription, 'duration', duration)
+          // console.log(categroyDescription, 'duration 2', mins2)
+          console.log(
+            ' new Date(logEntry.end_time).getTime()',
+            new Date(logEntry.end_time).getTime()
+          )
+          console.log(
+            categroyDescription,
+            'start',
+            new Date(logEntry.start_time)
+          )
+          console.log(categroyDescription, 'end', new Date(logEntry.end_time))
+          console.log(
+            categroyDescription,
+            'sub',
+            (Math.abs(
+              new Date(logEntry.end_time) - new Date(logEntry.start_time)
+            ) %
+              86400000) %
+              3600000
+          )
+          // console.log(
+          //   categroyDescription,
+          //   'val',
+          //   (Math.abs(
+          //     new Date(logEntry.end_time) - new Date(logEntry.start_time)
+          //   ) %
+          //     86400000) %
+          //     3600000
+          // )
+          // }
           // add new duration if category doesn't exist
           if (!existingCategory) {
             dataToDisplay.push({
@@ -78,7 +141,6 @@ export default {
               (category) => category.code === topLevelCategory
             ).duration += duration
           }
-          // });
         })
 
         // bubble chart
@@ -93,12 +155,7 @@ export default {
         function circles(svg) {
           var data = dataToDisplay
 
-          var point = svg
-            .selectAll('circle')
-            // .style('box-shadow', `
-            // -5px -5px 15px 0 white,
-            // 5px 5px 15px 0 transparentize(black, 0.9);`)
-            .data(data)
+          var point = svg.selectAll('circle').data(data)
 
           // Enter loop, creates any new circles/things needed
           point

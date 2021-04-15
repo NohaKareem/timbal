@@ -391,9 +391,9 @@ export default {
                 self.logs = response.data
                 self.parseOverviewData(self.logs)
               })
-            this.donutRerender++
-            this.$forceUpdate()
-            this.renderUpdate++
+            // this.donutRerender++
+            // this.$forceUpdate()
+            // this.renderUpdate++
             break
           // patterns
           case 2:
@@ -426,7 +426,7 @@ export default {
               })
             break
         }
-        this.logs = self.logs
+        // this.logs = self.logs
         this.$forceUpdate()
         this.renderUpdate++
       }

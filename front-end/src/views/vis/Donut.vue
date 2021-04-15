@@ -9,7 +9,7 @@ import * as d3 from 'd3'
 
 export default {
   name: 'Donut',
-  props: { visColors: Array },
+  props: { visColors: Array, logs: Array },
   methods: {
     // nested donut method https://embed.plnkr.co/plunk/2p0zmp
     renderNestedDonut() {
@@ -32,36 +32,32 @@ export default {
       var donutWidth = 75
       var radius1 = Math.min(width, height) / 2
       var radius2 = radius1 - donutWidth
-      console.log(this.visColors ? this.visColors : 'no colors')
-      let color = d3.scaleOrdinal().range(this.visColors)
-      //   let color = d3.scaleOrdinal().range(['#ff0000', '#CC33fF', '#00A0B0'])
+      // let color = d3.scaleOrdinal().range(this.visColors)
+      let color = d3.scaleOrdinal().range(['#ff0000', '#CC33fF', '#00A0B0'])
 
       var svg = d3
         .select('#donut')
         .append('svg')
         .attr('width', width)
         .attr('height', height)
-      console.log('svg')
+
       var svg1 = svg
         .append('g')
         .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')')
-      console.log('svg1')
+
       var svg2 = svg
         .append('g')
         .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')')
-      console.log('svg2')
 
       var arc1 = d3
         .arc()
         .innerRadius(radius1 - donutWidth)
         .outerRadius(radius1)
-      console.log('arc1')
 
       var arc2 = d3
         .arc()
         .innerRadius(radius2 - donutWidth)
         .outerRadius(radius2)
-      console.log('arc2')
 
       var pie = d3
         .pie()
@@ -69,7 +65,6 @@ export default {
           return d.count
         })
         .sort(null)
-      console.log('pie')
 
       // outer
       svg1
@@ -81,7 +76,7 @@ export default {
         .attr('fill', function(d, i) {
           return color(i)
         })
-      console.log('svg1.1')
+
       svg2
         .selectAll('path')
         .data(pie(dataset2))
@@ -91,14 +86,13 @@ export default {
         .attr('fill', function(d, i) {
           return color(i)
         })
-      console.log('svg1.2')
     }
   },
   created() {
     this.renderNestedDonut()
+    this.$forceUpdate()
     console.log('at donut')
-  },
-  mounted() {}
+  }
 }
 </script>
 

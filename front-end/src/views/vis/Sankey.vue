@@ -53,6 +53,9 @@ export default {
               color: '#707070'
             }
           }
+          // tooltip: {
+          //   isHtml: true
+          // }
         }
       }
     }
