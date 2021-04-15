@@ -40,4 +40,5 @@ A time logging platform to facilitate personal research, to help cultivate effic
 - [reloading](https://stackoverflow.com/questions/47683728/vue-reload-child-component) [components](https://michaelnthiessen.com/force-re-render/
 
 - [set upsert to set up data (for system category post)](https://stackoverflow.com/a/33401897/1446598)
-)
+
+- [svg shadows - css only](https://stackoverflow.com/a/55666850/1446598) )
