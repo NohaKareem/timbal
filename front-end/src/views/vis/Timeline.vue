@@ -211,6 +211,8 @@ export default {
   },
   mounted() {
     let visLogs = []
+    console.log('logs', this.logs)
+
     if (this.logs && this.logs.variables[0]) {
       this.logs.variables[0].log_data.forEach((logEntry) => {
         let durationInMinutes = Math.abs(
@@ -236,6 +238,7 @@ export default {
           color: color
         })
       })
+      console.log(visLogs)
       // force update render
       this.$forceUpdate()
       this.renderUpdate++

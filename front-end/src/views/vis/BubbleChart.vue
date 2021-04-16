@@ -12,7 +12,35 @@ export default {
   data() {
     return {
       day_data: {},
-      dataToDisplay: []
+      dataToDisplay: [],
+      point: {},
+      simulation: {}
+    }
+  },
+  method: {
+    ticked() {
+      this.point
+        .attr('cx', function(d) {
+          return d.x
+        })
+        .attr('cy', function(d) {
+          return d.y
+        })
+    },
+    dragstarted(d) {
+      this.simulation.restart()
+      this.simulation.alpha(0.7)
+      d.fx = d.x
+      d.fy = d.y
+    },
+    dragged(d) {
+      d.fx = d3.event.x
+      d.fy = d3.event.y
+    },
+    dragended(d) {
+      d.fx = null
+      d.fy = null
+      this.simulation.alphaTarget(0.1)
     }
   },
   mounted() {
@@ -155,10 +183,10 @@ export default {
         function circles(svg) {
           var data = dataToDisplay
 
-          var point = svg.selectAll('circle').data(data)
+          self.point = svg.selectAll('circle').data(data)
 
           // Enter loop, creates any new circles/things needed
-          point
+          self.point
             .enter()
             .append('circle')
             .attr('class', 'circ')
@@ -186,6 +214,34 @@ export default {
           // .attr('cx', function(d){ return d.cx })
           // .attr('cy', function(d){ return d.cy })
           // .attr('r', function(d){ return d.r });
+
+          // collision detection from https://bl.ocks.org/rsk2327/0645d1629cf74424010351a50f2ade84
+          var attractForce = d3
+            .forceManyBody()
+            .strength(80)
+            .distanceMax(400)
+            .distanceMin(80)
+
+          var collisionForce = d3
+            .forceCollide(12)
+            .strength(1)
+            .iterations(100)
+
+          self.simulation = d3
+            .forceSimulation(data)
+            .alphaDecay(0.01)
+            .force('attractForce', attractForce)
+            .force('collisionForce', collisionForce)
+
+          self.point.call(
+            d3
+              .drag()
+              .on('start', self.dragstarted)
+              .on('drag', self.dragged)
+              .on('end', self.dragended)
+          )
+
+          self.simulation.on('tick', self.ticked)
 
           // adding text labels https://stackoverflow.com/a/46138457/1446598
           var label = svg.selectAll('text').data(data)

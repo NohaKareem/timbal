@@ -113,6 +113,10 @@ select:hover {
     align-items: center;
 }
 
+.bold {
+    font-weight: bold;
+}
+
 body {
     background-color: $grayWhite;
     color: $timbalBlack;
@@ -301,7 +305,6 @@ button.circle {
 .shepherd-content {
     background-color: $grayWhite;
     border-radius: 100px;
-    color: red;//~
     padding: $baseMargin * 2;
     padding-top: $baseMargin * 4;
 }
@@ -310,6 +313,8 @@ button.circle {
     @include softUiShadow();
     background-color: $grayWhite;
     border-radius: 100px;
+    // height: 350px;
+    // width: 350px;
 }
 
 .shepherd-arrow {

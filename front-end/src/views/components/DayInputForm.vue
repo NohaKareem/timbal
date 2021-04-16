@@ -47,7 +47,11 @@
 
         <div class="addLogButton">
           <!-- <input type="submit" value="add log"> -->
-          <input type="button" value="add log" @click="addDayDocument()" />
+          <input
+            type="button addLogEntry"
+            value="add log"
+            @click="addDayDocument()"
+          />
         </div>
         <hr />
       </form>

@@ -23,29 +23,33 @@
       <div class="timelineHeaderCon">
         <!-- {{userLoggedIn}} -->
 
-        <select
-          name="portrait_varSystem"
-          id="portrait_varSystem"
-          v-model="portraitType"
-        >
-          <option value="variable">Variable </option>
-          <option value="system"> System </option>
-        </select>
-        <select
-          name="portrait_varSystemOptions"
-          id="portrait_varSystemOptions"
-          @change="updateVariable()"
-          v-model="currentVariable"
-        >
-          <option
-            v-for="item in portraitType === 'variable' ? variables : systems"
-            :key="item._id"
-            :value="item._id"
-            @change="updateItem()"
+        <div class="portraitTypeInput">
+          <select
+            name="portrait_varSystem"
+            id="portrait_varSystem"
+            v-model="portraitType"
           >
-            {{ item.name }}
-          </option>
-        </select>
+            <option value="variable">Variable </option>
+            <option value="system"> System </option>
+          </select>
+        </div>
+        <div class="varSystemValuesInput">
+          <select
+            name="portrait_varSystemOptions"
+            id="portrait_varSystemOptions"
+            @change="updateVariable()"
+            v-model="currentVariable"
+          >
+            <option
+              v-for="item in portraitType === 'variable' ? variables : systems"
+              :key="item._id"
+              :value="item._id"
+              @change="updateItem()"
+            >
+              {{ item.name }}
+            </option>
+          </select>
+        </div>
 
         <!-- dropdown menu -->
         <!-- <select
@@ -67,9 +71,13 @@
 
         <div class="timelineCon">
           <timeline :key="renderUpdate" :logs="logs" />
+          {{ systemLogs }}
         </div>
 
-        <button class="circle" ref="addLogButton" @click="startLogInput()"
+        <button
+          class="circle addButton"
+          ref="addLogButton"
+          @click="startLogInput()"
           >+</button
         >
       </div>
@@ -124,7 +132,8 @@ export default {
       renderUpdate: 0,
       unselected: true,
       tour: {},
-      logs: []
+      logs: [],
+      systemLogs: []
     }
   },
   computed: {
@@ -150,7 +159,9 @@ export default {
       this.unselected = false
       // this.$forceUpdate()
       // this.renderUpdate++ // force update render
-      this.$store.commit('variable', this.currentVariable)
+      if (this.portraitType === 'variable') {
+        this.$store.commit('variable', this.currentVariable)
+      }
       this.getTimelineLog()
     },
     launchOnboarding() {
@@ -264,7 +275,8 @@ export default {
         // add navigation
         self.$nextTick(() => {
           self.tour = self.$shepherd({
-            useModalOverlay: true
+            // keep full window interactive
+            useModalOverlay: false
           })
           steps.forEach((step, i) => {
             let buttons = []
@@ -284,8 +296,9 @@ export default {
             })
             self.tour.addSteps([
               {
-                text: `${step.heading} <br/><br/> ${step.text}`,
-                attachTo: { element: '.timelineCon', on: 'top' },
+                text: `<span class="bold">${step.heading}</span> <br/><br/> ${step.text}`,
+                attachTo: { element: step.attachTo, on: 'top' },
+                // attachTo: { element: '.timelineCon', on: 'top' },
                 buttons: buttons
               }
             ])
@@ -349,6 +362,12 @@ input[type='text'] {
   margin-left: $baseMargin * 3;
   margin-top: $baseMargin * 1.75;
   color: $teal;
+}
+
+.varSystemValuesInput {
+  margin-left: $baseMargin;
+  margin-top: $baseMargin * 2;
+  margin-bottom: $baseMargin * 2;
 }
 
 @media screen and (min-width: $desktopWidth) {
