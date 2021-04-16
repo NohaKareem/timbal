@@ -38,9 +38,9 @@
         </option>
       </select>
       <div class="timeCon">
-        <button class="displayButton">
-          <i class="fa fa-calendar" aria-hidden="true"></i> from
-        </button>
+        <span class="displayButton">
+          <i class="fa fa-calendar" aria-hidden="true"></i> from:
+        </span>
         <input
           type="date"
           name="startDate"
@@ -50,9 +50,9 @@
         />
       </div>
       <div class="timeCon">
-        <button class="displayButton">
-          <i class="fa fa-calendar" aria-hidden="true"></i> to
-        </button>
+        <span class="displayButton">
+          <i class="fa fa-calendar" aria-hidden="true"></i> to:
+        </span>
         <input
           type="date"
           name="endDate"
@@ -63,15 +63,14 @@
       </div>
     </div>
     <div class="center">
-      <button @click="generatePortrait()">generate</button>
+      <button @click="generatePortrait()" class="generateButton"
+        >generate</button
+      >
     </div>
 
     <div class="timelineCon" v-if="displaySelectedVis[0]">
       <Timeline v-for="log in logs" :key="log" :logs="log" />
     </div>
-
-    <!-- <Donut :visColors="patternColors" :logs="overviewData" /> -->
-    <!-- <Donut /> -->
 
     <div
       class="portraitVisCon"

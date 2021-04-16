@@ -662,25 +662,47 @@ a.imageLink:hover {
     justify-content: space-around;
     align-items: center;
     margin: 5% 10%;
+
+    select {
+        margin-bottom: $baseMargin * 2;
+    }
+
     button {
         height: 100%;
         padding: $baseMargin;
         margin-right: $baseMargin;
     }
+
     .timeCon {
-        @include softUiInsetShadow();
-        padding: 0 $baseMargin * 2;
-        border-radius: $baseMargin * 5;
-    }
-    .displayButton:hover {
         @include softUiShadow();
+        padding: $baseMargin /2 $baseMargin * 2;
+        border-radius: $baseMargin * 5;
+        margin-top: $baseMargin * 2;
+    }
+
+    .timeCon:first-of-type {
+        margin-top: unset !important;
+    }
+
+    .displayButton:hover {
+        // @include softUiShadow();
         cursor: auto;
     }
+}
+
+.generateButton {
+    margin-top: $baseMargin * 20;
+    border-radius: 50px;
+    font-family: 'Quattrocento Sans', sans-serif;
 }
 
 .portraitVisCon {
     display: flex;
     justify-content: center;
+}
+
+.timelineCon, .portraitVisCon {
+    margin-top: $baseMargin * 8;
 }
 
 // transitions
@@ -720,7 +742,6 @@ a.imageLink:hover {
 .appearTransitionContent-leave {
   opacity: 1;
 }
-
 
 @media screen and (min-width: $desktopWidth) {
     .logo {
@@ -850,5 +871,23 @@ a.imageLink:hover {
         .timeline {
             width: 70vw;
         }
+    }
+
+    .portraitCon {
+        select {
+            margin-bottom: unset;
+        }
+    }
+
+    .timeCon {
+        margin-top: unset !important;
+    }
+
+    .timelineCon, .portraitVisCon {
+        margin-top: $baseMargin * 4;
+    }
+
+    .generateButton {
+        margin-top: unset;
     }
 }

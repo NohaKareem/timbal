@@ -188,6 +188,9 @@ export default {
 
 // select menu styling https://stackoverflow.com/a/24671889
 select {
+  font-family: 'Quattrocento Sans', sans-serif;
+  font-size: $mblPFontSize;
+
   @include softUiShadow();
   background-color: $grayWhite;
   border: none;
@@ -200,7 +203,6 @@ select {
   --accentFg: #707070;
   --accentBg: #f0f0f0;
 
-  font: 400 12px/1.3 sans-serif;
   -webkit-appearance: none;
   appearance: none;
   color: $timbalBlack;
@@ -218,6 +220,17 @@ select {
     right bottom;
 }
 
+option {
+  font-family: 'Quattrocento Sans', sans-serif;
+  font-size: $mblPFontSize;
+}
+
+@media screen and (min-width: $desktopWidth) {
+  option,
+  select {
+    font-size: $desktopPFontSize;
+  }
+}
 // select:after {
 //   content: '▼';
 // }
