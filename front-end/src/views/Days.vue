@@ -374,5 +374,10 @@ input[type='text'] {
   .tutorialButton {
     margin-left: 90vw !important;
   }
+
+  .varSystemValuesInput {
+    margin-top: unset;
+    margin-bottom: unset;
+  }
 }
 </style>
