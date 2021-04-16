@@ -72,6 +72,9 @@
         <div class="timelineCon">
           <timeline :key="renderUpdate" :logs="logs" />
           {{ systemLogs }}
+          <p v-for="l in systemLogs" :key="l">
+            {{ l }}
+          </p>
         </div>
 
         <button
@@ -177,9 +180,15 @@ export default {
         )
         .then(function(response) {
           self.logs = response.data
-          // force update render
-          self.$forceUpdate()
-          self.renderUpdate++
+
+          if (this.portraitType != 'system') {
+            // force update render
+            self.$forceUpdate()
+            self.renderUpdate++
+          }
+          // // force update render
+          // self.$forceUpdate()
+          // self.renderUpdate++
         })
       axios
         .get(`http://localhost:3000/systems`)
@@ -197,6 +206,35 @@ export default {
         .catch(function(error) {
           console.error(error)
         })
+
+      if (this.portraitType == 'system') {
+        // this.systemLogs.push(this.currentVariable)
+        console.log('in system')
+        this.systemLogs = []
+        let logs = []
+        axios
+          .get(
+            `http://localhost:3000/systems/${this.currentVariable}/categories`
+          )
+          .then(function(response) {
+            console.log(
+              'in response for ',
+              `http://localhost:3000/systems/${this.currentVariable}/categories`
+            )
+            logs = response.data
+            logs.forEach((l) => {
+              self.systemLogs.push(l)
+            })
+
+            // force update render
+            self.$forceUpdate()
+            self.renderUpdate++
+          })
+
+        //// force update render
+        // self.$forceUpdate()
+        // self.renderUpdate++
+      }
     },
     updateItem() {
       // this.currItemId = itemId

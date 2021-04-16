@@ -70,12 +70,15 @@
       <Timeline v-for="log in logs" :key="log" :logs="log" />
     </div>
 
+    <!-- <Donut :visColors="patternColors" :logs="overviewData" /> -->
+    <!-- <Donut /> -->
+
     <div
       class="portraitVisCon"
       v-if="displaySelectedVis[1]"
       :key="donutRerender"
     >
-      <!-- <NestedDonut /> -->
+      <Donut />
       <Donut
         :visColors="patternColors"
         :logs="overviewData"
