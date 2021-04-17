@@ -3,8 +3,6 @@
     <pageHeading h1="Dashboard" h2="Your day at a glance" />
     <!-- <signIn v-if="!userLoggedIn"/> -->
 
-    <selectMenu />
-
     <div class="dayCon">
       <button class="help" @click="launchOnboarding()">?</button>
 
@@ -107,7 +105,6 @@ import DayInputForm from './components/DayInputForm.vue'
 import Vue from 'vue'
 import VueShepherd from 'vue-shepherd'
 import PageHeading from './components/PageHeading.vue'
-import SelectMenu from './components/SelectMenu.vue'
 
 // import NestedDonut from './vis/NestedDonut.vue'
 Vue.use(VueShepherd)
@@ -119,8 +116,7 @@ export default {
     bubbleChart: BubbleChart,
     dayInputForm: DayInputForm,
     timeline: Timeline,
-    pageHeading: PageHeading,
-    selectMenu: SelectMenu
+    pageHeading: PageHeading
     // nestedDonut: NestedDonut
     // 'signIn': SignIn
   },
@@ -181,15 +177,16 @@ export default {
         .then(function(response) {
           self.logs = response.data
 
-          if (this.portraitType != 'system') {
-            // force update render
-            self.$forceUpdate()
-            self.renderUpdate++
-          }
-          // // force update render
-          // self.$forceUpdate()
-          // self.renderUpdate++
+          // if (this.portraitType != 'system') {
+          // force update render
+          self.$forceUpdate()
+          self.renderUpdate++
+          // }
+          // force update render
+          self.$forceUpdate()
+          self.renderUpdate++
         })
+
       axios
         .get(`http://localhost:3000/systems`)
         .then(function(response) {
@@ -231,9 +228,9 @@ export default {
             self.renderUpdate++
           })
 
-        //// force update render
-        // self.$forceUpdate()
-        // self.renderUpdate++
+        // force update render
+        self.$forceUpdate()
+        self.renderUpdate++
       }
     },
     updateItem() {

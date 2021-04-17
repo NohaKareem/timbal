@@ -869,7 +869,8 @@ a.imageLink:hover {
         flex-direction: row;
 
         .timeline {
-            width: 70vw;
+            width: 65vw;
+            margin-top: $baseMargin * -7;
         }
     }
 
