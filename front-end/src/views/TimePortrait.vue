@@ -93,14 +93,15 @@
       <!-- logs="overviewData" -->
 
       <div v-if="renderDonutChart">
-        <Donut
+        <!-- <Donut
           v-for="(data, i) in donutData2"
           :key="data"
           :visColors="patternColors"
           :logs="data"
           :radius="200 - i * 55"
           :donutWidth="55"
-        />
+        /> -->
+        <Donut :visColors="patternColors" :logs="donutData2" />
       </div>
     </div>
 
@@ -154,8 +155,8 @@ export default {
       donutData: [10, 20, 30, 40],
       donutData2: [
         [10, 20, 30, 40],
-        [10, 20, 30, 40],
-        [10, 20, 30, 40]
+        [35, 25, 25, 15],
+        [50, 5, 5, 40]
       ]
     }
   },
