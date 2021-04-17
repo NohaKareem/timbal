@@ -25,12 +25,12 @@
             v-for="currVisType in visTypes"
             :key="currVisType"
             :value="currVisType"
-            >{{ currVisType }}</option
+            >{{ capitalize(currVisType) }}</option
           >
         </select>
       </div>
       <div class="itemTypeCon">
-        <p>{{ portraitType[0].toUpperCase() + portraitType.slice(1) }}</p>
+        <p>{{ capitalize(portraitType) }}</p>
         <select
           name="portrait_varSystemOptions"
           id="portrait_varSystemOptions"
@@ -90,9 +90,12 @@
       :key="donutRerender"
     >
       <Donut />
+      <!-- logs="overviewData" -->
       <Donut
         :visColors="patternColors"
-        :logs="overviewData"
+        :logs="donutData"
+        :radius="200"
+        :donutWidth="75"
         v-if="renderDonutChart"
       />
     </div>
@@ -143,10 +146,19 @@ export default {
       overviewData: [],
       sankeyVals: [['Category', 'included variable value', 'Hours']],
       temp: [],
-      sankeyColors: []
+      sankeyColors: [],
+      donutData: [10, 20, 30, 40],
+      donutData2: [
+        [10, 20, 30, 40],
+        [10, 20, 30, 40],
+        [10, 20, 30, 40]
+      ]
     }
   },
   methods: {
+    capitalize(str) {
+      return str[0].toUpperCase() + str.slice(1)
+    },
     updateRender(cntxt) {
       cntxt.renderUpdate++
       cntxt.$forceUpdate()
