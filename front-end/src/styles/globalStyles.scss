@@ -691,6 +691,12 @@ a.imageLink:hover {
     margin-top: $baseMargin * 8;
 }
 
+// svg styling soft ui
+.circ {
+    filter: drop-shadow(-5px -5px 3px white)
+      drop-shadow(5px 5px 3px transparentize(black, 0.9));
+  }
+
 // transitions
 .appearTransition-enter-active,
 .appearTransition-leave-active {

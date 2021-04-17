@@ -33,9 +33,12 @@ export default {
 
       let svgs = []
       let arcs = []
-      let donutWid = 55 //~
+      let arcBorders = []
+
+      let donutWid = 18 * this.logs.length //55 //~
       let startRadius = 200
       this.logs.forEach((l, n) => {
+        // svg
         svgs.push(
           svg
             .append('g')
@@ -44,22 +47,24 @@ export default {
               'translate(' + width / 2 + ',' + height / 2 + ')'
             )
         )
-        console.log('startRadius at start ', n, startRadius)
 
+        // arc
         arcs.push(
           d3
             .arc()
             .innerRadius(startRadius - (n + 1) * donutWid)
             .outerRadius(startRadius - n * donutWid)
         )
+
+        // border
+        arcBorders.push(
+          d3
+            .arc()
+            .innerRadius(startRadius - (n + 1) * donutWid)
+            .outerRadius(startRadius - (n + 1) * donutWid + 50)
+        )
         // startRadius = startRadius - n * donutWid
-        console.log('startRadius after', startRadius)
-        console.log('arcs after', arcs)
       })
-      // var arc2 = d3
-      //   .arc()
-      //   .innerRadius(radius2 - donutWidth)
-      //   .outerRadius(radius2)
 
       arcs.forEach((arc, n) => {
         console.log(this.logs[n])
@@ -72,23 +77,16 @@ export default {
           .attr('fill', function(d, i) {
             return color(i)
           })
+          .attr('class', 'circ')
+        // .append('path')
+        // .attr('fill', 'black')
+        // .attr('d', arcBorders[n])
       })
-
-      // svg1
-      //   .selectAll('path')
-      //   .data(pie(this.logs[1]))
-      //   .enter()
-      //   .append('path')
-      //   .attr('d', arcs[1])
-      //   .attr('fill', function(d, i) {
-      //     return color(i)
-      //   })
     }
   },
   created() {
     this.renderNestedDonut()
     this.$forceUpdate()
-    console.log('at donut')
   }
 }
 </script>

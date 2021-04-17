@@ -285,9 +285,4 @@ export default {
 //   @include softUiShadow_SVG();
 //   // @extend .softUiShadow;
 // }
-
-.circ {
-  filter: drop-shadow(-5px -5px 3px white)
-    drop-shadow(5px 5px 3px transparentize(black, 0.9));
-}
 </style>
