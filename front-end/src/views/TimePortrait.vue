@@ -91,13 +91,17 @@
     >
       <Donut />
       <!-- logs="overviewData" -->
-      <Donut
-        :visColors="patternColors"
-        :logs="donutData"
-        :radius="200"
-        :donutWidth="75"
-        v-if="renderDonutChart"
-      />
+
+      <div v-if="renderDonutChart">
+        <Donut
+          v-for="(data, i) in donutData2"
+          :key="data"
+          :visColors="patternColors"
+          :logs="data"
+          :radius="200 - i * 55"
+          :donutWidth="55"
+        />
+      </div>
     </div>
 
     <div class="portraitVisCon" v-if="displaySelectedVis[2]">
