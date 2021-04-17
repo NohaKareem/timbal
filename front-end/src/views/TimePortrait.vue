@@ -6,60 +6,72 @@
     />
 
     <div class="portraitCon">
-      <select
-        name="portrait_varSystem"
-        id="portrait_varSystem"
-        @change="updateType()"
-        v-model="portraitType"
-      >
-        <option value="variable">Variable </option>
-        <option value="system"> System </option>
-      </select>
-      <select name="vis_type" id="vis_type" v-model="vis_type">
-        <option
-          v-for="currVisType in visTypes"
-          :key="currVisType"
-          :value="currVisType"
-          >{{ currVisType }}</option
+      <div class="itemTypeCon">
+        <p>Detail type</p>
+        <select
+          name="portrait_varSystem"
+          id="portrait_varSystem"
+          @change="updateType()"
+          v-model="portraitType"
         >
-      </select>
-      <select
-        name="portrait_varSystemOptions"
-        id="portrait_varSystemOptions"
-        v-model="currItemId"
-      >
-        <option
-          v-for="item in portraitType === 'variable' ? variables : systems"
-          :key="item._id"
-          :value="item._id"
-          @change="updateItem()"
-        >
-          {{ item.name }}
-        </option>
-      </select>
-      <div class="timeCon">
-        <span class="displayButton">
-          <i class="fa fa-calendar" aria-hidden="true"></i> from:
-        </span>
-        <input
-          type="date"
-          name="startDate"
-          id="startDate"
-          ref="startDate"
-          value="2020-01-10"
-        />
+          <option value="variable">Variable </option>
+          <option value="system"> System </option>
+        </select>
       </div>
-      <div class="timeCon">
-        <span class="displayButton">
-          <i class="fa fa-calendar" aria-hidden="true"></i> to:
-        </span>
-        <input
-          type="date"
-          name="endDate"
-          ref="endDate"
-          id="endDate"
-          value="2020-02-28"
-        />
+      <div class="itemTypeCon">
+        <p>Portrait type</p>
+        <select name="vis_type" id="vis_type" v-model="vis_type">
+          <option
+            v-for="currVisType in visTypes"
+            :key="currVisType"
+            :value="currVisType"
+            >{{ currVisType }}</option
+          >
+        </select>
+      </div>
+      <div class="itemTypeCon">
+        <p>{{ portraitType[0].toUpperCase() + portraitType.slice(1) }}</p>
+        <select
+          name="portrait_varSystemOptions"
+          id="portrait_varSystemOptions"
+          v-model="currItemId"
+        >
+          <option
+            v-for="item in portraitType === 'variable' ? variables : systems"
+            :key="item._id"
+            :value="item._id"
+            @change="updateItem()"
+          >
+            {{ item.name }}
+          </option>
+        </select>
+      </div>
+      <div class="timeConCon">
+        <p class="displayButton">
+          <i class="fa fa-calendar" aria-hidden="true"></i> From
+        </p>
+        <div class="timeCon">
+          <input
+            type="date"
+            name="startDate"
+            id="startDate"
+            ref="startDate"
+            value="2020-01-10"
+          />
+        </div>
+      </div>
+      <div class="timeConCon">
+        <p class="displayButton">
+          <i class="fa fa-calendar" aria-hidden="true"></i> To </p
+        ><div class="timeCon">
+          <input
+            type="date"
+            name="endDate"
+            ref="endDate"
+            id="endDate"
+            value="2020-02-28"
+          />
+        </div>
       </div>
     </div>
     <div class="center">
@@ -106,8 +118,8 @@ import Timeline from './vis/Timeline.vue'
 import RadarChart from './vis/RadarChart.vue'
 import Sankey from './vis/Sankey.vue'
 import PageHeading from './components/PageHeading.vue'
-// import NestedDonut from './vis/NestedDonut.vue'
 import Donut from './vis/Donut.vue'
+
 export default {
   components: { Timeline, RadarChart, Sankey, Donut, pageHeading: PageHeading },
   name: 'TimePortrait',
