@@ -75,6 +75,7 @@
         >
       </div>
       <bubbleChart :key="renderUpdate" />
+      <!-- <bubbleChart /> -->
     </div>
   </div>
 </template>
@@ -189,8 +190,9 @@ export default {
 
           // if (this.portraitType != 'system') {
           // force update render
-          self.$forceUpdate()
-          self.renderUpdate++
+
+          // self.$forceUpdate()
+          // self.renderUpdate++
           // }
           // force update render
           self.$forceUpdate()

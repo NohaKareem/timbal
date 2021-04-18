@@ -36,13 +36,13 @@ export default {
       chartOptions: {
         width: '700',
         sankey: {
-          // title: 'Category Relationships',
           link: {
-            // color: { fill: 'red' },
+            colorMode: 'gradient',
+            colors: this.sankeyColors,
             color: {
-              colorMode: 'gradient',
               fill: '#e6e6e6'
-              // fillOpacity: 0.19
+              // stroke: 'black',
+              // strokeWidth: 0.25
             }
           },
           node: {
@@ -53,18 +53,12 @@ export default {
               color: '#707070'
             }
           }
-          // tooltip: {
-          //   isHtml: true
-          // }
         }
       }
     }
   },
-  //   props: ['logs'],
-  //   methods: {},
   mounted() {
     this.$forceUpdate()
-    // this.timeseries('timeline', this.logs)
   },
   methods: {
     generateToolTip(category, subCategory, hours) {

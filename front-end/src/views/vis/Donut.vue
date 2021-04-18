@@ -13,8 +13,8 @@ export default {
   methods: {
     // nested donut method https://embed.plnkr.co/plunk/2p0zmp
     renderNestedDonut() {
-      var width = 500
-      var height = 500
+      var width = 700
+      var height = 700
       let color = d3.scaleOrdinal().range(this.visColors)
 
       var pie = d3
@@ -33,8 +33,8 @@ export default {
       let svgs = []
       let arcs = []
 
-      let donutWid = 18 * this.logs.length
-      let startRadius = 200 //~
+      let donutWid = 20 * this.logs.length
+      let startRadius = 300 //~
       this.logs.forEach((l, n) => {
         // svg
         svgs.push(

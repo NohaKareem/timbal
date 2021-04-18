@@ -151,7 +151,7 @@ export default {
       donutRerender: 0,
       currItemId: '',
       logs: [], // for raw data
-      patternColors: ['#ff0000', '#CC33fF', '#00A0B0'],
+      patternColors: [],
       renderRadarChart: false,
       renderDonutChart: false,
       overviewData: [],
