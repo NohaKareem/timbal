@@ -13,8 +13,8 @@ export default {
   methods: {
     // nested donut method https://embed.plnkr.co/plunk/2p0zmp
     renderNestedDonut() {
-      var width = 400
-      var height = 400
+      var width = 500
+      var height = 500
       let color = d3.scaleOrdinal().range(this.visColors)
 
       var pie = d3

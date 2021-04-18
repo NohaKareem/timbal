@@ -94,6 +94,13 @@
         <Donut :visColors="patternColors" :logs="overviewData" />
       </div>
     </div>
+    <div class="center donutDetails" v-if="displaySelectedVis[1]">
+      <p v-if="isDonutEntireDay">Visualization represents 24 hour day(s)</p>
+      <p v-else
+        >Visualization only represents logged data, not necessarily an entire 24
+        hour day</p
+      >
+    </div>
 
     <div class="portraitVisCon" v-if="displaySelectedVis[2]">
       <RadarChart
