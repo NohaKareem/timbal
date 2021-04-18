@@ -84,6 +84,11 @@
       <Timeline v-for="log in logs" :key="log" :logs="log" />
     </div>
 
+    <!-- <div class="center" v-if="displaySelectedVis[1]">
+      <button @click="updateDonutDisplay()">{{
+        isDonutEntireDay ? 'Show logged data only' : 'Show full days'
+      }}</button>
+    </div> -->
     <div
       class="portraitVisCon"
       v-if="displaySelectedVis[1]"
@@ -159,6 +164,11 @@ export default {
     updateRender(cntxt) {
       cntxt.renderUpdate++
       cntxt.$forceUpdate()
+    },
+    updateDonutDisplay() {
+      this.isDonutEntireDay = !this.isDonutEntireDay
+      this.generatePortrait()
+      this.updateRender(this)
     },
     generatePortrait() {
       this.renderUpdate++ // force update
