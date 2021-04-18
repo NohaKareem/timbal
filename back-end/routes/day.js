@@ -105,26 +105,8 @@ router.get('/start/:startDate/end/:endDate/variable/:variable', function (req, r
     if (day)
       res.json(day);
     else res.json(false);
-  }).populate('variables.log_data.full_category');
+  }).populate('variables.log_data.full_category').sort({ date: 'asc' });
 });
-
-// // GET day document's specified variable log data if exists, within a time frame
-// // test query localhost:3000/day/start/2020-01-30T15:00:00.000Z/end/2020-02-30T15:00:00.000Z/system/5e3b9fb45a7109031886fee5
-// router.get('/start/:startDate/end/:endDate/system/:system', function (req, res, next) {
-//   Day.find({
-//     "date": {
-//       "$gte": new Date(req.params.startDate).setHours(00, 00, 00, 00),
-//       "$lte": new Date(req.params.endDate).setHours(23, 59, 59)
-//     },
-//     "variables.variable": req.params.variable
-//   }, { 'variables.variable.$': 1, 'variables.log_data': 1 }, (err, day) => {
-//     console.log('day date query result', day)
-//     handleErr(err, next);
-//     if (day)
-//       res.json(day);
-//     else res.json(false);
-//   });
-// });
 
 // test query localhost:3000/day/start/2020-01-30T15:00:00.000Z/end/2020-02-30T15:00:00.000Z/variable/5e3316671c71657e18823380/hourly
 router.get('/start/:startDate/end/:endDate/variable/:variable/hourly', function (req, res, next) {
@@ -145,7 +127,6 @@ router.get('/start/:startDate/end/:endDate/variable/:variable/hourly', function 
     else res.json(false);
   });
 });
-
 
 // test query 
 // localhost:3000/day/start/2020-01-30T15:00:00.000Z/end/2020-02-30T15:00:00.000Z/variable/5e3316671c71657e18823380/aggregate
@@ -168,7 +149,7 @@ router.get('/aggregate', function (req, res, next) {
 });
 
 // computed time per task
-// ~ needs testing
+// TODO: needs testing
 router.get('/taskTimes', function (req, res, next) {
   Day.aggregate(
     [
@@ -245,6 +226,7 @@ router.get('/taskTimes', function (req, res, next) {
 
 // POST new day document
 router.post('/', (req, res, next) => {
+  console.log('sent', req.body)
   // formatting time input
   let start_time = req.body.start_time;
   let end_time = req.body.end_time;

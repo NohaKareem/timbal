@@ -46,12 +46,18 @@
         <formatDataDisplay />
 
         <div class="addLogButton">
-          <!-- <input type="submit" value="add log"> -->
-          <input
+          <!-- <input type="submit" value="add log"/> -->
+          <!-- <input
             type="button addLogEntry"
             value="add log"
             @click="addDayDocument()"
-          />
+          /> -->
+          <button
+            class="button addLogEntry"
+            type="button"
+            @click="addDayDocument()"
+            >add log</button
+          >
         </div>
         <hr />
       </form>

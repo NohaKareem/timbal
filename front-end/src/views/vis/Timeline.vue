@@ -17,7 +17,7 @@ export default {
       return this.$store.state.colors
     }
   },
-  props: ['logs'],
+  props: ['logs', 'isSystem'],
   methods: {
     // render timeseries
     timeseries(spaced, data) {
@@ -211,38 +211,43 @@ export default {
   },
   mounted() {
     let visLogs = []
-    console.log('logs', this.logs)
 
-    if (this.logs && this.logs.variables[0]) {
-      this.logs.variables[0].log_data.forEach((logEntry) => {
-        let durationInMinutes = Math.abs(
-          new Date(logEntry.start_time).getHours() * 60 +
-            new Date(logEntry.start_time).getMinutes() -
-            new Date(logEntry.end_time).getHours() * 60 +
-            new Date(logEntry.end_time).getMinutes()
-        )
-        let fullCategoryStr = ''
-        let color = ''
+    if (!this.isSystem) {
+      if (this.logs && this.logs.variables[0]) {
+        this.logs.variables[0].log_data.forEach((logEntry) => {
+          let durationInMinutes = Math.abs(
+            new Date(logEntry.start_time).getHours() * 60 +
+              new Date(logEntry.start_time).getMinutes() -
+              new Date(logEntry.end_time).getHours() * 60 +
+              new Date(logEntry.end_time).getMinutes()
+          )
+          let fullCategoryStr = ''
+          let color = ''
 
-        // delinate nested categories by '.' and save top-level category's color id
-        logEntry.full_category.forEach((category, i) => {
-          if (i == 0) color = category.color
-          fullCategoryStr +=
-            category.code + (i === logEntry.full_category.length - 1 ? '' : '.')
+          // delinate nested categories by '.' and save top-level category's color id
+          logEntry.full_category.forEach((category, i) => {
+            if (i == 0) color = category.color
+            fullCategoryStr +=
+              category.code +
+              (i === logEntry.full_category.length - 1 ? '' : '.')
+          })
+
+          visLogs.push({
+            value: new Date(logEntry.start_time).valueOf(),
+            duration: durationInMinutes,
+            logCode: fullCategoryStr,
+            color: color
+          })
         })
-
-        visLogs.push({
-          value: new Date(logEntry.start_time).valueOf(),
-          duration: durationInMinutes,
-          logCode: fullCategoryStr,
-          color: color
-        })
-      })
-      console.log(visLogs)
-      // force update render
-      this.$forceUpdate()
-      this.renderUpdate++
+      }
+    } else {
+      visLogs = this.logs
+      console.log('system case ', visLogs)
     }
+
+    // force update render
+    this.$forceUpdate()
+    this.renderUpdate++
     this.timeseries('timeline', visLogs)
   }
 }

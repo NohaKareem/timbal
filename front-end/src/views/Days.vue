@@ -49,27 +49,39 @@
           </select>
         </div>
 
-        <!-- dropdown menu -->
-        <!-- <select
-          name="variableSelect"
-          id="variableSelect"
-          @change="updateVariable()"
-          v-model="currentVariable"
-        >
-          <option
-            v-for="variable in variables"
-            :key="variable._id"
-            :value="unselected ? 'tasks' : variable._id"
-            @change="updateVariable()"
-            ref="currentVariableSelection"
-          >
-            {{ variable.name }}
-          </option>
-        </select> -->
-
         <div class="timelineCon">
-          <timeline :key="renderUpdate" :logs="logs" />
-          {{ systemLogs }}
+          <timeline
+            :key="renderUpdate"
+            :logs="isSystem ? systemTimelineData : logs"
+            :isSystem="isSystem"
+          />
+          <!-- {{ systemLogs }} -->
+          <!-- <br />
+          is system? {{ isSystem ? 'system' : 'var' }} <br />
+          is portrait?
+          {{ portraitType }}
+          <hr />
+          {{ systemTimelineData }}
+          <hr /> -->
+          <!-- {{ logs }} -->
+          <!-- <div v-for="systemCat in systemLogs" :key="systemCat._id">
+            <div v-for="log in logs" :key="log">
+              {{ log }}
+              <br />
+              <br />
+              {{ log[0].log_data }}
+              <div v-for="l in log[0].log_data" :key="l[0]">
+                <div v-for="c in l.full_category" :key="c._id">
+                  cateogry {{ c._id }} sytem cateogry {{ systemCat._id }}
+                  {{
+                    systemCat.values.includes(c._id)
+                      ? `- ${systemCat._id} - color:${systemCat.color} for system`
+                      : 'not same'
+                  }}
+                </div>
+              </div>
+            </div>
+          </div> -->
           <p v-for="l in systemLogs" :key="l">
             {{ l }}
           </p>
@@ -106,7 +118,6 @@ import Vue from 'vue'
 import VueShepherd from 'vue-shepherd'
 import PageHeading from './components/PageHeading.vue'
 
-// import NestedDonut from './vis/NestedDonut.vue'
 Vue.use(VueShepherd)
 
 // import SignIn from "./SignIn.vue";
@@ -117,7 +128,6 @@ export default {
     dayInputForm: DayInputForm,
     timeline: Timeline,
     pageHeading: PageHeading
-    // nestedDonut: NestedDonut
     // 'signIn': SignIn
   },
   data() {
@@ -132,7 +142,8 @@ export default {
       unselected: true,
       tour: {},
       logs: [],
-      systemLogs: []
+      systemLogs: [],
+      systemTimelineData: []
     }
   },
   computed: {
@@ -141,6 +152,9 @@ export default {
     },
     userLoggedIn() {
       return this.$store.state.isLoggedIn
+    },
+    isSystem() {
+      return this.portraitType === 'system'
     }
   },
   methods: {
@@ -165,6 +179,32 @@ export default {
     },
     launchOnboarding() {
       this.tour.start()
+    },
+    // parse timeline log from a system's perspective
+    parseSystemTimeline(self) {
+      console.log('in parseSystemTimeline')
+      self.systemLogs.forEach((systemCat) => {
+        self.logs.variables.forEach((log) => {
+          log.log_data.forEach((l) => {
+            l.full_category.forEach((c) => {
+              // if var val belongs to current system category
+              if (systemCat.values.includes(c._id)) {
+                self.systemTimelineData.push({
+                  color: systemCat.color,
+                  duration: Math.abs(
+                    new Date(l.start_time).getHours() * 60 +
+                      new Date(l.start_time).getMinutes() -
+                      new Date(l.end_time).getHours() * 60 +
+                      new Date(l.end_time).getMinutes()
+                  ),
+                  logCode: systemCat.name,
+                  value: new Date(l.start_time).valueOf()
+                })
+              }
+            })
+          })
+        })
+      })
     },
     getTimelineLog() {
       let self = this
@@ -206,7 +246,6 @@ export default {
 
       if (this.portraitType == 'system') {
         // this.systemLogs.push(this.currentVariable)
-        console.log('in system')
         this.systemLogs = []
         let logs = []
         axios
@@ -214,15 +253,11 @@ export default {
             `http://localhost:3000/systems/${this.currentVariable}/categories`
           )
           .then(function(response) {
-            console.log(
-              'in response for ',
-              `http://localhost:3000/systems/${this.currentVariable}/categories`
-            )
             logs = response.data
             logs.forEach((l) => {
               self.systemLogs.push(l)
             })
-
+            self.parseSystemTimeline(self)
             // force update render
             self.$forceUpdate()
             self.renderUpdate++

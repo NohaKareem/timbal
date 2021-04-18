@@ -44,7 +44,6 @@ export default {
     }
   },
   mounted() {
-    console.log('mounted')
     let self = this
     let dataToDisplay = []
     axios
@@ -113,39 +112,30 @@ export default {
             (60 - new Date(logEntry.start_time).getMinutes())
 
           let duration = mins / 2 // reduce visual surface area
-          // if (categroyDescription === 'build') {
-          console.log('_____________________________')
-          console.log(categroyDescription, 'duration', duration)
-          // console.log(categroyDescription, 'duration 2', mins2)
-          console.log(
-            ' new Date(logEntry.end_time).getTime()',
-            new Date(logEntry.end_time).getTime()
-          )
-          console.log(
-            categroyDescription,
-            'start',
-            new Date(logEntry.start_time)
-          )
-          console.log(categroyDescription, 'end', new Date(logEntry.end_time))
-          console.log(
-            categroyDescription,
-            'sub',
-            (Math.abs(
-              new Date(logEntry.end_time) - new Date(logEntry.start_time)
-            ) %
-              86400000) %
-              3600000
-          )
+          // // if (categroyDescription === 'build') {
+          // console.log('_____________________________')
+          // console.log(categroyDescription, 'duration', duration)
+          // // console.log(categroyDescription, 'duration 2', mins2)
+          // console.log(
+          //   ' new Date(logEntry.end_time).getTime()',
+          //   new Date(logEntry.end_time).getTime()
+          // )
           // console.log(
           //   categroyDescription,
-          //   'val',
+          //   'start',
+          //   new Date(logEntry.start_time)
+          // )
+          // console.log(categroyDescription, 'end', new Date(logEntry.end_time))
+          // console.log(
+          //   categroyDescription,
+          //   'sub',
           //   (Math.abs(
           //     new Date(logEntry.end_time) - new Date(logEntry.start_time)
           //   ) %
           //     86400000) %
           //     3600000
           // )
-          // }
+
           // add new duration if category doesn't exist
           if (!existingCategory) {
             dataToDisplay.push({

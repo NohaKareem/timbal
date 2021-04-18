@@ -79,9 +79,13 @@
         >generate</button
       >
     </div>
-
-    <div class="timelineCon" v-if="displaySelectedVis[0]">
-      <Timeline v-for="log in logs" :key="log" :logs="log" />
+    <div>
+      <p v-for="l in logs" :key="l">{{ l._id }}</p>
+    </div>
+    <div v-if="displaySelectedVis[0]">
+      <div class="timelineCon" v-for="log in logs" :key="log">
+        <Timeline :logs="log" />
+      </div>
     </div>
 
     <!-- <div class="center" v-if="displaySelectedVis[1]">
@@ -439,7 +443,16 @@ export default {
               )
               .then(function(response) {
                 self.logs = response.data
+
+                console.log(
+                  `http://localhost:3000/day/start/${new Date(
+                    self.$refs.startDate.value
+                  ).toISOString()}/end/${new Date(
+                    self.$refs.endDate.value
+                  ).toISOString()}/variable/${self.currItemId}`
+                )
               })
+
             break
           // overview
           case 1:
