@@ -641,6 +641,19 @@ a.imageLink:hover {
     }
 }
 
+.visLegend {
+    display: flex;
+}
+
+.visLegendcircle {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    margin-right: $baseMargin;
+    margin-left: $baseMargin * 2;
+    @include softUiShadow();
+}
+
 .donutDetails {
     margin-top: $baseMargin;
 }
@@ -690,6 +703,8 @@ a.imageLink:hover {
 .portraitVisCon {
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .timelineCon, .portraitVisCon {

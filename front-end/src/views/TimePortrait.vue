@@ -79,9 +79,6 @@
         >generate</button
       >
     </div>
-    <div>
-      <p v-for="l in logs" :key="l">{{ l._id }}</p>
-    </div>
     <div v-if="displaySelectedVis[0]">
       <div class="timelineCon" v-for="log in logs" :key="log">
         <Timeline :logs="log" />
@@ -117,6 +114,15 @@
         :visColors="patternColors"
         v-if="renderRadarChart"
       />
+      <div class="visLegend">
+        <div v-for="(title, n) in varValTitles" :key="title" class=" center">
+          <div
+            class="visLegendcircle"
+            :style="'background-color:' + patternColors[n]"
+          ></div>
+          {{ title }}
+        </div>
+      </div>
     </div>
 
     <div class="portraitVisCon" v-if="displaySelectedVis[3]">
@@ -158,7 +164,9 @@ export default {
       sankeyVals: [['Category', 'included variable value', 'Hours']],
       temp: [],
       sankeyColors: [],
-      isDonutEntireDay: true
+      isDonutEntireDay: true,
+      // varValSet: {},
+      varValTitles: new Set()
     }
   },
   methods: {
@@ -189,6 +197,7 @@ export default {
 
     // gets unique var values, and their colors (updates varValSet, and patternColors)
     getVarValData(logs, varValSet) {
+      this.varValTitles = new Set()
       logs.forEach((d) => {
         // get unique var vals
         d.variables.forEach((v) => {
@@ -197,7 +206,7 @@ export default {
             //~~~~~
             v.log_data.forEach((l) => {
               let currVal = l.full_category[0]
-              // let varTitle = `${currVal.code}: ${currVal.description}`
+              this.varValTitles.add(`${currVal.code}: ${currVal.description}`)
               if (!varValSet.has(currVal._id)) {
                 varValSet.add(currVal._id)
                 this.patternColors.push(this.getColor(currVal.color))

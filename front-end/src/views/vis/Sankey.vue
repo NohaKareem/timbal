@@ -35,14 +35,13 @@ export default {
     return {
       chartOptions: {
         width: '700',
+        height: '400',
         sankey: {
           link: {
             colorMode: 'gradient',
             colors: this.sankeyColors,
             color: {
               fill: '#e6e6e6'
-              // stroke: 'black',
-              // strokeWidth: 0.25
             }
           },
           node: {
