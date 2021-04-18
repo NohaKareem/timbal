@@ -90,17 +90,7 @@
       :key="donutRerender"
     >
       <Donut />
-      <!-- logs="overviewData" -->
-
       <div v-if="renderDonutChart">
-        <!-- <Donut
-          v-for="(data, i) in donutData2"
-          :key="data"
-          :visColors="patternColors"
-          :logs="data"
-          :radius="200 - i * 55"
-          :donutWidth="55"
-        /> -->
         <Donut :visColors="patternColors" :logs="overviewData" />
       </div>
     </div>
@@ -152,12 +142,7 @@ export default {
       sankeyVals: [['Category', 'included variable value', 'Hours']],
       temp: [],
       sankeyColors: [],
-      donutData: [10, 20, 30, 40],
-      donutData2: [
-        [10, 20, 30, 40],
-        [35, 25, 25, 15],
-        [50, 5, 5, 40]
-      ]
+      isDonutEntireDay: true
     }
   },
   methods: {
@@ -208,51 +193,11 @@ export default {
 
       // get colors + data
       this.getVarValData(logs, varValSet)
-      // compute time
-      // n iterates ea. var val
-      // let n = 0
-      // varValSet.forEach((val) => {
-      //   patternVarVals[n] = 0 //~
-      //   // iterate every day in logs
-      //   logs.forEach((d) => {
-      //     d.variables.forEach((v) => {
-      //       if (v.variable == this.currItemId) {
-      //         v.log_data.forEach((l) => {
-      //           // increment time for every log entry with current var val
-      //           if (l.full_category[0]._id == val) {
-      //             let startTime = new Date(l.start_time)
-      //             let endTime = new Date(l.end_time)
-      //             // i iterates ea. logged hour
-      //             for (
-      //               let i = startTime.getHours();
-      //               i <= endTime.getHours();
-      //               i++
-      //             ) {
-      //               // increment time within current hour, for curr var val
-      //               if (i == startTime.getHours()) {
-      //                 patternVarVals[n] += 60 - startTime.getMinutes()
-      //               } else if (i == endTime.getHours()) {
-      //                 patternVarVals[n] += endTime.getMinutes()
-      //               } else {
-      //                 patternVarVals[n] += 60
-      //               }
-      //             }
-      //           }
-      //         })
-      //       }
-      //     })
-      //     console.log('patternVarVals[n]', patternVarVals[n])
-      //     // push aggregate data
-      //     let maxVal = patternVarVals.reduce((a, b) => a + b, 0)
-      //     let tempAggregates = []
-      //     patternVarVals.forEach((val) => {
-      //       tempAggregates.push((val / maxVal) * 100)
-      //     })
-      //     this.overviewData.push(tempAggregates)
-      //   })
-      //   n++
-      // })
 
+      // add default color for rest of the day, if vis wrt entire day
+      if (this.isDonutEntireDay) this.patternColors.push('#F0F0F0')
+
+      // computed aggregate time per var val, per day
       // iterate every day in logs
       logs.forEach((d) => {
         // consider only relevant var
@@ -293,13 +238,25 @@ export default {
       })
 
       // get percentages per day
+      // iterate per day
       patternVarVals.forEach((v) => {
-        let sumVals = v.reduce((a, b) => a + b, 0)
-        // compute percentages for each day
+        let sumLoggedVals = v.reduce((a, b) => a + b, 0)
+        const TOTAL_MINS_PER_DAY = 60 * 24
+        // iterate per var val
         let tempAggregates = []
         v.forEach((varValTotal) => {
-          tempAggregates.push((varValTotal / sumVals) * 100)
+          tempAggregates.push(
+            (varValTotal /
+              (this.isDonutEntireDay ? TOTAL_MINS_PER_DAY : sumLoggedVals)) *
+              100
+          )
         })
+
+        // unlogged time, if vis wrt entire day
+        if (this.isDonutEntireDay)
+          tempAggregates.push(
+            ((TOTAL_MINS_PER_DAY - sumLoggedVals) / TOTAL_MINS_PER_DAY) * 100
+          )
         this.overviewData.push(tempAggregates)
       })
 
@@ -382,6 +339,7 @@ export default {
 
       patternVarVals = tempVals
       this.patternData = patternVarVals
+
       // re-render
       this.$forceUpdate()
       this.renderUpdate++
