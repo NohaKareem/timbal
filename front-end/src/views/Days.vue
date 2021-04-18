@@ -55,36 +55,6 @@
             :logs="isSystem ? systemTimelineData : logs"
             :isSystem="isSystem"
           />
-          <!-- {{ systemLogs }} -->
-          <!-- <br />
-          is system? {{ isSystem ? 'system' : 'var' }} <br />
-          is portrait?
-          {{ portraitType }}
-          <hr />
-          {{ systemTimelineData }}
-          <hr /> -->
-          <!-- {{ logs }} -->
-          <!-- <div v-for="systemCat in systemLogs" :key="systemCat._id">
-            <div v-for="log in logs" :key="log">
-              {{ log }}
-              <br />
-              <br />
-              {{ log[0].log_data }}
-              <div v-for="l in log[0].log_data" :key="l[0]">
-                <div v-for="c in l.full_category" :key="c._id">
-                  cateogry {{ c._id }} sytem cateogry {{ systemCat._id }}
-                  {{
-                    systemCat.values.includes(c._id)
-                      ? `- ${systemCat._id} - color:${systemCat.color} for system`
-                      : 'not same'
-                  }}
-                </div>
-              </div>
-            </div>
-          </div> -->
-          <p v-for="l in systemLogs" :key="l">
-            {{ l }}
-          </p>
         </div>
 
         <button
