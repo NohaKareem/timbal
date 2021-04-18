@@ -101,7 +101,7 @@
           :radius="200 - i * 55"
           :donutWidth="55"
         /> -->
-        <Donut :visColors="patternColors" :logs="donutData2" />
+        <Donut :visColors="patternColors" :logs="overviewData" />
       </div>
     </div>
 
@@ -208,15 +208,61 @@ export default {
 
       // get colors + data
       this.getVarValData(logs, varValSet)
-
       // compute time
       // n iterates ea. var val
-      let n = 0
-      varValSet.forEach((val) => {
-        patternVarVals[n] = 0 //~
-        logs.forEach((d) => {
-          d.variables.forEach((v) => {
-            if (v.variable == this.currItemId) {
+      // let n = 0
+      // varValSet.forEach((val) => {
+      //   patternVarVals[n] = 0 //~
+      //   // iterate every day in logs
+      //   logs.forEach((d) => {
+      //     d.variables.forEach((v) => {
+      //       if (v.variable == this.currItemId) {
+      //         v.log_data.forEach((l) => {
+      //           // increment time for every log entry with current var val
+      //           if (l.full_category[0]._id == val) {
+      //             let startTime = new Date(l.start_time)
+      //             let endTime = new Date(l.end_time)
+      //             // i iterates ea. logged hour
+      //             for (
+      //               let i = startTime.getHours();
+      //               i <= endTime.getHours();
+      //               i++
+      //             ) {
+      //               // increment time within current hour, for curr var val
+      //               if (i == startTime.getHours()) {
+      //                 patternVarVals[n] += 60 - startTime.getMinutes()
+      //               } else if (i == endTime.getHours()) {
+      //                 patternVarVals[n] += endTime.getMinutes()
+      //               } else {
+      //                 patternVarVals[n] += 60
+      //               }
+      //             }
+      //           }
+      //         })
+      //       }
+      //     })
+      //     console.log('patternVarVals[n]', patternVarVals[n])
+      //     // push aggregate data
+      //     let maxVal = patternVarVals.reduce((a, b) => a + b, 0)
+      //     let tempAggregates = []
+      //     patternVarVals.forEach((val) => {
+      //       tempAggregates.push((val / maxVal) * 100)
+      //     })
+      //     this.overviewData.push(tempAggregates)
+      //   })
+      //   n++
+      // })
+
+      // iterate every day in logs
+      logs.forEach((d) => {
+        // consider only relevant var
+        d.variables.forEach((v) => {
+          if (v.variable == this.currItemId) {
+            // iterate each possible var val
+            let tempVarTotals = []
+            varValSet.forEach((val) => {
+              // iterate each log entry (in a given day)
+              let totalTime = 0
               v.log_data.forEach((l) => {
                 // increment time for every log entry with current var val
                 if (l.full_category[0]._id == val) {
@@ -230,24 +276,33 @@ export default {
                   ) {
                     // increment time within current hour, for curr var val
                     if (i == startTime.getHours()) {
-                      patternVarVals[n] += 60 - startTime.getMinutes()
+                      totalTime += 60 - startTime.getMinutes()
                     } else if (i == endTime.getHours()) {
-                      patternVarVals[n] += endTime.getMinutes()
+                      totalTime += endTime.getMinutes()
                     } else {
-                      patternVarVals[n] += 60
+                      totalTime += 60
                     }
                   }
                 }
               })
-            }
-          })
+              tempVarTotals.push(totalTime)
+            })
+            patternVarVals.push(tempVarTotals)
+          }
         })
-        n++
       })
-      let maxVal = patternVarVals.reduce((a, b) => a + b, 0)
-      patternVarVals.forEach((val) => {
-        this.overviewData.push((val / maxVal) * 100)
+
+      // get percentages per day
+      patternVarVals.forEach((v) => {
+        let sumVals = v.reduce((a, b) => a + b, 0)
+        // compute percentages for each day
+        let tempAggregates = []
+        v.forEach((varValTotal) => {
+          tempAggregates.push((varValTotal / sumVals) * 100)
+        })
+        this.overviewData.push(tempAggregates)
       })
+
       // re-render
       this.$forceUpdate()
       this.renderUpdate++

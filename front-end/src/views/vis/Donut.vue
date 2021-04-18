@@ -10,7 +10,6 @@ import * as d3 from 'd3'
 export default {
   name: 'Donut',
   props: { visColors: Array, logs: Array },
-  // props: { visColors: Array, logs: Array, radius: Number, donutWidth: Number },
   methods: {
     // nested donut method https://embed.plnkr.co/plunk/2p0zmp
     renderNestedDonut() {
@@ -58,7 +57,6 @@ export default {
       })
 
       arcs.forEach((arc, n) => {
-        console.log(this.logs[n])
         svgs[n]
           .selectAll('path')
           .data(pie(this.logs[n]))

@@ -86,7 +86,6 @@ export default {
         .domain([0, maxValue])
 
       //  Create the container SVG and g
-
       //Remove whatever chart with the same id/class was present before
       d3.select(id)
         .select('svg')
