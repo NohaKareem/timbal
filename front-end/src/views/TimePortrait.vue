@@ -267,7 +267,10 @@ export default {
         // populate every hour with an initial value of 0 for curr. var val
         patternVarVals[n] = []
         for (let i = 0; i < 24; i++) {
-          patternVarVals[n].push({ axis: i, value: 0 })
+          patternVarVals[n].push({
+            axis: `${('00' + i).slice(-2)}:00`,
+            value: 0
+          })
         }
         logs.forEach((d) => {
           d.variables.forEach((v) => {

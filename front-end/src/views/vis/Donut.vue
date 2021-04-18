@@ -33,10 +33,9 @@ export default {
 
       let svgs = []
       let arcs = []
-      let arcBorders = []
 
-      let donutWid = 18 * this.logs.length //55 //~
-      let startRadius = 200
+      let donutWid = 18 * this.logs.length
+      let startRadius = 200 //~
       this.logs.forEach((l, n) => {
         // svg
         svgs.push(
@@ -55,15 +54,7 @@ export default {
             .innerRadius(startRadius - (n + 1) * donutWid)
             .outerRadius(startRadius - n * donutWid)
         )
-
-        // border
-        arcBorders.push(
-          d3
-            .arc()
-            .innerRadius(startRadius - (n + 1) * donutWid)
-            .outerRadius(startRadius - (n + 1) * donutWid + 50)
-        )
-        // startRadius = startRadius - n * donutWid
+        // startRadius = startRadius - n * donutWid//~
       })
 
       arcs.forEach((arc, n) => {
@@ -78,9 +69,6 @@ export default {
             return color(i)
           })
           .attr('class', 'circ')
-        // .append('path')
-        // .attr('fill', 'black')
-        // .attr('d', arcBorders[n])
       })
     }
   },

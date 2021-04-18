@@ -75,7 +75,7 @@ export default {
         }), //Names of each axis
         total = allAxis.length, //The number of different axes
         radius = Math.min(cfg.w / 2, cfg.h / 2), //Radius of the outermost circle
-        Format = d3.format('%'), //Percentage formatting
+        Format = d3.format('.0%'), //Percentage formatting
         angleSlice = (Math.PI * 2) / total //The width in radians of each "slice"
 
       //Scale for the radius
@@ -170,7 +170,6 @@ export default {
       // .text(function (d, i) { return d });
 
       //  Draw the axes
-
       //Create the straight lines radiating outward from the center
       var axis = axisGrid
         .selectAll('.axis')
@@ -178,6 +177,7 @@ export default {
         .enter()
         .append('g')
         .attr('class', 'axis')
+
       //Append the lines
       axis
         .append('line')
@@ -350,7 +350,8 @@ export default {
           tooltip
             .attr('x', newX)
             .attr('y', newY)
-            .text(Format(d.value))
+            // .text(Format(d.value))
+            .html(`<p>${d.value}</p>`)
             .transition()
             .duration(200)
             .style('opacity', 1)
@@ -427,8 +428,6 @@ export default {
       )
 
     // Draw the Chart
-    // var color = d3.scaleOrdinal().range(['#EDC951', '#CC333F', '#00A0B0'])
-    // var color = d3.scaleOrdinal().range(['#ff0000', '#CC33fF', '#00A0B0'])
     var color = d3.scaleOrdinal().range(this.visColors)
 
     var radarChartOptions = {

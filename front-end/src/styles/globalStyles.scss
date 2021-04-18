@@ -692,7 +692,7 @@ a.imageLink:hover {
 }
 
 // svg styling soft ui
-.circ {
+.circ,.gridCircle {
     filter: drop-shadow(-5px -5px 3px white)
       drop-shadow(5px 5px 3px transparentize(black, 0.9));
   }
