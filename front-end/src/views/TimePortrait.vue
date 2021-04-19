@@ -40,7 +40,7 @@
             v-for="item in portraitType === 'variable' ? variables : systems"
             :key="item._id"
             :value="item._id"
-            @change="updateItem()"
+            @change="updateItem(item.name)"
           >
             {{ item.name }}
           </option>
@@ -80,6 +80,7 @@
       >
     </div>
     <div v-if="displaySelectedVis[0]">
+      <p class="center">Days at a glance</p>
       <div class="timelineCon" v-for="log in logs" :key="log">
         <Timeline :logs="log" />
       </div>
@@ -95,6 +96,7 @@
       v-if="displaySelectedVis[1]"
       :key="donutRerender"
     >
+      <p>Where does the day go?</p>
       <Donut />
       <div v-if="renderDonutChart">
         <Donut :visColors="patternColors" :logs="overviewData" />
@@ -109,6 +111,9 @@
     </div>
 
     <div class="portraitVisCon" v-if="displaySelectedVis[2]">
+      <p
+        >What are the trend patterns? When is something most likely to occur?</p
+      >
       <RadarChart
         :data="patternData"
         :visColors="patternColors"
@@ -126,7 +131,7 @@
     </div>
 
     <div class="portraitVisCon" v-if="displaySelectedVis[3]">
-      <!-- {{ temp[0].variables[0].log_data }} -->
+      <p>How is my time actually broken down?</p>
       <Sankey :logs="sankeyVals" :sankeyColors="sankeyColors" />
     </div>
   </div>
@@ -166,7 +171,8 @@ export default {
       sankeyColors: [],
       isDonutEntireDay: true,
       // varValSet: {},
-      varValTitles: new Set()
+      varValTitles: new Set(),
+      itemName: ''
     }
   },
   methods: {
@@ -421,6 +427,9 @@ export default {
                       `${varCat.code}: ${varCat.description}`,
                       parseFloat((sumMins / 60).toFixed(1))
                     ])
+                    // duplicate first entry
+                    if (this.sankeyColors.length == 1)
+                      this.sankeyColors.push(baseColor)
                     this.sankeyColors.push(baseColor)
                   }
                   // update src node for next node
@@ -517,7 +526,8 @@ export default {
         this.renderUpdate++
       }
     },
-    updateItem() {
+    updateItem(itemName) {
+      this.itemName = itemName
       if (this.portraitType === 'variable') {
         this.items = this.variables
       } else {

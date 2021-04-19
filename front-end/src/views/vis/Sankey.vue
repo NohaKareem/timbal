@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       chartOptions: {
-        width: '700',
+        width: '800',
         height: '400',
         sankey: {
           link: {
