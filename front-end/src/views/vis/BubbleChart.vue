@@ -17,6 +17,9 @@ export default {
       simulation: {}
     }
   },
+  props: {
+    systemCategories: Array
+  },
   method: {
     ticked() {
       this.point
@@ -64,44 +67,32 @@ export default {
         logEntries.forEach((logEntry) => {
           // map time spent to each top-level category (at the top of the log hierarchy. hierarchy nesting is delimited by '.')
           // top level element is always the first element
-          let topLevelCategory = logEntry.full_category[0].code
-          let categroyDescription = logEntry.full_category[0].description
+          let systemTitle = null
+          let systemColor = null
+          if (self.systemCategories) {
+            let systemCat = self.systemCategories.filter((c) => {
+              return c.values.includes(logEntry.full_category[0]._id)
+            })
+            console.log('systemCat', systemCat)
+            if (systemCat.length > 0) {
+              systemTitle = systemCat[0].name
+              systemColor = systemCat[0].color
+            }
+          }
+          let topLevelCategory = systemTitle
+            ? ''
+            : logEntry.full_category[0].code
+          let categroyDescription = systemTitle
+            ? systemTitle
+            : logEntry.full_category[0].description
+
+          // check if cateogry already exists
           let existingCategory = dataToDisplay.find(
             (category) => category.code === topLevelCategory
           )
-          let categoryColor = logEntry.full_category[0].color
-
-          // compute duration, in minutes, as difference between start and end time
-          // let duration = Math.abs(
-          //   new Date(logEntry.start_time).getHours() * 60 +
-          //     new Date(logEntry.start_time).getMinutes() -
-          //     (new Date(logEntry.end_time).getHours() * 60 +
-          //       new Date(logEntry.end_time).getMinutes())
-          // )
-
-          // time calculations https://stackoverflow.com/a/7709819/1446598
-          // let hours = Math.floor(
-          //   (new Date(logEntry.end_time) -
-          //     (new Date(logEntry.start_time) % 86400000)) /
-          //     3600000
-          // )
-
-          // let mins = Math.round(
-          //   (Math.abs(
-          //     new Date(logEntry.end_time) -
-          //       (new Date(logEntry.start_time) % 86400000)
-          //   ) %
-          //     3600000) /
-          //     60000
-          // )
-
-          // let mins = Math.round(
-          //   Math.abs(
-          //     new Date(logEntry.end_time).getTime() -
-          //       new Date(logEntry.start_time).getTime()
-          //   ) / 6000
-          // )
-
+          let categoryColor = systemColor
+            ? systemColor
+            : logEntry.full_category[0].color
           let mins =
             Math.abs(
               new Date(logEntry.end_time).getHours() -
@@ -111,30 +102,8 @@ export default {
             new Date(logEntry.end_time).getMinutes() +
             (60 - new Date(logEntry.start_time).getMinutes())
 
-          let duration = mins / 2.5 // reduce visual surface area
-          // // if (categroyDescription === 'build') {
-          // console.log('_____________________________')
-          // console.log(categroyDescription, 'duration', duration)
-          // // console.log(categroyDescription, 'duration 2', mins2)
-          // console.log(
-          //   ' new Date(logEntry.end_time).getTime()',
-          //   new Date(logEntry.end_time).getTime()
-          // )
-          // console.log(
-          //   categroyDescription,
-          //   'start',
-          //   new Date(logEntry.start_time)
-          // )
-          // console.log(categroyDescription, 'end', new Date(logEntry.end_time))
-          // console.log(
-          //   categroyDescription,
-          //   'sub',
-          //   (Math.abs(
-          //     new Date(logEntry.end_time) - new Date(logEntry.start_time)
-          //   ) %
-          //     86400000) %
-          //     3600000
-          // )
+          // reduce visual surface area
+          let duration = mins / 2.5
 
           // add new duration if category doesn't exist
           if (!existingCategory) {
@@ -158,8 +127,6 @@ export default {
             dataToDisplay.find(
               (category) => category.code === topLevelCategory
             ).r += duration
-
-            console.log('existingCategory', dataToDisplay)
           }
         })
 

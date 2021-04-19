@@ -74,7 +74,10 @@
           minutes for that (top-level) category</p
         >
       </div>
-      <bubbleChart :key="renderUpdate" />
+      <bubbleChart
+        :key="renderUpdate"
+        :systemCategories="isSystem ? systemLogs : null"
+      />
       <!-- <bubbleChart /> -->
     </div>
   </div>
