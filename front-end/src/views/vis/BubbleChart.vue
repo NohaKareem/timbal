@@ -20,6 +20,11 @@ export default {
   props: {
     systemCategories: Array
   },
+  computed: {
+    isSystem() {
+      return this.systemCategories ? true : false
+    }
+  },
   method: {
     ticked() {
       this.point
@@ -73,16 +78,15 @@ export default {
             let systemCat = self.systemCategories.filter((c) => {
               return c.values.includes(logEntry.full_category[0]._id)
             })
-            console.log('systemCat', systemCat)
             if (systemCat.length > 0) {
               systemTitle = systemCat[0].name
               systemColor = systemCat[0].color
             }
           }
-          let topLevelCategory = systemTitle
+          let topLevelCategory = self.isSystem
             ? ''
             : logEntry.full_category[0].code
-          let categroyDescription = systemTitle
+          let categroyDescription = self.isSystem
             ? systemTitle
             : logEntry.full_category[0].description
 
@@ -109,7 +113,10 @@ export default {
           if (!existingCategory) {
             dataToDisplay.push({
               code: topLevelCategory,
-              text: topLevelCategory + ': ' + categroyDescription,
+              text:
+                topLevelCategory +
+                (self.isSystem ? '' : ': ') +
+                categroyDescription,
               color: categoryColor,
               // update text colors for higher contrast with light backgrounds
               lightColor:
