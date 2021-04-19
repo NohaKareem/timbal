@@ -153,7 +153,6 @@ export default {
     },
     // parse timeline log from a system's perspective
     parseSystemTimeline(self) {
-      console.log('in parseSystemTimeline')
       self.systemLogs.forEach((systemCat) => {
         self.logs.variables.forEach((log) => {
           log.log_data.forEach((l) => {
@@ -188,12 +187,6 @@ export default {
         .then(function(response) {
           self.logs = response.data
 
-          // if (this.portraitType != 'system') {
-          // force update render
-
-          // self.$forceUpdate()
-          // self.renderUpdate++
-          // }
           // force update render
           self.$forceUpdate()
           self.renderUpdate++
@@ -217,7 +210,6 @@ export default {
         })
 
       if (this.portraitType == 'system') {
-        // this.systemLogs.push(this.currentVariable)
         this.systemLogs = []
         let logs = []
         axios

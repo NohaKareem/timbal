@@ -111,7 +111,7 @@ export default {
             new Date(logEntry.end_time).getMinutes() +
             (60 - new Date(logEntry.start_time).getMinutes())
 
-          let duration = mins / 2 // reduce visual surface area
+          let duration = mins / 2.5 // reduce visual surface area
           // // if (categroyDescription === 'build') {
           // console.log('_____________________________')
           // console.log(categroyDescription, 'duration', duration)
@@ -157,7 +157,9 @@ export default {
             // increment duration
             dataToDisplay.find(
               (category) => category.code === topLevelCategory
-            ).duration += duration
+            ).r += duration
+
+            console.log('existingCategory', dataToDisplay)
           }
         })
 

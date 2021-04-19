@@ -420,7 +420,6 @@ export default {
                       sumMins += 60
                     }
                   }
-                  // why redundant~~~~~~~
                   if (!parent) {
                     this.sankeyVals.push([
                       prevVal,
