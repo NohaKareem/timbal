@@ -6,31 +6,18 @@ const APP_NAME = "Timbal";
 
 // check if user is logged in
 function isLoggedIn(req, res, next) {
-	if(req.user) {//isAuthenticated()
-		return next();
+  if (req.user) {//isAuthenticated()
+    return next();
   }
-  return  res.json({ msg: 'need to login' });
+  return res.json({ msg: 'need to login' });
 }
 
-// async function findCategoryIds(categories) {
-//   let category_ids = [];
-//   categories.split('.').forEach(categoryCode => {
-//     console.log(categoryCode)
-//     Category.findOne({ code: categoryCode }, (err, category) => {
-//       handleErr(err);
-//       category_ids.push(category._id);
-//     console.log('category_ids', category_ids);
-//   }).sort({ code: 'asc' });
-//     // console.log('category_ids here', category_ids);
-//     return category_ids;
-// });
-// }
-
+// get all categories
 router.get('/', (req, res, next) => {
-    Category.find((err, categories) => {
-      handleErr(err);
-      res.json(categories);
-    }).sort({ code: 'asc' });
+  Category.find((err, categories) => {
+    handleErr(err);
+    res.json(categories);
+  }).sort({ code: 'asc' });
 });
 
 // GET category with specific id
@@ -52,17 +39,17 @@ router.get('/variable/:varId/top-level/:flag', (req, res, next) => {
 
 // delete a category document
 router.post('/category/:id/delete', (req, res, next) => {
-    var q = Category.findOneAndDelete({  _id: req.params.id });
-    q.exec(function(err, mydata) {
+  var q = Category.findOneAndDelete({ _id: req.params.id });
+  q.exec(function (err, mydata) {
     console.log('deleted category document');
   });
   res.redirect('/');
 });
-  
+
 
 // helper method
 function handleErr(err) {
-  if(err) return next(err);
+  if (err) return next(err);
 }
 
 module.exports = router;

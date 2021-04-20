@@ -107,7 +107,11 @@
     </div>
     <div class="center donutDetails" v-if="displaySelectedVis[1]">
       <div class="visLegend">
-        <div v-for="(title, n) in varValTitles" :key="title" class=" center">
+        <div
+          v-for="(title, n) in sortSet(varValTitles)"
+          :key="title"
+          class=" center"
+        >
           <div
             class="visLegendcircle"
             :style="'background-color:' + patternColors[n]"
@@ -134,7 +138,11 @@
         v-if="renderRadarChart"
       />
       <div class="visLegend">
-        <div v-for="(title, n) in varValTitles" :key="title" class=" center">
+        <div
+          v-for="(title, n) in sortSet(varValTitles)"
+          :key="title"
+          class=" center"
+        >
           <div
             class="visLegendcircle"
             :style="'background-color:' + patternColors[n]"
@@ -192,6 +200,9 @@ export default {
   methods: {
     capitalize(str) {
       return str[0].toUpperCase() + str.slice(1)
+    },
+    sortSet(set) {
+      return Array.from(new Set(set)).sort()
     },
     updateRender(cntxt) {
       cntxt.renderUpdate++

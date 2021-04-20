@@ -75,7 +75,7 @@ export default {
         }), //Names of each axis
         total = allAxis.length, //The number of different axes
         radius = Math.min(cfg.w / 2, cfg.h / 2), //Radius of the outermost circle
-        Format = d3.format('.0%'), //Percentage formatting
+        // Format = d3.format('.0%'), //Percentage formatting
         angleSlice = (Math.PI * 2) / total //The width in radians of each "slice"
 
       //Scale for the radius
@@ -162,11 +162,9 @@ export default {
         .attr('dy', '0.4em')
         .style('font-size', '10px')
         .attr('fill', '#707070')
-        .text(function(d) {
-          //, i
-          return Format((maxValue * d) / cfg.levels)
-        })
-      // .text(function (d, i) { return d });
+      // .text(function(d) {
+      //   return Format((maxValue * d) / cfg.levels)
+      // })
 
       //  Draw the axes
       //Create the straight lines radiating outward from the center
