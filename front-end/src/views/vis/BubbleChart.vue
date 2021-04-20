@@ -107,7 +107,7 @@ export default {
             (60 - new Date(logEntry.start_time).getMinutes())
 
           // reduce visual surface area
-          let duration = mins / 2.5
+          let duration = mins / 3
 
           // add new duration if category doesn't exist
           if (!existingCategory) {

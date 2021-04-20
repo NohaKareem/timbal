@@ -420,7 +420,6 @@ input[type=text], input[type=password], input[type=email] {
     }
 }
 
-
 // category input
 .addCategoryCon {
     display: flex;
@@ -656,6 +655,8 @@ a.imageLink:hover {
 
 .donutDetails {
     margin-top: $baseMargin;
+    display: flex;
+    flex-direction: column;
 }
 
 .portraitCon {

@@ -185,13 +185,8 @@ export default {
             })[0].color
           })
 
-        // .on("click", function() {})
-
-        // add text https://stackoverflow.com/a/20644664/1446598
-        // adding text labels https://stackoverflow.com/a/46138457/1446598
+        // add text https://stackoverflow.com/a/20644664/1446598 https://stackoverflow.com/a/46138457/1446598
         var label = svg.selectAll('text').data(data)
-
-        // add text https://stackoverflow.com/a/20644664/1446598
         label
           .enter()
           .append('text')
@@ -258,6 +253,10 @@ export default {
 
 .y.axis line {
   stroke: rgba(255, 255, 255, 0) !important;
+}
+
+svg {
+  margin-bottom: $baseMargin * 3 !important;
 }
 
 .axis path,

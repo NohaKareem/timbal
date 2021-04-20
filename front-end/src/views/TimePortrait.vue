@@ -79,13 +79,16 @@
         >generate</button
       >
     </div>
+    <!-- debug check data -->
+    <!-- <div>
+      <p v-for="l in logs" :key="l">{{ l._id }}</p>
+    </div> -->
     <div v-if="displaySelectedVis[0]">
       <p class="center">Days at a glance</p>
       <div class="timelineCon" v-for="log in logs" :key="log">
         <Timeline :logs="log" />
       </div>
     </div>
-
     <!-- <div class="center" v-if="displaySelectedVis[1]">
       <button @click="updateDonutDisplay()">{{
         isDonutEntireDay ? 'Show logged data only' : 'Show full days'
@@ -103,11 +106,22 @@
       </div>
     </div>
     <div class="center donutDetails" v-if="displaySelectedVis[1]">
-      <p v-if="isDonutEntireDay">Visualization represents 24 hour day(s)</p>
-      <p v-else
-        >Visualization only represents logged data, not necessarily an entire 24
-        hour day</p
-      >
+      <div class="visLegend">
+        <div v-for="(title, n) in varValTitles" :key="title" class=" center">
+          <div
+            class="visLegendcircle"
+            :style="'background-color:' + patternColors[n]"
+          ></div>
+          {{ title }}
+        </div>
+      </div>
+      <div>
+        <p v-if="isDonutEntireDay">Each circle represents a 24 hour day</p>
+        <p v-else
+          >Each circle represents only logged data (not necessarily full 24 hour
+          days)</p
+        >
+      </div>
     </div>
 
     <div class="portraitVisCon" v-if="displaySelectedVis[2]">
@@ -460,14 +474,6 @@ export default {
               )
               .then(function(response) {
                 self.logs = response.data
-
-                console.log(
-                  `http://localhost:3000/day/start/${new Date(
-                    self.$refs.startDate.value
-                  ).toISOString()}/end/${new Date(
-                    self.$refs.endDate.value
-                  ).toISOString()}/variable/${self.currItemId}`
-                )
               })
 
             break
