@@ -79,12 +79,15 @@
         >generate</button
       >
     </div>
+
     <!-- debug check data -->
     <!-- <div>
       <p v-for="l in logs" :key="l">{{ l._id }}</p>
     </div> -->
+
     <div v-if="displaySelectedVis[0]">
       <p class="center">Days at a glance</p>
+      <visLegend :varValTitles="varValTitles" :colors="patternColors" />
       <div class="timelineCon" v-for="log in logs" :key="log">
         <Timeline :logs="log" />
       </div>
@@ -100,25 +103,13 @@
       :key="donutRerender"
     >
       <p>Where does the day go?</p>
+      <visLegend :varValTitles="varValTitles" :colors="patternColors" />
       <Donut />
       <div v-if="renderDonutChart">
         <Donut :visColors="patternColors" :logs="overviewData" />
       </div>
     </div>
     <div class="center donutDetails" v-if="displaySelectedVis[1]">
-      <div class="visLegend">
-        <div
-          v-for="(title, n) in sortSet(varValTitles)"
-          :key="title"
-          class=" center"
-        >
-          <div
-            class="visLegendcircle"
-            :style="'background-color:' + patternColors[n]"
-          ></div>
-          {{ title }}
-        </div>
-      </div>
       <div>
         <p v-if="isDonutEntireDay">Each circle represents a 24 hour day</p>
         <p v-else
@@ -132,24 +123,12 @@
       <p
         >What are the trend patterns? When is something most likely to occur?</p
       >
+      <visLegend :varValTitles="varValTitles" :colors="patternColors" />
       <RadarChart
         :data="patternData"
         :visColors="patternColors"
         v-if="renderRadarChart"
       />
-      <div class="visLegend">
-        <div
-          v-for="(title, n) in sortSet(varValTitles)"
-          :key="title"
-          class=" center"
-        >
-          <div
-            class="visLegendcircle"
-            :style="'background-color:' + patternColors[n]"
-          ></div>
-          {{ title }}
-        </div>
-      </div>
     </div>
 
     <div class="portraitVisCon" v-if="displaySelectedVis[3]">
@@ -166,9 +145,17 @@ import RadarChart from './vis/RadarChart.vue'
 import Sankey from './vis/Sankey.vue'
 import PageHeading from './components/PageHeading.vue'
 import Donut from './vis/Donut.vue'
+import VisLegend from './components/VisLegend.vue'
 
 export default {
-  components: { Timeline, RadarChart, Sankey, Donut, pageHeading: PageHeading },
+  components: {
+    Timeline,
+    RadarChart,
+    Sankey,
+    Donut,
+    pageHeading: PageHeading,
+    visLegend: VisLegend
+  },
   name: 'TimePortrait',
   data() {
     return {
@@ -485,6 +472,7 @@ export default {
               )
               .then(function(response) {
                 self.logs = response.data
+                self.getVarValData(self.logs, new Set())
               })
 
             break
