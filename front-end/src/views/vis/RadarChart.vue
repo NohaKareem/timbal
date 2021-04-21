@@ -446,10 +446,6 @@ export default {
 <style lang="scss">
 @import '@/styles/globalStyles.scss';
 
-.y.axis line {
-  stroke: rgba(255, 255, 255, 0) !important;
-}
-
 .axis path,
 .axis line {
   fill: none;

@@ -108,15 +108,16 @@ export default {
           .axisTop(x)
           // .orient("top")
           .ticks(ticks)
-          .tickSize(-height, 0) // ~reduce vertical tick size
+          .tickSize(-height / 2, 0) // ~reduce vertical tick size
           .tickFormat(d3.timeFormat(xFormat)) // 10:00 instead of 10 AM
+          .tickPadding(5)
 
         var yAxis = d3
           .axisLeft(y)
           .ticks(1)
           .tickSize(-width + margin.right, margin.left)
           .tickFormat(d3.timeFormat(yFormat))
-
+          .tickPadding(20)
         //// remove pre-existing svg, if any (commented for multiple timelines)
         // d3.select(`.${classd} svg`).remove()
 
@@ -126,6 +127,7 @@ export default {
           .attr('width', width + margin.left + margin.right)
           .attr('height', height + margin.top + margin.bottom)
 
+        // overall vis
         var context = svg
           .append('g')
           .attr('class', 'context')
@@ -150,10 +152,11 @@ export default {
           .attr('class', 'y axis')
           .attr(
             'transform',
-            'translate(' + margin.left + ',' + margin.top * 3 + ')'
+            'translate(' + margin.left + ',' + margin.top * 3 + ')' //top* 3
           )
           .call(yAxis)
 
+        // timeline entries
         var circles = context
           .append('g')
           .attr(
@@ -256,10 +259,6 @@ export default {
 <style lang="scss">
 @import '@/styles/globalStyles.scss';
 
-.y.axis line {
-  stroke: rgba(255, 255, 255, 0) !important;
-}
-
 svg {
   margin-bottom: $baseMargin * 3 !important;
 }
@@ -267,23 +266,27 @@ svg {
 .axis path,
 .axis line {
   fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
+  stroke: $timbalBlack !important;
+  stroke-linecap: round;
+  // shape-rendering: crispEdges;
+}
+
+.axis.y line {
+  // stroke: rgba(255, 255, 255, 0) !important;
+  left: $baseMargin * 10;
 }
 
 .axis text {
   fill: $timbalBlack;
   font-family: 'Quattrocento Sans', sans-serif;
-  // font-size: 15px !important;
 }
 
 .axis.y text {
-  font-size: 16.5px !important;
-  // font-weight: bold;
+  font-size: 17px !important;
 }
 
 .axis.x {
-  font-size: 15px !important;
+  font-size: 16px !important;
 }
 
 .tick line {
