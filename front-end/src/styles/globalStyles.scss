@@ -670,8 +670,12 @@ a.imageLink:hover {
     @include softUiShadow();
 }
 
+.donutCon {
+    margin-top: $baseMargin * -5;
+}
+
 .donutDetails {
-    margin-top: -$baseMargin * 2;
+    margin-top: -$baseMargin * 9;
     display: flex;
     flex-direction: column;
 }

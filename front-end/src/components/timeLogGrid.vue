@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- ~todo feed with data -->
+    <!-- TODO feed with data -->
     <button class="dropDown">tasks ></button>
     <button class="circle">+</button>
     <div class="timeLogGrid">
@@ -20,105 +20,107 @@
       <div class="logEntry">4</div>
       <div class="logEntry">5</div>
 
-      <!-- ~TODO repeat for all non-filled cells, ~separate component -->
-      <input type="text" placeholder="_" class="logEntryInput">
+      <!-- TODO repeat for all non-filled cells, separate component -->
+      <input type="text" placeholder="_" class="logEntryInput" />
     </div>
   </div>
 </template>
 
 <script>
-  import axios from "axios";
-  
-  export default {
-    name: "Variables", 
-    data() {
-      return {
-        variables: []
-      }
-    },
-    created() {
-      var self = this;
+import axios from 'axios'
 
-      // get all variables
-      axios.get('http://localhost:3000/variables')
-        .then(function(response) {
-          // console.log(response)
-          self.variables = response.data;
-        })
-        .catch(function(error) {
-          console.error(error);
-        });
+export default {
+  name: 'Variables',
+  data() {
+    return {
+      variables: []
     }
+  },
+  created() {
+    var self = this
+
+    // get all variables
+    axios
+      .get('http://localhost:3000/variables')
+      .then(function(response) {
+        // console.log(response)
+        self.variables = response.data
+      })
+      .catch(function(error) {
+        console.error(error)
+      })
   }
+}
 </script>
 
 <style lang="scss">
-  @import '@/styles/globalStyles.scss';
-  .timeLogGrid {
-    display: flex;
-    flex-direction: row;
-  }
+@import '@/styles/globalStyles.scss';
+.timeLogGrid {
+  display: flex;
+  flex-direction: row;
+}
 
+.logTimelineHeading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: $logEntryWidth;
+  margin-right: $baseMargin;
+  margin-bottom: $baseMargin;
+}
+
+.logEntry,
+.logEntryInput {
+  border-radius: 50%;
+  margin-right: $baseMargin;
+
+  width: $logEntryWidth;
+  height: $logEntryWidth;
+
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  color: white;
+
+  @include softUiShadow();
+
+  background-color: $category_1;
+}
+
+.logEntry:hover {
+  @include softUiInsetShadow();
+}
+
+.logEntryInput {
+  background-color: $grayWhite;
+
+  color: $timbalBlack;
+  border: none;
+  padding: 0;
+  @include softUiInsetShadow();
+}
+
+button {
+  margin-top: $baseMargin * 2;
+  margin-bottom: $baseMargin * 3;
+}
+
+@media screen and (min-width: $desktopWidth) {
   .logTimelineHeading {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    width: $logEntryWidth;
-    margin-right: $baseMargin;
-    margin-bottom: $baseMargin;
+    width: 5vw;
   }
 
-  .logEntry, .logEntryInput {
+  .logEntry {
     border-radius: 50%;
-    margin-right: $baseMargin;
-
-    width: $logEntryWidth;
-    height: $logEntryWidth;
-
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    color: white;
-
-    @include softUiShadow();
-
-    background-color: $category_1; //~
-  }
-
-  .logEntry:hover {
-    @include softUiInsetShadow(); //~
+    width: $mobileLogEntryWidth;
+    height: $mobileLogEntryWidth;
   }
 
   .logEntryInput {
-    background-color: $grayWhite;
-
-    color: $timbalBlack;
-    border: none;
-    padding: 0;
-    @include softUiInsetShadow();
+    width: 5.5vw;
+    height: 5.5vw;
   }
-
-  button {
-    margin-top: $baseMargin * 2;
-    margin-bottom: $baseMargin * 3;
-  }
-
-  @media screen and (min-width: $desktopWidth) {
-    .logTimelineHeading {
-      width: 5vw;
-    }
-    
-    .logEntry {
-      border-radius: 50%;
-      width: $mobileLogEntryWidth;
-      height: $mobileLogEntryWidth;
-    }
-
-    .logEntryInput {
-        width: 5.5vw;
-        height: 5.5vw;
-    }
-  }
+}
 </style>

@@ -70,6 +70,7 @@ export default {
         let logEntries = response.data.variables[0].log_data
 
         logEntries.forEach((logEntry) => {
+          console.log(logEntry.full_category[0].description)
           // map time spent to each top-level category (at the top of the log hierarchy. hierarchy nesting is delimited by '.')
           // top level element is always the first element
           let systemTitle = null
@@ -91,7 +92,7 @@ export default {
           let categroyDescription = self.isSystem
             ? systemTitle
             : logEntry.full_category[0].description
-
+          console.log(categroyDescription, 'categroyDescription')
           // check if cateogry already exists
           let existingCategory = dataToDisplay.find((category) =>
             category.text.includes(categroyDescription)
@@ -111,6 +112,7 @@ export default {
 
           // reduce visual surface area
           let duration = mins / 3
+          console.log('mins', mins)
 
           // add new duration if category doesn't exist
           if (!existingCategory) {
@@ -121,12 +123,12 @@ export default {
                 ${categroyDescription}`, //${mins} mins
               color: categoryColor,
               // update text colors for higher contrast with light backgrounds
-              lightColor:
-                categoryColor === '5e8b9ee84b8d5674645b32be' ||
-                categoryColor === '5e8b9f134b8d5674645b32bf' ||
-                categoryColor === '5e8b9ead4b8d5674645b32ba'
-                  ? true
-                  : false,
+              lightColor: [
+                '5e8b9ee84b8d5674645b32be',
+                '5e8b9f134b8d5674645b32bf',
+                '5e8b9ead4b8d5674645b32ba',
+                '5e8b9f214b8d5674645b32c0'
+              ].includes(categoryColor),
               cx: Math.floor(Math.random() * 300 + 1),
               cy: Math.floor(Math.random() * 300 + 1),
               r: duration

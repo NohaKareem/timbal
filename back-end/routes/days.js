@@ -58,29 +58,11 @@ router.get('/start/:startdate/end/:enddate', (req, res, next) => {
       "date": {
       "$gte": req.params.startdate,
       "$lt": req.params.enddate
-      // "$lt": new Date(req.params.enddate) 
     }}, (err, days) => {
       handleErr(err);
       res.json(days);
     });
 });
-
-// /** GET all occurences of a ~toplevel category (~assuming var 0) */
-// router.get('/toplevel/:id', (req, res, next) => {
-//   Day.find(
-//   { variables: { variable: '5e3316d51c71657e18823382' } }
-//   , (err, days) => {
-//     // Day.find({'full_category':{"$elemMatch":{'_id': req.params.id}}}, (err, days) => {
-//     handleErr(err);
-//     res.json(days);
-//   }).sort({ date: 'desc' });
-// });
-
-/* Add time log */
-// router.post('/', function(req, res, next) {
-//     // return ;
-// });
-
 
 // helper method
 function handleErr(err) {

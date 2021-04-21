@@ -154,8 +154,8 @@
             for (i = 0; i < amount; i++) {
                 data.push({
                     'value': (randomDate(start, end)), 
-                    'duration': 60,//~
-                    'logCode': "e"//~
+                    'duration': 60,
+                    'logCode': "e"
                 })
             }
             console.log('data')
@@ -180,9 +180,8 @@
                 // parse date https://stackoverflow.com/a/53269761/1446598
                 let formattedDate =d3.time.format("%Y-%m-%dT%H:%M:%S").parse(logEntry.start_time);// logEntry.start_time.toTimeString();
                 logs.push({
-                    'value': new Date(logEntry.start_time).valueOf(), //~startTime
-                    // 'value': new Date(formattedDate).valueOf(), //~startTime
-                    'duration': durationInMinutes, //unix timestapm sconds
+                    'value': new Date(logEntry.start_time).valueOf(), 
+                    'duration': durationInMinutes, //unix timestapm seconds
                     'logCode': fullCategoryStr 
                 });
 
@@ -204,20 +203,15 @@
         }
 
         function randomDate(start, end) {
-            // console.log(new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())));//~
-            return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())).valueOf();//~original
+            return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())).valueOf();
             // return 158072030000;//1580408743520
-
         }
         var amount = 3;//100;
         if (window.innerWidth < 800)
           amount = 3;//10;//30
 
         /* Create timeseries */
-        // timeseries('timeseries one', getData(new Date(2012, 1, 1), new Date(2015, 1, 2), amount), true);
         timeseries('timeseries two', getData(new Date(2020, 1, 1), new Date(2020, 1, 2), amount), false);
-        // timeseries('timeseries two', getData(new Date(2015, 1, 1), new Date(2015, 1, 2), amount), false);
-        // timeseries('timeseries two', getSampleData(), false);
         getSampleData();
     }
     </script>
