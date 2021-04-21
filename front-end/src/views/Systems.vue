@@ -83,6 +83,7 @@ import NewSystemCategoryWindow from './components/NewSystemCategoryWindow.vue'
 import DeleteConfirmationWindow from './components/DeleteConfirmationWindow.vue'
 import ViewSystemCategoryWindow from './components/ViewSystemCategoryWindow.vue'
 import PageHeading from './components/PageHeading.vue'
+
 export default {
   name: 'Systems',
   components: {

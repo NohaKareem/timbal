@@ -58,11 +58,10 @@ export default {
     axios
       .get(`http://localhost:3000/systemCategories/${this.systemCategoryId}`)
       .then(function(response) {
-        console.log('got results')
-        console.log(response.data)
-        console.log(response.data.values)
         self.systemCategoryData = response.data
         self.varVals = response.data.values
+        console.log(self.varVals)
+        console.log(self.systemCategoryData)
       })
   },
   methods: {

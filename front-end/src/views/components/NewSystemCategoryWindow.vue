@@ -53,7 +53,6 @@
           <input type="text" name="system" :value="systemId" class="hidden" />
           <!-- <input type="text" name="values[]" :value="varVals" /> -->
           <div v-for="varVal in varVals" :key="varVal">
-            {{ varVal }}
             <input type="text" class="hidden" name="values" :value="varVal" />
           </div>
 
@@ -139,7 +138,6 @@ export default {
       .get('http://localhost:3000/colors')
       .then(function(response) {
         self.colors = response.data
-        // self.$store.commit('colors', response.data)
       })
       .catch(function(error) {
         console.error(error)
@@ -214,14 +212,24 @@ export default {
         })[0].color
     },
 
+    // check if category has curre{ntly selected variable
+    hasVariable() {
+      return this.categories.filter((cat) => {
+        return cat.variable == this.variable
+      })
+    },
+
+    // select a var val from list
     selectCategory(varCategoryIndex) {
       this.currCategories[varCategoryIndex] = !this.currCategories[
         varCategoryIndex
       ]
       this.varVals = []
+
+      // add chosen categories to currCategories, if category has current selected variable
       this.currCategories.forEach((category, i) => {
         if (category) {
-          this.varVals.push(this.categories[i]._id)
+          this.varVals.push(this.hasVariable()[i]._id)
         }
       })
     },
