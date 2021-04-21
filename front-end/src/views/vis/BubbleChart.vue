@@ -74,6 +74,8 @@ export default {
           // top level element is always the first element
           let systemTitle = null
           let systemColor = null
+
+          // if system, set category for which curr. var val is included
           if (self.systemCategories) {
             let systemCat = self.systemCategories.filter((c) => {
               return c.values.includes(logEntry.full_category[0]._id)
@@ -91,9 +93,10 @@ export default {
             : logEntry.full_category[0].description
 
           // check if cateogry already exists
-          let existingCategory = dataToDisplay.find(
-            (category) => category.code === topLevelCategory
+          let existingCategory = dataToDisplay.find((category) =>
+            category.text.includes(categroyDescription)
           )
+
           let categoryColor = systemColor
             ? systemColor
             : logEntry.full_category[0].color
