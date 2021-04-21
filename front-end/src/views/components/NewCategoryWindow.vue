@@ -87,10 +87,7 @@
             >don't forget to fill all form fields!</p
           >
           <div class="addCategoryButton">
-            <!-- <input type="submit" value="add category" v-if="formIncomplete" disabled @click="showFormCompletionNote()"> -->
-            <!-- <input type="submit" value="add category" v-else> -->
             <input type="submit" value="add category" />
-            <!-- <button type="button" @click="uploadColor()">add category</button> -->
           </div>
         </div>
       </form>
@@ -108,7 +105,7 @@ export default {
       selectedColor: '',
       usedColors: [],
       formIncomplete: true,
-      is_top_level: true 
+      is_top_level: true
     }
   },
   computed: {

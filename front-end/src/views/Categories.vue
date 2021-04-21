@@ -47,8 +47,10 @@
         <deleteConfirmationWindow />
       </div>
     </transition>
-    <transition name="appearTransition">
-      <newCategoryWindow v-if="showNewCategoryWindow" />
+    <transition name="appearTransition" class="launchedWindowCon">
+      <div class="launchedWindowCon" v-if="showNewCategoryWindow">
+        <newCategoryWindow />
+      </div>
     </transition>
     <br />
     <div class="addVar">

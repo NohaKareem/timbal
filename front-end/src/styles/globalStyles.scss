@@ -446,6 +446,7 @@ input[type=text], input[type=password], input[type=email] {
     text-align: center;
     align-items: center;
     align-content: center;
+    margin-top: $baseMargin * 25;
     label {
         margin-bottom: $baseMargin * 4;
         margin-right: $baseMargin * 4;
@@ -542,10 +543,20 @@ input[type=submit], input[type=button] {
     }
 }
 
+.addCategoryButton input {
+    height: 9vw;
+    width: 15vw !important;
+}
+
 .cancelButton {
     margin-left: 95%;
     margin-top: 1%;
     cursor: pointer;
+}
+
+.tutorialButton {
+    font-size: 0.25vw;
+    margin-bottom: 0;
 }
 
 .smallInfoButton {

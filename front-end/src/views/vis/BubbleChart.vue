@@ -92,7 +92,7 @@ export default {
           let categroyDescription = self.isSystem
             ? systemTitle
             : logEntry.full_category[0].description
-          console.log(categroyDescription, 'categroyDescription')
+
           // check if cateogry already exists
           let existingCategory = dataToDisplay.find((category) =>
             category.text.includes(categroyDescription)
