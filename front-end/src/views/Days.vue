@@ -56,15 +56,13 @@
               :isSystem="isSystem"
             />
           </div>
-
-          <button
-            class="circle addButton"
-            ref="addLogButton"
-            @click="startLogInput()"
-            >+</button
-          >
         </div>
-
+        <button
+          class="circle addButton"
+          ref="addLogButton"
+          @click="startLogInput()"
+          >+</button
+        >
         <dayInputForm v-if="displayForm" />
 
         <div class="hidden tutorial" ref="tutorial2">
@@ -75,7 +73,7 @@
           >
         </div>
         <bubbleChart
-          :key="bubbleRenderUpdate"
+          :key="renderUpdate"
           :systemCategories="isSystem ? systemLogs : null"
         />
       </div>
@@ -114,7 +112,6 @@ export default {
       systems: [],
       displayForm: false,
       renderUpdate: 0,
-      bubbleRenderUpdate: 0,
       unselected: true,
       tour: {},
       logs: [],
@@ -146,8 +143,6 @@ export default {
     },
     updateVariable() {
       this.unselected = false
-      // this.$forceUpdate()
-      // this.renderUpdate++ // force update render
       if (this.portraitType === 'variable') {
         this.$store.commit('variable', this.currentVariable)
       }
@@ -194,8 +189,7 @@ export default {
 
           // force update render
           self.$forceUpdate()
-          // self.renderUpdate++
-          self.renderUpdate = self.renderUpdate == 1 ? 0 : 1 //++
+          self.renderUpdate++
         })
 
       axios
@@ -229,16 +223,12 @@ export default {
             })
             self.parseSystemTimeline(self)
             // force update render
-            self.renderUpdate = self.renderUpdate == 1 ? 0 : 1 //++
-            // self.renderUpdate++
+            self.renderUpdate++
             self.$forceUpdate()
-            // self.bubbleRenderUpdate++
           })
 
         // force update render
-        self.renderUpdate = self.renderUpdate == 1 ? 0 : 1 //++
-        // self.renderUpdate++
-        self.bubbleRenderUpdate++
+        self.renderUpdate++
         self.$forceUpdate()
       }
     },

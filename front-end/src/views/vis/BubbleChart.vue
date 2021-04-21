@@ -137,6 +137,9 @@ export default {
         })
 
         // bubble chart
+        // remove pre-existing svg, if any
+        d3.select('.bubbleChart svg').remove()
+
         //create the SVG container
         var svg = d3
           .select('.bubbleChart')

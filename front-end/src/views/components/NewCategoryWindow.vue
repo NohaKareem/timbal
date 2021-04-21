@@ -60,7 +60,7 @@
               class="hidden"
             />
           </div>
-          <p class="codeInfo hidden" ref="codeInfo"
+          <p class="hidden codeInfo" ref="codeInfo"
             >initial(s) to represent the category</p
           >
 
@@ -80,10 +80,10 @@
               </div>
             </div>
           </div>
-          <p class="codeInfo hidden" ref="colorNote"
+          <p class="hidden codeInfo" ref="colorNote"
             >this color's already taken! try another one</p
           >
-          <p class="codeInfo hidden" ref="formNote"
+          <p class="hidden codeInfo" ref="formNote"
             >don't forget to fill all form fields!</p
           >
           <div class="addCategoryButton">
@@ -108,7 +108,7 @@ export default {
       selectedColor: '',
       usedColors: [],
       formIncomplete: true,
-      is_top_level: true //~
+      is_top_level: true 
     }
   },
   computed: {

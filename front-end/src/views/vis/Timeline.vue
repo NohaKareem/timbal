@@ -116,6 +116,9 @@ export default {
           .tickSize(-width + margin.right, margin.left)
           .tickFormat(d3.timeFormat(yFormat))
 
+        // remove pre-existing svg, if any
+        d3.select(`.${classd} svg`).remove()
+
         var svg = d3
           .select('.' + classd)
           .append('svg')
