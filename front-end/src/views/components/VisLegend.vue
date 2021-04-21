@@ -1,10 +1,6 @@
 <template>
   <div class="visLegend center">
-    <div
-      v-for="(title, n) in sortSet(varValTitles)"
-      :key="title"
-      class=" center"
-    >
+    <div v-for="(title, n) in varValTitles" :key="title" class=" center">
       <div
         class="visLegendcircle"
         :style="'background-color:' + colors[n]"

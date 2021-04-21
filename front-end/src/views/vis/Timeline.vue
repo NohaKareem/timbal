@@ -99,7 +99,8 @@ export default {
 
         var xFormat, yFormat
 
-        yFormat = '%m/%d/%y'
+        yFormat = "%d %b '%y"
+        // yFormat = '%m/%d/%y'
         xFormat = '%H:%M'
         y.domain(d3.extent([padding.minDate]))
 
@@ -112,12 +113,12 @@ export default {
 
         var yAxis = d3
           .axisLeft(y)
-          .ticks(5)
+          .ticks(1)
           .tickSize(-width + margin.right, margin.left)
           .tickFormat(d3.timeFormat(yFormat))
 
-        // remove pre-existing svg, if any
-        d3.select(`.${classd} svg`).remove()
+        //// remove pre-existing svg, if any (commented for multiple timelines)
+        // d3.select(`.${classd} svg`).remove()
 
         var svg = d3
           .select('.' + classd)
@@ -130,9 +131,10 @@ export default {
           .attr('class', 'context')
           .attr(
             'transform',
-            'translate(' + margin.left + ',' + margin.top + ')'
+            'translate(' + margin.left * 2 + ',' + margin.top + ')'
           )
 
+        // add time ticks
         context
           .append('g')
           .attr('class', 'x axis')
@@ -142,6 +144,7 @@ export default {
           )
           .call(xAxis)
 
+        // add date ticks
         context
           .append('g')
           .attr('class', 'y axis')
@@ -269,7 +272,17 @@ svg {
 }
 
 .axis text {
-  font-size: 12px;
+  fill: $timbalBlack;
+  font-family: 'Quattrocento Sans', sans-serif;
+  font-size: 15px !important;
+}
+
+.axis.y text {
+  font-size: 20px !important;
+}
+
+.axis.x {
+  font-size: 15px !important;
 }
 
 .tick line {

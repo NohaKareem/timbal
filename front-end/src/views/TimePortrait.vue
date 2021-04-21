@@ -80,7 +80,7 @@
       >
     </div>
 
-    <!-- debug check data -->
+    <!-- debug: check data -->
     <!-- <div>
       <p v-for="l in logs" :key="l">{{ l._id }}</p>
     </div> -->
@@ -97,11 +97,8 @@
         isDonutEntireDay ? 'Show logged data only' : 'Show full days'
       }}</button>
     </div> -->
-    <div
-      class="portraitVisCon"
-      v-if="displaySelectedVis[1]"
-      :key="donutRerender"
-    >
+    <div class="portraitVisCon" v-if="displaySelectedVis[1]">
+      <!-- :key="donutRerender" -->
       <p>Where does the day go?</p>
       <visLegend :varValTitles="varValTitles" :colors="patternColors" />
       <Donut />
@@ -167,6 +164,7 @@ export default {
       displayVis: false,
       visTypes: ['raw data', 'overview', 'patterns', 'relationships'],
       displaySelectedVis: [false, false, false, false],
+      visRenderUpdates: [0, 0, 0, 0],
       renderUpdate: 0,
       donutRerender: 0,
       currItemId: '',
@@ -187,9 +185,6 @@ export default {
   methods: {
     capitalize(str) {
       return str[0].toUpperCase() + str.slice(1)
-    },
-    sortSet(set) {
-      return Array.from(new Set(set)).sort()
     },
     updateRender(cntxt) {
       cntxt.renderUpdate++

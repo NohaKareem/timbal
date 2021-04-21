@@ -662,7 +662,7 @@ a.imageLink:hover {
 }
 
 .donutDetails {
-    margin-top: $baseMargin;
+    margin-top: -$baseMargin * 2;
     display: flex;
     flex-direction: column;
 }
