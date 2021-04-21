@@ -274,11 +274,12 @@ svg {
 .axis text {
   fill: $timbalBlack;
   font-family: 'Quattrocento Sans', sans-serif;
-  font-size: 15px !important;
+  // font-size: 15px !important;
 }
 
 .axis.y text {
-  font-size: 20px !important;
+  font-size: 16.5px !important;
+  // font-weight: bold;
 }
 
 .axis.x {

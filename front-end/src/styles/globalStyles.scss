@@ -403,6 +403,15 @@ input[type=text], input[type=password], input[type=email] {
     text-align: center;
 }
 
+.timeportraitTimeline {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    margin-right: 3%;
+}
+
 // timeline header
 .timelineHeaderCon {
     margin-top: $baseMargin * 3;

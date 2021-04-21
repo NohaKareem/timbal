@@ -85,7 +85,7 @@
       <p v-for="l in logs" :key="l">{{ l._id }}</p>
     </div> -->
 
-    <div v-if="displaySelectedVis[0]">
+    <div v-if="displaySelectedVis[0]" class="timeportraitTimeline">
       <p class="center">Days at a glance</p>
       <visLegend :varValTitles="varValTitles" :colors="patternColors" />
       <div class="timelineCon" v-for="log in logs" :key="log">
