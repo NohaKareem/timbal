@@ -236,11 +236,7 @@ export default {
 
     // init array with length, of currently selected cateogries, to false
     resetCurrCategories() {
-      this.currCategories = new Array(
-        this.categories.filter((cat) => {
-          return cat.variable == this.variable
-        }).length
-      ).fill(false)
+      this.currCategories = new Array(this.hasVariable().length).fill(false)
     }
   }
 }
