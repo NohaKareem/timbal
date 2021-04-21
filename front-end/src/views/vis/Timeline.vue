@@ -99,7 +99,6 @@ export default {
 
         var xFormat, yFormat
 
-        // date as y axis constantly ~todo
         yFormat = '%m/%d/%y'
         xFormat = '%H:%M'
         y.domain(d3.extent([padding.minDate]))
@@ -108,8 +107,8 @@ export default {
           .axisTop(x)
           // .orient("top")
           .ticks(ticks)
-          .tickSize(-height, 0)
-          .tickFormat(d3.timeFormat(xFormat))
+          .tickSize(-height, 0) // ~reduce vertical tick size
+          .tickFormat(d3.timeFormat(xFormat)) // 10:00 instead of 10 AM
 
         var yAxis = d3
           .axisLeft(y)

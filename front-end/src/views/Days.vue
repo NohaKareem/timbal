@@ -48,36 +48,37 @@
             </option>
           </select>
         </div>
+        <div>
+          <div class="timelineCon">
+            <timeline
+              :key="renderUpdate"
+              :logs="isSystem ? systemTimelineData : logs"
+              :isSystem="isSystem"
+            />
+          </div>
 
-        <div class="timelineCon">
-          <timeline
-            :key="renderUpdate"
-            :logs="isSystem ? systemTimelineData : logs"
-            :isSystem="isSystem"
-          />
+          <button
+            class="circle addButton"
+            ref="addLogButton"
+            @click="startLogInput()"
+            >+</button
+          >
         </div>
 
-        <button
-          class="circle addButton"
-          ref="addLogButton"
-          @click="startLogInput()"
-          >+</button
-        >
-      </div>
+        <dayInputForm v-if="displayForm" />
 
-      <dayInputForm v-if="displayForm" />
-
-      <div class="hidden tutorial" ref="tutorial2">
-        <div class="infoSign"><span class="italic">i</span></div>
-        <p
-          >Here's a bubble chart of a day, each circle represents the total
-          minutes for that (top-level) category</p
-        >
+        <div class="hidden tutorial" ref="tutorial2">
+          <div class="infoSign"><span class="italic">i</span></div>
+          <p
+            >Here's a bubble chart of a day, each circle represents the total
+            minutes for that (top-level) category</p
+          >
+        </div>
+        <bubbleChart
+          :key="bubbleRenderUpdate"
+          :systemCategories="isSystem ? systemLogs : null"
+        />
       </div>
-      <bubbleChart
-        :key="renderUpdate"
-        :systemCategories="isSystem ? systemLogs : null"
-      />
       <!-- <bubbleChart /> -->
     </div>
   </div>
@@ -113,6 +114,7 @@ export default {
       systems: [],
       displayForm: false,
       renderUpdate: 0,
+      bubbleRenderUpdate: 0,
       unselected: true,
       tour: {},
       logs: [],
@@ -192,7 +194,8 @@ export default {
 
           // force update render
           self.$forceUpdate()
-          self.renderUpdate++
+          // self.renderUpdate++
+          self.renderUpdate = self.renderUpdate == 1 ? 0 : 1 //++
         })
 
       axios
@@ -226,13 +229,17 @@ export default {
             })
             self.parseSystemTimeline(self)
             // force update render
+            self.renderUpdate = self.renderUpdate == 1 ? 0 : 1 //++
+            // self.renderUpdate++
             self.$forceUpdate()
-            self.renderUpdate++
+            // self.bubbleRenderUpdate++
           })
 
         // force update render
+        self.renderUpdate = self.renderUpdate == 1 ? 0 : 1 //++
+        // self.renderUpdate++
+        self.bubbleRenderUpdate++
         self.$forceUpdate()
-        self.renderUpdate++
       }
     },
     updateItem() {

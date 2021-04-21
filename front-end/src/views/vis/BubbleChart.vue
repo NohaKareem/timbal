@@ -113,10 +113,9 @@ export default {
           if (!existingCategory) {
             dataToDisplay.push({
               code: topLevelCategory,
-              text:
-                topLevelCategory +
-                (self.isSystem ? '' : ': ') +
-                categroyDescription,
+              text: `${topLevelCategory}
+                ${self.isSystem ? '' : ': '}
+                ${categroyDescription}`, //${mins} mins
               color: categoryColor,
               // update text colors for higher contrast with light backgrounds
               lightColor:
