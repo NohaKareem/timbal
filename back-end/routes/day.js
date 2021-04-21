@@ -263,7 +263,7 @@ router.post('/:id/variable/:varId', (req, res, next) => {
   // formatting time input
   let start_time = req.body.start_time;
   let end_time = req.body.end_time;
-  // ~date needs to be same date date as body date for time
+  // TODO add check for date, needs to be same date date as body date for time
   let temp_date = new Date(req.body.date);
   temp_date.setHours(start_time.split(':')[0], start_time.split(':')[1]);
   start_time = temp_date;
@@ -295,7 +295,6 @@ router.post('/:id/variable/:varId', (req, res, next) => {
 
 // delete a day document
 router.post('/day/:id/delete', (req, res, next) => {//~
-  console.log('in delete')
   var q = Day.findOneAndDelete({ _id: req.params.id });
   q.exec(function (err, mydata) {
     console.log('deleted day document');

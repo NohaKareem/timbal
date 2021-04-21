@@ -4,7 +4,6 @@ import VueRouter from "vue-router";
 import Days from "../views/Days.vue";
 import Categories from "../views/Categories.vue";
 import Systems from "../views/Systems.vue";
-import SystemCategory from "../views/components/NewSystemCategoryWindow.vue";
 import Variables from "../views/Variables.vue";
 import SignUp from "../views/SignUp.vue";
 import SignIn from "../views/SignIn.vue";
@@ -28,12 +27,6 @@ const routes = [
     path: "/systems",
     name: "Systems",
     component: Systems
-  },
-  {
-    //~
-    path: "/systemCategory",
-    name: "SystemCategory",
-    component: SystemCategory
   },
   {
     path: "/categories",

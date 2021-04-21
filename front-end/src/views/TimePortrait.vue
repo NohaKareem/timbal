@@ -22,7 +22,9 @@
         <p>Portrait type</p>
         <select name="vis_type" id="vis_type" v-model="vis_type">
           <option
-            v-for="currVisType in visTypes"
+            v-for="currVisType in isSystem
+              ? visTypes.slice(-1)
+              : visTypes.slice(0, 4)"
             :key="currVisType"
             :value="currVisType"
             >{{ capitalize(currVisType) }}</option
@@ -162,7 +164,13 @@ export default {
       items: [],
       vis_type: '',
       displayVis: false,
-      visTypes: ['raw data', 'overview', 'patterns', 'relationships'],
+      visTypes: [
+        'raw data',
+        'overview',
+        'patterns',
+        'relationships',
+        'coming soon!'
+      ],
       displaySelectedVis: [false, false, false, false],
       visRenderUpdates: [0, 0, 0, 0],
       renderUpdate: 0,
@@ -180,6 +188,11 @@ export default {
       // varValSet: {},
       varValTitles: new Set(),
       itemName: ''
+    }
+  },
+  computed: {
+    isSystem() {
+      return this.portraitType === 'system'
     }
   },
   methods: {
@@ -394,7 +407,7 @@ export default {
 
       // get colors + data
       this.getVarValData(logs, varValSet)
-      this.temp = logs //~
+      this.temp = logs
       // compute time
       varValSet.forEach((val) => {
         logs.forEach((d) => {
@@ -561,7 +574,7 @@ export default {
       .catch(function(error) {
         console.error(error)
       })
-    axios //~
+    axios
       .get('http://localhost:3000/colors')
       .then(function(response) {
         self.$store.commit('colors', response.data)

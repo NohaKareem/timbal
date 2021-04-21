@@ -108,7 +108,7 @@ export default {
           .axisTop(x)
           // .orient("top")
           .ticks(ticks)
-          .tickSize(-height / 2, 0) // ~reduce vertical tick size
+          .tickSize(-height / 2, 0) // vertical tick size
           .tickFormat(d3.timeFormat(xFormat)) // 10:00 instead of 10 AM
           .tickPadding(5)
 
@@ -175,7 +175,6 @@ export default {
           })
           .attr('y', function(d) {
             return y(getDate(d.value))
-            // return (this.lessThanDay(padding.pad)) ? y(this.getDate(d.value)) : y(getTime(d.value)); //~~ replace .value with date from start time
           })
           .attr('width', function(d) {
             return d.duration

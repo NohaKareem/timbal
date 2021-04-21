@@ -53,7 +53,6 @@ export default {
             .innerRadius(startRadius - (n + 1) * donutWid)
             .outerRadius(startRadius - n * donutWid)
         )
-        // startRadius = startRadius - n * donutWid//~
       })
 
       arcs.forEach((arc, n) => {
