@@ -2,7 +2,6 @@
   <div class="addSystemCategoryCon">
     <div class="addSystemCategory" ref="addSystemCategoryWindow">
       <p class="cancelButton" @click="toggleAddCategoryWindow()">X</p>
-      <!-- <form> -->
       <form action="http://localhost:3000/systemCategory" method="POST">
         <h2>Add new system category</h2>
         <hr class="categoryHr" />
@@ -51,19 +50,17 @@
             class="hidden"
           />
           <input type="text" name="system" :value="systemId" class="hidden" />
-          <!-- <input type="text" name="values[]" :value="varVals" /> -->
           <div v-for="varVal in varVals" :key="varVal">
             <input type="text" class="hidden" name="values" :value="varVal" />
           </div>
-
           <!-- display var values for selected variable -->
           <div v-if="variable" class="categoryListItemEditable">
             <div
               v-for="(varCategory, n) in categories.filter((cat) => {
                 return cat.variable == variable
               })"
-              class="categoryListItem"
-              :class="currCategories[n] ? softUiInsetShadow : ''"
+              class="newSystemCategoryItem"
+              :class="{ clicked: currCategories[n] }"
               :style="'background-color:' + getColor(varCategory.color)"
               :key="varCategory._id"
               @click="selectCategory(n)"
@@ -97,7 +94,6 @@
           >
           <div class="addCategoryButton">
             <input type="submit" value="add category" />
-            <!-- @click="postSystemCategory()" -->
           </div>
         </div>
       </form>

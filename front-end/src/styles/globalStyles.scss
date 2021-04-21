@@ -275,6 +275,14 @@ button.dropDown, input[type=submit], input[type=button], .categoryListItem  {
     margin-right: $baseMargin;
 }
 
+.newSystemCategoryItem {
+    @extend .categoryListItem;
+}
+
+.newSystemCategoryItem.clicked {
+    @include softUiInsetShadow();
+}
+
 button.circle {
     border-radius: 50%;
     margin-left: $baseMargin * 2;
