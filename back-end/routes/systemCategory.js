@@ -37,7 +37,7 @@ router.post('/', (req, res, next) => {
 
 // delete a system category document
 router.post('/:id/delete', (req, res, next) => {
-    var q = System.findOneAndDelete({ _id: req.params.id });
+    var q = SystemCategory.findOneAndDelete({ _id: req.params.id });
     q.exec(function (err, mydata) {
         res.json(true)
         console.log('deleted system category document');
@@ -45,7 +45,6 @@ router.post('/:id/delete', (req, res, next) => {
     // res.json(false)
     // res.redirect('/');
 });
-
 
 // helper method
 function handleErr(err) {
