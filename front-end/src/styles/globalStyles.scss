@@ -111,6 +111,7 @@ select:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
 }
 
 .bold {
@@ -143,11 +144,12 @@ hr.short {
 }
 
 h2 {
-    font-size: 2.1vw;
+    font-size: calc(clamp(1em, 1em + 1vw, 1.7em)); 
     margin-top: $baseMargin * 3.5;
 }
 
 h1 {
+    font-size: calc(clamp(1em, 1em + 2vw, 2em)); 
     font-weight: normal;
 }
 

@@ -37,3 +37,4 @@ A time logging platform to facilitate personal research, to help cultivate effic
 - [d3 formatting](https://observablehq.com/@d3/d3-format)
 - [using push](using push https://stackoverflow.com/a/23577266/1446598) [in mongo](https://stackoverflow.com/a/33049923/1446598)
 - [vue-google-chart](https://www.npmjs.com/package/vue-google-charts)
+- [one-line responsive font-sizes](https://twitter.com/stefanjudis/status/1252140444231712769)

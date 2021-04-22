@@ -404,6 +404,7 @@ export default {
     },
     parseRelData(logs) {
       this.patternColors = []
+      this.sankeyVals = [['Category', 'included variable value', 'Hours']]
       let varValSet = new Set()
 
       // get colors + data
