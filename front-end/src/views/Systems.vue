@@ -16,7 +16,18 @@
         >
           <div
             class="categoryListItem"
-            :style="'background-color:' + getColor(category.color)"
+            :style="
+              'background-color:' +
+                getColor(category.color) +
+                ([
+                  '5e8b9ee84b8d5674645b32be',
+                  '5e8b9f134b8d5674645b32bf',
+                  '5e8b9ead4b8d5674645b32ba',
+                  '5e8b9f214b8d5674645b32c0'
+                ].includes(category.color)
+                  ? ';color:#707070'
+                  : '')
+            "
             @click="launchViewCategoryWindow(category._id)"
           >
             {{ category.name }}
