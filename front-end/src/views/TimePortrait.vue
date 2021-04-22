@@ -229,7 +229,6 @@ export default {
         d.variables.forEach((v) => {
           // if selected var, iterate through all vals to add to chart
           if (v.variable == this.currItemId) {
-            //~~~~~
             v.log_data.forEach((l) => {
               let currVal = l.full_category[0]
               this.varValTitles.add(`${currVal.code}: ${currVal.description}`)
