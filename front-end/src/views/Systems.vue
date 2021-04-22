@@ -54,7 +54,10 @@
     </transition>
     <transition name="appearTransition">
       <div class="launchedWindowCon" v-if="showNewCategoryWindow">
-        <newSystemCategoryWindow :systemId="chosenSystem" />
+        <newSystemCategoryWindow
+          :systemId="chosenSystem"
+          @close-newsystem-win="showNewCategoryWindow = false"
+        />
       </div>
     </transition>
     <br />
