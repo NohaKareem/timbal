@@ -88,21 +88,21 @@
     </div> -->
 
     <div v-if="displaySelectedVis[0]" class="timeportraitTimeline">
-      <p class="center">Days at a glance</p>
+      <h2 class="center">Days at a glance</h2>
       <visLegend :varValTitles="varValTitles" :colors="patternColors" />
       <div class="timelineCon" v-for="log in logs" :key="log">
         <Timeline :logs="log" />
       </div>
     </div>
-    <!-- <div class="center" v-if="displaySelectedVis[1]">
-      <button @click="updateDonutDisplay()">{{
-        isDonutEntireDay ? 'Show logged data only' : 'Show full days'
-      }}</button>
-    </div> -->
     <div class="portraitVisCon" v-if="displaySelectedVis[1]">
-      <!-- :key="donutRerender" -->
-      <p>Where does the day go?</p>
+      <h2>Where does the day go?</h2>
       <visLegend :varValTitles="varValTitles" :colors="patternColors" />
+      <!-- toggle view -->
+      <div class="center" v-if="displaySelectedVis[1]">
+        <button @click="updateDonutDisplay()">{{
+          isDonutEntireDay ? 'Show logged data only' : 'Show full days'
+        }}</button>
+      </div>
       <Donut :key="renderUpdate" />
       <div v-if="renderDonutChart" :key="renderUpdate">
         <Donut :visColors="patternColors" :logs="overviewData" />
@@ -119,8 +119,9 @@
     </div>
 
     <div class="portraitVisCon" v-if="displaySelectedVis[2]">
-      <p
-        >What are the trend patterns? When is something most likely to occur?</p
+      <h2
+        >What are the trend patterns? When is something most likely to
+        occur?</h2
       >
       <visLegend :varValTitles="varValTitles" :colors="patternColors" />
       <RadarChart
@@ -131,7 +132,7 @@
     </div>
 
     <div class="portraitVisCon" v-if="displaySelectedVis[3]">
-      <p>How is my time actually broken down?</p>
+      <h2>How is my time actually broken down?</h2>
       <Sankey :logs="sankeyVals" :sankeyColors="sankeyColors" />
     </div>
   </div>
