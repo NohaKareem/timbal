@@ -45,12 +45,15 @@
         <deleteConfirmationWindow
           itemType="categories/category"
           :itemId="deleteItemId"
+          @close-delete-win="showDeleteConfirmation = false"
         />
       </div>
     </transition>
     <transition name="appearTransition" class="launchedWindowCon">
       <div class="launchedWindowCon" v-if="showNewCategoryWindow">
-        <newCategoryWindow />
+        <newCategoryWindow
+          @close-new-category-win="showNewCategoryWindow = false"
+        />
       </div>
     </transition>
     <br />

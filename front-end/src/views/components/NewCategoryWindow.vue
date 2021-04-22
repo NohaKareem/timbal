@@ -1,7 +1,8 @@
 <template>
   <div class="addCategoryCon">
     <div class="addCategory" ref="addCategoryWindow">
-      <p class="cancelButton" @click="toggleAddCategoryWindow()">X</p>
+      <!-- <p class="cancelButton" @click="toggleAddCategoryWindow()">X</p> -->
+      <p class="cancelButton" @click="$emit('close-new-category-win')">X</p>
       <form action="http://localhost:3000/category" method="POST">
         <h2>Add new category</h2>
         <hr class="categoryHr" />
