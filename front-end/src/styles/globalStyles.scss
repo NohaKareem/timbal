@@ -231,6 +231,17 @@ button, input[type=submit], input[type=button], .categoryListItem,
     justify-content: center;
 }
 
+// add new var/system
+.addVar {
+    input {
+        height: 50px !important;
+        margin-right: $baseMargin * 1.25;
+    }
+    input[type=submit]{
+        width: 200px;
+    }
+}
+
 // category input list
 .formatDataDisplayCon {
     // horizontal scroll https://stackoverflow.com/a/258393 
