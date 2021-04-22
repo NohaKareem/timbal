@@ -63,7 +63,9 @@
           @click="startLogInput()"
           >+</button
         >
-        <dayInputForm v-if="displayForm" />
+        <div class="dayInputFromCon">
+          <dayInputForm v-if="displayForm" />
+        </div>
 
         <div class="hidden tutorial" ref="tutorial2">
           <div class="infoSign"><span class="italic">i</span></div>
