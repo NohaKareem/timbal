@@ -1,7 +1,7 @@
 <template>
   <div class="addSystemCategoryCon">
     <div class="addSystemCategory" ref="addSystemCategoryWindow">
-      <p class="cancelButton" @click="$emit('close-newsystem-win')">X</p>
+      <p class="cancelButton" @click="$emit('close-new-system-win')">X</p>
       <!-- <p class="cancelButton" @click="toggleAddCategoryWindow()">X</p> -->
       <form action="http://localhost:3000/systemCategory" method="POST">
         <h2>Add new system category</h2>

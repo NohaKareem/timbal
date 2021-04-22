@@ -1,7 +1,8 @@
 <template>
   <div class="addSystemCategoryCon" ref="viewSystemCategoryWindow">
     <div class="deleteWindow">
-      <p class="cancelButton" @click="toggleViewCategoryWindow()">X</p>
+      <!-- <p class="cancelButton" @click="toggleViewCategoryWindow()">X</p> -->
+      <p class="cancelButton" @click="$emit('close-view-system-win')">X</p>
       <h3>Category: {{ systemCategoryData.name }}</h3>
       <p>{{ systemCategoryData.description }}</p>
       <div class="categoryListItemEditable" v-if="varVals">

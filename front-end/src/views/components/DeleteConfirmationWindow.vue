@@ -1,7 +1,8 @@
 <template>
   <div class="deleteConfirmationCon">
     <div class="deleteWindow" ref="confirmationWindow">
-      <p class="cancelButton" @click="toggleConfirmationWindow()">X</p>
+      <!-- <p class="cancelButton" @click="toggleConfirmationWindow()">X</p> -->
+      <p class="cancelButton" @click="$emit('close-delete-win')">X</p>
       Sure you want to delete this category? This can't be undone.
       <div class="confirmationOptions">
         <button type="button" @click="confirmDeletion()">Yes</button>

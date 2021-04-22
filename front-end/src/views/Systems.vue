@@ -44,19 +44,23 @@
         <deleteConfirmationWindow
           itemType="systemCategory"
           :itemId="deleteItemId"
+          @close-delete-win="showDeleteConfirmation = false"
         />
       </div>
     </transition>
     <transition name="appearTransition">
       <div class="launchedWindowCon" v-if="showViewCategoryWindow">
-        <viewSystemCategoryWindow :systemCategoryId="showItemId" />
+        <viewSystemCategoryWindow
+          :systemCategoryId="showItemId"
+          @close-view-system-win="showViewCategoryWindow = false"
+        />
       </div>
     </transition>
     <transition name="appearTransition">
       <div class="launchedWindowCon" v-if="showNewCategoryWindow">
         <newSystemCategoryWindow
           :systemId="chosenSystem"
-          @close-newsystem-win="showNewCategoryWindow = false"
+          @close-new-system-win="showNewCategoryWindow = false"
         />
       </div>
     </transition>
