@@ -11,6 +11,7 @@
             ><i class="fa fa-trash" aria-hidden="true"></i
           ></button> -->
       </h2>
+      <p class="center">{{ system.description }}</p>
       <div class="categoryListItemEditable">
         <div
           v-for="category in systemCategories.filter((cat) => {

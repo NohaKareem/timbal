@@ -91,7 +91,6 @@ export default {
           let categroyDescription = self.isSystem
             ? systemTitle
             : logEntry.full_category[0].description
-          console.log('_____________', categroyDescription)
 
           // check if cateogry already exists
           let existingCategory = dataToDisplay.find((category) =>
@@ -112,7 +111,6 @@ export default {
 
           // reduce visual surface area
           let duration = mins / 3
-          console.log('mins', mins)
 
           // add new duration if category doesn't exist
           if (!existingCategory) {
@@ -134,12 +132,6 @@ export default {
               r: duration
             })
           } else {
-            console.log(
-              'incrementing!',
-              dataToDisplay.find((category) =>
-                category.text.includes(categroyDescription)
-              ).text
-            )
             // increment duration
             dataToDisplay.find((category) =>
               category.text.includes(categroyDescription)
