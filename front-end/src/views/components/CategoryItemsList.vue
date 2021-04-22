@@ -58,18 +58,14 @@ export default {
       return this.$store.state.logStr
     },
     currForegroundColor() {
-      // console.log('coleur est ', color)
-      // return ((color != undefined && color === '#96F5F3') || this.currColor === '#96F5F3') ? '#707070' : '#F0F0F0';
-      return this.currColor === '#96F5F3' ? '#707070' : '#F0F0F0'
+      return ['#96F5F3', '#C5F566', '#FFD500', '#99F596'].includes(
+        this.currColor
+      )
+        ? '#707070'
+        : '#F0F0F0'
     }
   },
   methods: {
-    // currForegroundColor(color) {
-    //   console.log('coleur est ', color)
-    //   // return ((color != undefined && color === '#96F5F3') || this.currColor === '#96F5F3') ? '#707070' : '#F0F0F0';
-    //   this.foregroundColor = (this.currColor === '#96F5F3') ? '#707070' : '#F0F0F0';
-    // },
-    // currForegroundColor(category.color.color)
     launchNewCategoryWindow() {
       this.showNewCategoryWindow = true
       console.log('launch new window')

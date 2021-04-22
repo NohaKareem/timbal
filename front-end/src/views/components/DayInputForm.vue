@@ -136,13 +136,6 @@ export default {
           if (!response.data) {
             console.log('does not exist')
             self.dayDocExists = false
-            // axios.post('http://localhost:3000/day', dayDocument) // testing update
-            //       .then(function(response) {
-            //         console.log('started day document', response.data);
-
-            //         // udpate day id in vuex
-            //         self.$store.commit('day', response.data._id);
-            //       }).catch(function(error) { console.error(error); });
           } else {
             // update day id in vuex
             self.dayDocExists = true
