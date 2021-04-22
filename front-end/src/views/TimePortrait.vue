@@ -128,6 +128,7 @@
         :data="patternData"
         :visColors="patternColors"
         v-if="renderRadarChart"
+        :key="renderUpdate"
       />
     </div>
 
