@@ -4,6 +4,8 @@
 
     <div v-for="variable in variables" :key="variable._id">
       <h2>{{ variable.name }} Categories</h2>
+      <p class="center">{{ variable.description }}</p>
+
       <!-- {{categories.filter(cat => {return cat.variable == variable._id })[0]}} -->
       <div class="categoryListItemEditable">
         <div
