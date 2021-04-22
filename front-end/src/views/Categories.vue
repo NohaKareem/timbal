@@ -18,10 +18,9 @@
           >
             {{ category.code }}: {{ category.description }}
           </div>
-          <!-- <button class="smallInfoButton deleteButton" @click="deleteItem(category._id)"><i class="fa fa-trash" aria-hidden="true"></i></button> -->
           <button
             class="smallInfoButton deleteButton"
-            @click="launchDeleteConfirmation()"
+            @click="launchDeleteConfirmation(category._id)"
             ><i class="fa fa-trash" aria-hidden="true"></i
           ></button>
         </div>
@@ -39,12 +38,12 @@
       >
       <hr />
     </div>
-    <!-- <transition name="appearTransition">
-      <deleteConfirmationWindow v-if="showDeleteConfirmation" />
-    </transition> -->
     <transition name="appearTransition">
       <div class="launchedWindowCon" v-if="showDeleteConfirmation">
-        <deleteConfirmationWindow />
+        <deleteConfirmationWindow
+          itemType="categories/category"
+          :itemId="deleteItemId"
+        />
       </div>
     </transition>
     <transition name="appearTransition" class="launchedWindowCon">
@@ -90,24 +89,16 @@ export default {
       categories: [],
       variables: [],
       showNewCategoryWindow: false,
-      showDeleteConfirmation: false
+      showDeleteConfirmation: false,
+      deleteitemId: ''
     }
   },
   methods: {
-    deleteItem(itemId) {
-      axios
-        .post(`http://localhost:3000/categories/category/${itemId}/delete`)
-        .then(function(response) {
-          console.log('deleted', response.data)
-        })
-        .catch(function(error) {
-          console.error(error)
-        })
-    },
     launchNewCategoryWindow() {
       this.showNewCategoryWindow = true
     },
-    launchDeleteConfirmation() {
+    launchDeleteConfirmation(itemId) {
+      this.deleteItemId = itemId
       this.showDeleteConfirmation = true
     },
     getColor(categoryColorId) {
