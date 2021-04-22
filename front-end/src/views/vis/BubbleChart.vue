@@ -70,7 +70,6 @@ export default {
         let logEntries = response.data.variables[0].log_data
 
         logEntries.forEach((logEntry) => {
-          console.log(logEntry.full_category[0].description)
           // map time spent to each top-level category (at the top of the log hierarchy. hierarchy nesting is delimited by '.')
           // top level element is always the first element
           let systemTitle = null
@@ -92,6 +91,7 @@ export default {
           let categroyDescription = self.isSystem
             ? systemTitle
             : logEntry.full_category[0].description
+          console.log('_____________', categroyDescription)
 
           // check if cateogry already exists
           let existingCategory = dataToDisplay.find((category) =>
@@ -134,9 +134,15 @@ export default {
               r: duration
             })
           } else {
+            console.log(
+              'incrementing!',
+              dataToDisplay.find((category) =>
+                category.text.includes(categroyDescription)
+              ).text
+            )
             // increment duration
-            dataToDisplay.find(
-              (category) => category.code === topLevelCategory
+            dataToDisplay.find((category) =>
+              category.text.includes(categroyDescription)
             ).r += duration
           }
         })
