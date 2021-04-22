@@ -103,8 +103,8 @@
       <!-- :key="donutRerender" -->
       <p>Where does the day go?</p>
       <visLegend :varValTitles="varValTitles" :colors="patternColors" />
-      <Donut />
-      <div v-if="renderDonutChart">
+      <Donut :key="renderUpdate" />
+      <div v-if="renderDonutChart" :key="renderUpdate">
         <Donut :visColors="patternColors" :logs="overviewData" />
       </div>
     </div>
@@ -245,6 +245,7 @@ export default {
     parseOverviewData(logs) {
       this.patternColors = []
       let patternVarVals = []
+      this.overviewData = []
       let varValSet = new Set()
 
       // get colors + data

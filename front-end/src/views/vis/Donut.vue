@@ -24,6 +24,9 @@ export default {
         })
         .sort(null)
 
+      // remove pre-existing svg, if any
+      d3.select('.donut svg').remove()
+
       var svg = d3
         .select('#donut')
         .append('svg')
