@@ -46,7 +46,10 @@
               {{ category.code }}: {{ category.description }}
         </div> -->
       <div class="addButtonCenter"
-        ><button class="circle" type="button" @click="launchNewCategoryWindow()"
+        ><button
+          class="circle"
+          type="button"
+          @click="launchNewCategoryWindow(variable._id)"
           >+</button
         ></div
       >
@@ -64,6 +67,7 @@
     <transition name="appearTransition" class="launchedWindowCon">
       <div class="launchedWindowCon" v-if="showNewCategoryWindow">
         <newCategoryWindow
+          :variableId="varId"
           @close-new-category-win="showNewCategoryWindow = false"
         />
       </div>
@@ -107,11 +111,13 @@ export default {
       variables: [],
       showNewCategoryWindow: false,
       showDeleteConfirmation: false,
-      deleteitemId: ''
+      deleteitemId: '',
+      varId: ''
     }
   },
   methods: {
-    launchNewCategoryWindow() {
+    launchNewCategoryWindow(varId) {
+      this.varId = varId
       this.showNewCategoryWindow = true
     },
     launchDeleteConfirmation(itemId) {

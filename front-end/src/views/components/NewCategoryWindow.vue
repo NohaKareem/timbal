@@ -109,11 +109,13 @@ export default {
       is_top_level: true
     }
   },
-  computed: {
-    variableId() {
-      return this.$store.state.variable
-    }
-  },
+  props: {
+    variableId: String
+  }, // computed: {
+  //   variableId() {
+  //     return this.$store.state.variable
+  //   }
+  // },
   created() {
     let self = this
     // get all colors
@@ -128,6 +130,7 @@ export default {
       })
 
     // get all used colors
+    // let GET_CATEGORIES_LINK = `http://localhost:3000/categories/variable/${this.variableId}/top-level`
     let GET_CATEGORIES_LINK = `http://localhost:3000/categories/variable/${this.variableId}/top-level`
     axios.get(GET_CATEGORIES_LINK + '/true').then(function(response) {
       console.log('used colors', response.data)
