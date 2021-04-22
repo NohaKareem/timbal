@@ -20,10 +20,6 @@ export default {
     itemType: String,
     itemId: String
   },
-  computed: {},
-  created() {
-    console.log('delete confirmation window has been launched')
-  },
   methods: {
     // display window
     toggleConfirmationWindow() {
