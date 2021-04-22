@@ -3,15 +3,10 @@
     <pageHeading h1="System Library" h2="Your systems at a glance" />
 
     <div v-for="system in systems" :key="system._id">
-      <h2
-        >{{ system.name }} Categories
-        <!-- <button
-            class="smallInfoButton deleteButton"
-            @click="launchDeleteConfirmation()"
-            ><i class="fa fa-trash" aria-hidden="true"></i
-          ></button> -->
-      </h2>
+      <h2>{{ system.name }} Categories </h2>
       <p class="center">{{ system.description }}</p>
+
+      <!-- display system catgories for current system -->
       <div class="categoryListItemEditable">
         <div
           v-for="category in systemCategories.filter((cat) => {
@@ -127,16 +122,6 @@ export default {
       this.deleteItemId = itemId
       this.showDeleteConfirmation = true
     }
-    // deleteItem(itemId) {
-    //   axios
-    //     .post(`http://localhost:3000/systems/systemCategory/${itemId}/delete`)
-    //     .then(function(response) {
-    //       console.log('deleted', response.data)
-    //     })
-    //     .catch(function(error) {
-    //       console.error(error)
-    //     })
-    // }
   },
   created() {
     var self = this

@@ -223,6 +223,7 @@ export default {
 
     // gets unique var values, and their colors (updates varValSet, and patternColors)
     getVarValData(logs, varValSet) {
+      this.patternColors = []
       this.varValTitles = new Set()
       logs.forEach((d) => {
         // get unique var vals
@@ -532,7 +533,6 @@ export default {
               })
             break
         }
-        // this.logs = self.logs
         this.$forceUpdate()
         this.renderUpdate++
       }

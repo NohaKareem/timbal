@@ -5,8 +5,10 @@ var systemCategorySchema = new mongoose.Schema({
     name: String,
     description: String,
     system: { type: mongoose.Schema.Types.ObjectId, ref: 'System', required: [true, 'need a system for category'] },
+
+    // variable values
     values: [
-        { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }//var
+        { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }
     ],
     color: { type: mongoose.Schema.Types.ObjectId, ref: 'Color' }
 }, { collection: 'systemCategories' });

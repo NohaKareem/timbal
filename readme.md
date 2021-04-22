@@ -19,12 +19,12 @@ A time logging platform to facilitate personal research, to help cultivate effic
 - if running into issues with Gulp, run a global install for gulp-cli, `npm -g install gulp-cli`
 - to run nodemon, run `npm run dev`
 
-## Useful references
+## Helpful references
 
 - [using positional operator to filter for relevant array element within a document](https://stackoverflow.com/a/36230475/1446598)
 - [vue using this.\$refs only after mount](https://stackoverflow.com/a/57680320/1446598)
-- [D3 + Vue](https://levelup.gitconnected.com/d3-js-and-vue-js-7a6a721eb79f) [also](https://www.youtube.com/watch?v=Cu9UQf4Nj5s)
-- [deep selectors for svg styling](https://stackoverflow.com/a/56882465/1446598) https://stackoverflow.com/a/55368933/1446598 https://vue-loader.vuejs.org/guide/scoped-css.html#deep-selectors
+- [D3 + Vue](https://levelup.gitconnected.com/d3-js-and-vue-js-7a6a721eb79f), [also](https://www.youtube.com/watch?v=Cu9UQf4Nj5s)
+- [deep selectors](https://stackoverflow.com/a/56882465/1446598) [for svg](https://stackoverflow.com/a/55368933/1446598) [styling](https://vue-loader.vuejs.org/guide/scoped-css.html#deep-selectors)
 - [find an element by property value, in an array of objects](https://stackoverflow.com/a/35398031)
 - [updating nested arrays in mongoose](https://stackoverflow.com/a/39523295)
 - [debugging positional operators](https://stackoverflow.com/a/28159282)
@@ -36,5 +36,3 @@ A time logging platform to facilitate personal research, to help cultivate effic
 - [add leading zeros to text](https://stackoverflow.com/a/20460414/1446598)
 - [d3 formatting](https://observablehq.com/@d3/d3-format)
 - [using push](using push https://stackoverflow.com/a/23577266/1446598) [in mongo](https://stackoverflow.com/a/33049923/1446598)
-
-)
