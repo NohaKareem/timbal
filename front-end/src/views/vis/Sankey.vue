@@ -2,11 +2,16 @@
   <div class="sankeyCon">
     <div class="sankey">
       <GChart
+        v-if="logs.length > 1"
         :settings="{ packages: ['sankey'] }"
         type="Sankey"
         :data="logs"
         :options="chartOptions"
       />
+      <p v-else class="center"
+        >Not enough granularity to visualize! <br />
+        Try adding more details to your logs for more insights here.</p
+      >
     </div>
   </div>
 </template>

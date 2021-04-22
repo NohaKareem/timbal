@@ -459,6 +459,7 @@ export default {
           })
         })
       })
+
       // re-render
       this.$forceUpdate()
       this.renderUpdate++
