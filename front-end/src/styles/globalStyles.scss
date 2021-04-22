@@ -734,7 +734,8 @@ a.imageLink:hover {
 }
 
 .generateButton {
-    margin-top: $baseMargin * 20;
+    // margin-top: $baseMargin * 30;
+    margin-top: 52%;
     border-radius: 50px;
     font-family: 'Quattrocento Sans', sans-serif;
 }
@@ -940,6 +941,6 @@ a.imageLink:hover {
     }
 
     .generateButton {
-        margin-top: unset;
+        margin-top: 2%;
     }
 }
