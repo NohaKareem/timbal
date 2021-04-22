@@ -147,7 +147,7 @@ export default {
         var svg = d3
           .select('.bubbleChart')
           .append('svg')
-          .attr('width', 900)
+          .attr('width', 500)
           .attr('height', 500)
 
         //Put D3 create/update code in a function that can be re-called
